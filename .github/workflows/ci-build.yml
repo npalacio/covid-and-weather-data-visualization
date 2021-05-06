@@ -7,7 +7,7 @@ on:
     branches:
       - initial-setup-v2
 env:
-  # AZURE_WEBAPP_NAME: my-app-name    # set this to your application's name
+  AZURE_WEBAPP_NAME: covid-weather-visualization    # set this to your application's name
   AZURE_WEBAPP_PACKAGE_PATH: './Source/CovidAndWeatherVisualization/CovidAndWeatherVisualization'      # set this to the path to your web app project, defaults to the repository root
   DOTNET_VERSION: '5.0'           # set this to the dot net version to use
 
@@ -31,12 +31,12 @@ jobs:
         run: |
           dotnet restore
           dotnet build --configuration Release
-          dotnet publish -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp' 
+          dotnet publish -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/publishOutput' 
           
       # Deploy to Azure Web apps
-      # - name: 'Run Azure webapp deploy action using publish profile credentials'
-      #   uses: azure/webapps-deploy@v2
-      #   with: 
-      #     app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
-      #     publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE  }} # Define secret variable in repository settings as per action documentation
-      #     package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp'
+      - name: 'Run Azure webapp deploy action using publish profile credentials'
+        uses: azure/webapps-deploy@v2
+        with: 
+          app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE  }} # Define secret variable in repository settings as per action documentation
+          package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/publishOutput'
