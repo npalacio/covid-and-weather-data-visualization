@@ -3,7 +3,7 @@ name: Web App CI
 on:
   push:
     branches:
-      - initial-setup-v2
+      - main
 env:
   AZURE_WEBAPP_NAME: covid-weather-visualization    # set this to your application's name
   AZURE_WEBAPP_PACKAGE_PATH: './Source/CovidAndWeatherVisualization/CovidAndWeatherVisualization'      # set this to the path to your web app project, defaults to the repository root
