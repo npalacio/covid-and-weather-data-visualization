@@ -17,9 +17,10 @@ export class MapComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    config.apiKey = "AAPK731e0b4f7bf541ec9a2e542735af6990fUotVKYCQgH1Jssz-aMZSQ5pWUQuk3E4HBw4Zy9YVMVMhvEReKg1nLvtRyzRroPw";
+    config.apiKey = 'AAPK731e0b4f7bf541ec9a2e542735af6990fUotVKYCQgH1Jssz-aMZSQ5pWUQuk3E4HBw4Zy9YVMVMhvEReKg1nLvtRyzRroPw';
+    config.assetsPath = './assets';
     const map = new Map({
-      basemap: "arcgis-topographic" // Basemap layer service
+      basemap: 'arcgis-topographic' // Basemap layer service
     });
     this.mapView = new MapView({
       map: map,
