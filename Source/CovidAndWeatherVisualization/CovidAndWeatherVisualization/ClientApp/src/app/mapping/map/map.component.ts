@@ -24,8 +24,11 @@ export class MapComponent implements OnInit {
     });
     this.mapView = new MapView({
       map: map,
+      center: [-118.805, 34.027], // Longitude, latitude
+      zoom: 13, // Zoom level
       container: this.mapViewEl?.nativeElement
     });
+    this.mapView.when();
   }
 
 }
