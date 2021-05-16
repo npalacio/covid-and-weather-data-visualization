@@ -36,7 +36,8 @@
               }
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/@arcgis/core/assets/esri/themes/dark/main.css"
             ],
             "scripts": [],
             "allowedCommonJsDependencies": ["moment"]
