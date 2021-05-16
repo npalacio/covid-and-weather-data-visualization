@@ -20,15 +20,14 @@ export class MapComponent implements OnInit {
     config.apiKey = 'AAPK731e0b4f7bf541ec9a2e542735af6990fUotVKYCQgH1Jssz-aMZSQ5pWUQuk3E4HBw4Zy9YVMVMhvEReKg1nLvtRyzRroPw';
     config.assetsPath = './assets';
     const map = new Map({
-      basemap: 'arcgis-topographic' // Basemap layer service
+      basemap: 'arcgis-streets' // https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#basemap
     });
     this.mapView = new MapView({
       map: map,
-      center: [-118.805, 34.027], // Longitude, latitude
-      zoom: 13, // Zoom level
+      center: [-98.5795, 39.8283], // Longitude, latitude
+      zoom: 4,
       container: this.mapViewEl?.nativeElement
     });
-    this.mapView.when();
   }
 
 }
