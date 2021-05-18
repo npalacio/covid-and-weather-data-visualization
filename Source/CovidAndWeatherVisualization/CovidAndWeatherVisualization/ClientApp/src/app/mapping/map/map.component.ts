@@ -34,12 +34,22 @@ export class MapComponent implements OnInit {
       zoom: 4,
       container: this.mapViewEl?.nativeElement
     });
+    this.mapView.on("click", (evt) => {
+      this?.mapView?.hitTest(evt).then((response) => {
+        if (response.results.length) {
+          console.log('feature hit:' + response)
+        } else {
+          console.log('no features hit')
+        }
+      });
+    });
   }
 
   get layers() {
     return [new FeatureLayer({
       url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Counties_Generalized/FeatureServer",
       layerId: 0,
+      outFields: ['NAME','STATE_NAME'],
       renderer: <any>{
         type: "simple",
         symbol: {
