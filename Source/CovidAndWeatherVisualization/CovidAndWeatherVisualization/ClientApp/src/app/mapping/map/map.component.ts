@@ -20,27 +20,13 @@ export class MapComponent implements OnInit {
   ngOnInit(): void {
     config.apiKey = 'AAPK731e0b4f7bf541ec9a2e542735af6990fUotVKYCQgH1Jssz-aMZSQ5pWUQuk3E4HBw4Zy9YVMVMhvEReKg1nLvtRyzRroPw';
     config.assetsPath = './assets';
-    let symbol = {
-      type: "simple-fill",  // autocasts as new SimpleFillSymbol()
-      color: [ 51,51, 204, 0.9 ],
-      style: "solid",
-      outline: {  // autocasts as new SimpleLineSymbol()
-        color: "white",
-        width: 1
-      }
-    };
-    const renderer = <any>{
-      type: "simple",
-      symbol: symbol
-    };
-    const countyLayer = new FeatureLayer({
-      url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Counties_Generalized/FeatureServer",
-      layerId: 0
-    });
-    countyLayer.renderer = renderer;
+    this.initializeMap();
+  }
+
+  initializeMap() {
     const map = new Map({
       basemap: 'arcgis-streets', // https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#basemap
-      layers: [countyLayer]
+      layers: this.layers
     });
     this.mapView = new MapView({
       map: map,
@@ -48,6 +34,25 @@ export class MapComponent implements OnInit {
       zoom: 4,
       container: this.mapViewEl?.nativeElement
     });
+  }
+
+  get layers() {
+    return [new FeatureLayer({
+      url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Counties_Generalized/FeatureServer",
+      layerId: 0,
+      renderer: <any>{
+        type: "simple",
+        symbol: {
+          type: "simple-fill",  // autocasts as new SimpleFillSymbol()
+          color: [ 51,51, 204, 0.9 ],
+          style: "solid",
+          outline: {  // autocasts as new SimpleLineSymbol()
+            color: "white",
+            width: 1
+          }
+        }
+      }
+    })];
   }
 
 }
