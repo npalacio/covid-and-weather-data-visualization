@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - ci-fixes
 env:
   AZURE_WEBAPP_NAME: covid-weather-visualization    # set this to your application's name
   AZURE_WEBAPP_PACKAGE_PATH: './Source/CovidAndWeatherVisualization/CovidAndWeatherVisualization'      # set this to the path to your web app project, defaults to the repository root
@@ -23,6 +24,14 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }} 
       
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12
+      - run: npm ci
+      - run: npm run lint
+
       # Run dotnet build and publish
       - name: dotnet build and publish
         working-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
