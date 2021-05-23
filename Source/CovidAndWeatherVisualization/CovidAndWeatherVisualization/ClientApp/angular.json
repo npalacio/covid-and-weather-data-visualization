@@ -41,7 +41,7 @@
               "node_modules/@arcgis/core/assets/esri/themes/dark/main.css"
             ],
             "scripts": [],
-            "allowedCommonJsDependencies": ["moment"]
+            "allowedCommonJsDependencies": ["moment","@codewithdan/observable-store"]
           },
           "configurations": {
             "production": {
