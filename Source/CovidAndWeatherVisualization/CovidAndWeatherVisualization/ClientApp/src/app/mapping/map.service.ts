@@ -2,6 +2,7 @@ import { ElementRef, Injectable } from '@angular/core';
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import MapView from '@arcgis/core/views/MapView';
 import Map from '@arcgis/core/Map';
+import FeatureSet from '@arcgis/core/tasks/support/FeatureSet';
 import { MapStateService } from '../state';
 
 @Injectable({
@@ -30,18 +31,17 @@ export class MapService {
       zoom: mapState.zoom,
       container: mapHtmlElement?.nativeElement
     });
-    // this.queryCounties('Nebraska');
+    this.queryCounties('Nebraska');
   }
-  // queryCounties(searchTerm: string) {
-  //   const query = {
-  //     where: `STATE_NAME = \'${searchTerm}\'`,
-  //     returnGeometry: false,
-  //     outFields: ['NAME', 'STATE_NAME']
-  //   };
 
-  //   this.countyLayer?.queryFeatures(query).then(function(results){
-  //     console.log(results.features);  // prints the array of features to the console
-  //   });
-  // }
+  queryCounties(searchTerm: string): Promise<FeatureSet> | undefined {
+    const query = {
+      where: `STATE_NAME = \'${searchTerm}\'`,
+      returnGeometry: false,
+      outFields: ['NAME', 'STATE_NAME']
+    };
+
+    return this.countyLayer?.queryFeatures(query);
+  }
 
 }

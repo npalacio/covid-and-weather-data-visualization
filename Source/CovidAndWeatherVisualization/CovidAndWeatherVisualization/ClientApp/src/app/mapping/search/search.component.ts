@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Observable, OperatorFunction} from 'rxjs';
-import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
+import FeatureSet from '@arcgis/core/tasks/support/FeatureSet';
+import {from, Observable, OperatorFunction} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
+import { MapService } from '../map.service';
 
 const states = ['Alabama', 'Alaska', 'American Samoa', 'Arizona', 'Arkansas', 'California', 'Colorado',
   'Connecticut', 'Delaware', 'District Of Columbia', 'Federated States Of Micronesia', 'Florida', 'Georgia',
@@ -19,16 +21,22 @@ const states = ['Alabama', 'Alaska', 'American Samoa', 'Arizona', 'Arkansas', 'C
 export class SearchComponent implements OnInit {
   public model: any;
 
+  constructor(private mapService: MapService) { }
+
+  ngOnInit(): void {
+  }
+
   search: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
-      map((term: any) => term.length < 2 ? []
-        : states.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
-    );
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+      switchMap(term =>
+        from(this.mapService.queryCounties(term) ?? new Promise(() => {return <any>{}}))
+        .pipe(
+          tap((results: any) => {console.log(results)}),
+          map((results: any) => {
+          return results.features.map((f: any) => 'test');
+        }))
+      ));
 }
 
