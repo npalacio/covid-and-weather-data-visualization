@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import Map from '@arcgis/core/Map';
-import FeatureLayer from '@arcgis/core/Layers/FeatureLayer';
+import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import MapView from '@arcgis/core/views/MapView';
 import config from '@arcgis/core/config';
 
