@@ -31,9 +31,8 @@ export class SearchComponent implements OnInit {
       debounceTime(200),
       distinctUntilChanged(),
       switchMap(term =>
-        from(this.mapService.queryCounties(term) ?? new Promise(() => { return <any>{} }))
+        this.mapService.queryCounties(term)
           .pipe(
-            tap((results: any) => { console.log(results) }),
             map((results: any) => {
               return results.features.map((f: any) => `${f.attributes.NAME}, ${f.attributes.STATE_NAME}`);
             }))
