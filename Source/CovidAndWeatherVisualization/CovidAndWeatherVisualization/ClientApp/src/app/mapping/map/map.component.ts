@@ -15,6 +15,7 @@ export class MapComponent implements OnInit {
   private mapViewEl?: ElementRef;
 
   private mapView?: MapView;
+  private countyLayer?: FeatureLayer;
 
   constructor(private mapStateService: MapStateService) { }
 
@@ -27,8 +28,9 @@ export class MapComponent implements OnInit {
   initializeMap(): void {
     const mapState = this.mapStateService.get();
     const layers = mapState.layerConfigs.map((layerConfig) => {
-      return new FeatureLayer({...layerConfig});
+      return new FeatureLayer({ ...layerConfig });
     });
+    this.countyLayer = layers[0];
     const map = new Map({
       basemap: mapState.basemap, // https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#basemap
       layers
@@ -38,6 +40,19 @@ export class MapComponent implements OnInit {
       center: mapState.center,
       zoom: mapState.zoom,
       container: this.mapViewEl?.nativeElement
+    });
+    this.queryCounties();
+  }
+
+  queryCounties() {
+    const query = {
+      where: 'STATE_NAME = \'Nebraska\'',
+      returnGeometry: false,
+      outFields: ['NAME', 'STATE_NAME']
+    };
+
+    this.countyLayer?.queryFeatures(query).then(function(results){
+      console.log(results.features);  // prints the array of features to the console
     });
   }
 
