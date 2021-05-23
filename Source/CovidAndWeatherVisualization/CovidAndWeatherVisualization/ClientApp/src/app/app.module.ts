@@ -11,8 +11,7 @@ import { MappingModule } from './mapping/mapping.module';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    MappingModule
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MapComponent } from './map/map.component';
+import { MappingRoutingModule } from './mapping-routing.module';
 
 
 
@@ -9,7 +10,8 @@ import { MapComponent } from './map/map.component';
     MapComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    MappingRoutingModule
   ],
   exports: [
     MapComponent
