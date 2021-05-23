@@ -11,7 +11,7 @@ import { MapStateService } from '../../state/map-state.service';
   styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit {
-  @ViewChild("map", { static: true })
+  @ViewChild('map', { static: true })
   private mapViewEl?: ElementRef;
 
   private mapView?: MapView;
@@ -27,24 +27,24 @@ export class MapComponent implements OnInit {
   initializeMap() {
     const mapState = this.mapStateService.get();
     const layers = mapState.layerConfigs.map((layerConfig) => {
-      return new FeatureLayer({...layerConfig})
+      return new FeatureLayer({...layerConfig});
     });
     const map = new Map({
       basemap: mapState.basemap, // https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#basemap
-      layers: layers
+      layers
     });
     this.mapView = new MapView({
-      map: map,
+      map,
       center: mapState.center,
       zoom: mapState.zoom,
       container: this.mapViewEl?.nativeElement
     });
-    this.mapView.on("click", (evt) => {
+    this.mapView.on('click', (evt) => {
       this?.mapView?.hitTest(evt).then((response) => {
         if (response.results.length) {
-          console.log('feature hit:' + response)
+          console.log('feature hit:' + response);
         } else {
-          console.log('no features hit')
+          console.log('no features hit');
         }
       });
     });
