@@ -1,5 +1,4 @@
-import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
-
 export interface MapState {
+  basemap: string;
   layers: any[];
 }

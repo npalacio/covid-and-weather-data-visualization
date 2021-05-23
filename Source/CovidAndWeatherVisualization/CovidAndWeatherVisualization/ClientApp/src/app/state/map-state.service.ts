@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import { ObservableStore } from '@codewithdan/observable-store';
 import { MapState } from '../shared/models/state';
 
@@ -10,6 +9,7 @@ export class MapStateService extends ObservableStore<MapState> {
 
   constructor() {
     const initialState: MapState = {
+      basemap: 'arcgis-streets',
       layers: [{
         url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Counties_Generalized/FeatureServer",
         layerId: 0,

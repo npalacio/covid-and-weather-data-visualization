@@ -30,7 +30,7 @@ export class MapComponent implements OnInit {
       return new FeatureLayer({...layerConfig})
     });
     const map = new Map({
-      basemap: 'arcgis-streets', // https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#basemap
+      basemap: mapState.basemap, // https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#basemap
       layers: layers
     });
     this.mapView = new MapView({
