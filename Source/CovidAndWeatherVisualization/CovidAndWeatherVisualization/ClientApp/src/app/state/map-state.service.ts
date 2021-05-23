@@ -10,7 +10,7 @@ export class MapStateService extends ObservableStore<MapState> {
   constructor() {
     const initialState: MapState = {
       basemap: 'arcgis-streets',
-      layers: [{
+      layerConfigs: [{
         url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Counties_Generalized/FeatureServer",
         layerId: 0,
         outFields: ['NAME','STATE_NAME'],

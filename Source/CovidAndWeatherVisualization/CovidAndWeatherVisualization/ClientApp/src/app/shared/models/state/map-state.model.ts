@@ -1,4 +1,4 @@
 export interface MapState {
   basemap: string;
-  layers: any[];
+  layerConfigs: any[];
 }
