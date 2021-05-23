@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import FeatureSet from '@arcgis/core/tasks/support/FeatureSet';
-import { from, Observable, OperatorFunction } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import { Observable, OperatorFunction } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, map, switchMap, tap } from 'rxjs/operators';
+import { County } from 'src/app/shared/models/state';
 import { MapService } from '../map.service';
 
 const states = ['Alabama', 'Alaska', 'American Samoa', 'Arizona', 'Arkansas', 'California', 'Colorado',
@@ -30,11 +30,12 @@ export class SearchComponent implements OnInit {
     text$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
+      filter(term => term.length > 2),
       switchMap(term =>
         this.mapService.queryCounties(term)
           .pipe(
-            map((results: any) => {
-              return results.features.map((f: any) => `${f.attributes.NAME}, ${f.attributes.STATE_NAME}`);
+            map((results: County[]) => {
+              return results.map((county: County) => `${county.name}, ${county.state}`);
             }))
       ));
 }

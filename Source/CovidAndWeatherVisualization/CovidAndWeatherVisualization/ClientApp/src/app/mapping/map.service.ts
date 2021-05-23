@@ -4,7 +4,8 @@ import MapView from '@arcgis/core/views/MapView';
 import Map from '@arcgis/core/Map';
 import FeatureSet from '@arcgis/core/tasks/support/FeatureSet';
 import { MapStateService } from '../state';
-import { from, Observable } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
+import { County } from '../shared/models/state';
 
 @Injectable({
   providedIn: 'root'
@@ -35,14 +36,21 @@ export class MapService {
     this.queryCounties('Nebraska');
   }
 
-  queryCounties(searchTerm: string): Observable<FeatureSet> {
+  queryCounties(searchTerm: string): Observable<County[]> {
     const query = {
-      where: `STATE_NAME = \'${searchTerm}\'`,
+      where: `STATE_NAME LIKE \'${searchTerm}%\'`,
       returnGeometry: false,
       outFields: ['NAME', 'STATE_NAME']
     };
 
-    const promise = this.countyLayer?.queryFeatures(query);
+    const promise = this.countyLayer?.queryFeatures(query).then(result => {
+      return result.features.map(feature => {
+        return {
+          name: feature.attributes.NAME,
+          state: feature.attributes.STATE_NAME
+        }
+      })
+    });
     return from(promise);
   }
 
