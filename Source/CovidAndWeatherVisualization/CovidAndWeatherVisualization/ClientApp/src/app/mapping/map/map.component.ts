@@ -41,12 +41,12 @@ export class MapComponent implements OnInit {
       zoom: mapState.zoom,
       container: this.mapViewEl?.nativeElement
     });
-    this.queryCounties();
+    this.queryCounties('Nebraska');
   }
 
-  queryCounties() {
+  queryCounties(searchTerm: string) {
     const query = {
-      where: 'STATE_NAME = \'Nebraska\'',
+      where: `STATE_NAME = \'${searchTerm}\'`,
       returnGeometry: false,
       outFields: ['NAME', 'STATE_NAME']
     };
