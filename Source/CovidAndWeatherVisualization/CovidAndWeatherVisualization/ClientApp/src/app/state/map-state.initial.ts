@@ -23,5 +23,6 @@ export const initialMapState: MapState = {
     popupTemplate: {
       title: '{NAME}, {STATE_NAME}',
     }
-  }]
+  }],
+  countySearchResults: []
 };

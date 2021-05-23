@@ -2,7 +2,6 @@ import { ElementRef, Injectable } from '@angular/core';
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import MapView from '@arcgis/core/views/MapView';
 import Map from '@arcgis/core/Map';
-import FeatureSet from '@arcgis/core/tasks/support/FeatureSet';
 import { MapStateService } from '../state';
 import { from, Observable, of } from 'rxjs';
 import { County } from '../shared/models/state';
@@ -33,25 +32,26 @@ export class MapService {
       zoom: mapState.zoom,
       container: mapHtmlElement?.nativeElement
     });
-    this.queryCounties('Nebraska');
   }
 
-  queryCounties(searchTerm: string): Observable<County[]> {
+  async queryCounties(searchTerm: string): Promise<void> {
     const query = {
       where: `STATE_NAME LIKE \'${searchTerm}%\'`,
       returnGeometry: false,
       outFields: ['NAME', 'STATE_NAME']
     };
 
-    const promise = this.countyLayer?.queryFeatures(query).then(result => {
-      return result.features.map(feature => {
+    const counties = await this.countyLayer?.queryFeatures(query).then(result => {
+      const counties = result.features.map(feature => {
         return {
           name: feature.attributes.NAME,
           state: feature.attributes.STATE_NAME
         }
       })
+      return counties;
     });
-    return from(promise);
+    // Push new search results onto state
+    this.mapStateService.setCountySearchResults(counties);
   }
 
 }
