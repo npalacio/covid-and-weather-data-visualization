@@ -21,7 +21,6 @@ export const initialMapState: MapState = {
       }
     } as any,
     popupTemplate: {
-      // NAME and COUNTY are fields in the service containing the Census Tract (NAME) and county of the feature
       title: '{NAME}, {STATE_NAME}',
     }
   }]

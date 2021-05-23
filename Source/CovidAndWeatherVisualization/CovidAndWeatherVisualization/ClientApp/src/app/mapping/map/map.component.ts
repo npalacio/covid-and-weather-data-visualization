@@ -39,15 +39,6 @@ export class MapComponent implements OnInit {
       zoom: mapState.zoom,
       container: this.mapViewEl?.nativeElement
     });
-    this.mapView.on('click', (evt) => {
-      this?.mapView?.hitTest(evt).then((response) => {
-        if (response.results.length) {
-          console.log('feature hit:' + response);
-        } else {
-          console.log('no features hit');
-        }
-      });
-    });
   }
 
 }
