@@ -24,7 +24,7 @@ export class MapComponent implements OnInit {
     this.initializeMap();
   }
 
-  initializeMap() {
+  initializeMap(): void {
     const mapState = this.mapStateService.get();
     const layers = mapState.layerConfigs.map((layerConfig) => {
       return new FeatureLayer({...layerConfig});

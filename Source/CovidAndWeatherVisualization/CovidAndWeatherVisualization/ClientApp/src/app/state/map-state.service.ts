@@ -13,7 +13,7 @@ export class MapStateService extends ObservableStore<MapState> {
     this.setState(initialMapState, 'INIT_STATE');
   }
 
-  get() {
+  get(): MapState {
     return this.getState();
   }
 }
