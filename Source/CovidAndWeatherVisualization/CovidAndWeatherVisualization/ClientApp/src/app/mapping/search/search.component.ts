@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, OperatorFunction } from 'rxjs';
+import { from, Observable, OperatorFunction } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, switchMap, tap } from 'rxjs/operators';
 import { County } from 'src/app/shared/models/state';
 import { MapService } from '../map.service';
@@ -20,26 +20,19 @@ export class SearchComponent implements OnInit {
   }
 
   search: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) => {
-    text$.pipe(
+    return text$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
       filter(term => term.length > 2),
-      tap(async term => await this.mapService.queryCounties(term))
-      //tap here, call to map service to send it new search term
-      // switchMap(term =>
-      //   this.mapService.queryCounties(term)
-      //     .pipe(
-      //       map((results: County[]) => {
-      //         return results.map((county: County) => `${county.name}, ${county.state}`);
-      //       }))
-      //)
+      switchMap(term => {
+        return from(this.mapService.queryCounties(term)).pipe(
+          map(() => {
+            return this.mapStateService.get().countySearchResults.map((county: County) => {
+              return `${county.name}, ${county.state}`
+            });
+          }));
+      })
     );
-    return this.mapStateService.stateChanged.pipe(
-      map((state: MapState) => {
-        return state.countySearchResults.map((county: County) => {
-          return `${county.name}, ${county.state}`
-        })
-      }));
   }
 }
 
