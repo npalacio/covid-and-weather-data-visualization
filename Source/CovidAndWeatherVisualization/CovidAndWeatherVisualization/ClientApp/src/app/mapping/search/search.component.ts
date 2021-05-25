@@ -12,6 +12,7 @@ import { MapStateService } from '../../state/map-state.service';
 })
 export class SearchComponent implements OnInit {
   public model: any;
+  private TYPEAHEAD_MIN_CHARS = 3;
 
   constructor(private mapStateService: MapStateService, private mapService: MapService) { }
 
@@ -24,12 +25,13 @@ export class SearchComponent implements OnInit {
       debounceTime(200),
       distinctUntilChanged(),
       switchMap(term => {
-        if(term.length < 3) {
+        if(term.length < this.TYPEAHEAD_MIN_CHARS) {
           return of([]);
         }
         return from(this.mapService.queryCounties(term)).pipe(
           map(() => {
-            return this.mapStateService.getCountySearchResults().map((county: County) => {
+            // TODO: Update rest query to only return however many you need
+            return this.mapStateService.getCountySearchResults().slice(0, 5).map((county: County) => {
               return `${county.name}, ${county.state}`
             });
           }));

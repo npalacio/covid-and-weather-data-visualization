@@ -35,6 +35,7 @@ export class MapService {
   }
 
   async queryCounties(searchTerm: string): Promise<void> {
+    //TODO: move into private method
     const query = {
       where: `STATE_NAME LIKE \'${searchTerm}%\'`,
       returnGeometry: false,
