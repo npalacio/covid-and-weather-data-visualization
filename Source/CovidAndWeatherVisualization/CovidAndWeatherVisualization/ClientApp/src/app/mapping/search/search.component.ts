@@ -27,7 +27,7 @@ export class SearchComponent implements OnInit {
       switchMap(term => {
         return from(this.mapService.queryCounties(term)).pipe(
           map(() => {
-            return this.mapStateService.get().countySearchResults.map((county: County) => {
+            return this.mapStateService.getCountySearchResults().map((county: County) => {
               return `${county.name}, ${county.state}`
             });
           }));

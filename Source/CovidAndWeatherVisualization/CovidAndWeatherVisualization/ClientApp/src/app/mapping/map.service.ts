@@ -17,19 +17,19 @@ export class MapService {
 
 
   initializeMap(mapHtmlElement?: ElementRef): void {
-    const mapState = this.mapStateService.get();
-    const layers = mapState.layerConfigs.map((layerConfig) => {
+    const mapConfig = this.mapStateService.getMapConfig();
+    const layers = mapConfig.layerConfigs.map((layerConfig) => {
       return new FeatureLayer({ ...layerConfig });
     });
     this.countyLayer = layers[0];
     const map = new Map({
-      basemap: mapState.basemap, // https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#basemap
+      basemap: mapConfig.basemap, // https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#basemap
       layers
     });
     this.mapView = new MapView({
       map,
-      center: mapState.center,
-      zoom: mapState.zoom,
+      center: mapConfig.center,
+      zoom: mapConfig.zoom,
       container: mapHtmlElement?.nativeElement
     });
   }
