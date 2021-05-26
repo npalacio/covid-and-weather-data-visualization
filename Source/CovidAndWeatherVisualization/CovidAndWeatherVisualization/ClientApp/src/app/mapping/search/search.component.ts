@@ -13,6 +13,7 @@ import { MapStateService } from '../../state/map-state.service';
 export class SearchComponent implements OnInit {
   public model: any;
   private TYPEAHEAD_MIN_CHARS = 3;
+  private TYPEAHEAD_SUGGESTION_COUNT = 10;
 
   constructor(private mapStateService: MapStateService, private mapService: MapService) { }
 
@@ -20,7 +21,6 @@ export class SearchComponent implements OnInit {
   }
 
   search: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) => {
-    // TODO: Limit # of suggested results
     return text$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
@@ -28,10 +28,9 @@ export class SearchComponent implements OnInit {
         if(term.length < this.TYPEAHEAD_MIN_CHARS) {
           return of([]);
         }
-        return from(this.mapService.queryCounties(term)).pipe(
+        return from(this.mapService.queryCounties(term, this.TYPEAHEAD_SUGGESTION_COUNT)).pipe(
           map(() => {
-            // TODO: Update rest query to only return however many you need
-            return this.mapStateService.getCountySearchResults().slice(0, 5).map((county: County) => {
+            return this.mapStateService.getCountySearchResults().map((county: County) => {
               return `${county.name}, ${county.state}`
             });
           }));

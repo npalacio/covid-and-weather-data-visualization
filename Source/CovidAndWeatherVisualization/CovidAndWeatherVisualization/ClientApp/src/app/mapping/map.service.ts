@@ -34,12 +34,13 @@ export class MapService {
     });
   }
 
-  async queryCounties(searchTerm: string): Promise<void> {
+  async queryCounties(searchTerm: string, recordCount: number): Promise<void> {
     //TODO: move into private method
     const query = {
-      where: `STATE_NAME LIKE \'${searchTerm}%\'`,
+      where: `STATE_NAME LIKE \'${searchTerm}%\' OR NAME LIKE\'${searchTerm}%\'`,
       returnGeometry: false,
-      outFields: ['NAME', 'STATE_NAME']
+      outFields: ['NAME', 'STATE_NAME'],
+      num: recordCount
     };
 
     const counties = await this.countyLayer?.queryFeatures(query).then(result => {
