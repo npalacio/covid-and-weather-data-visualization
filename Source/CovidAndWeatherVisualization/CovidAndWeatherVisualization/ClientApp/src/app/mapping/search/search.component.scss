@@ -6,19 +6,20 @@
   background-color: white;
   border: 1px solid black;
   border-radius: 5px;
-  :focus {
-    box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
-  }
   span {
-    padding: .438rem 0 0 0.438rem;
+    padding: 0.5rem 0 0 0.438rem;
     .fa-search {
-      font-size: 1.5rem;
+      font-size: 1.25rem;
     }
   }
   .form-control {
     border: 0px;
+    font-size: .90rem;
   }
   .form-control:focus {
     box-shadow: none;
   }
+}
+.search-bar:focus-within {
+  box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
 }
