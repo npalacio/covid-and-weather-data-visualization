@@ -21,6 +21,7 @@ export class MapService {
     const layers = mapConfig.layerConfigs.map((layerConfig) => {
       return new FeatureLayer({ ...layerConfig });
     });
+    // TODO: Probably better way to get county layer
     this.countyLayer = layers[0];
     const map = new Map({
       basemap: mapConfig.basemap, // https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#basemap
