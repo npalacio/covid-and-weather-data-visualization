@@ -14,10 +14,6 @@ export class MapStateService extends ObservableStore<MapState> {
     this.setState(initialMapState, 'INIT_STATE');
   }
 
-  get(): MapState {
-    return this.getState();
-  }
-
   getMapConfig(): MapConfig {
     return this.getStateProperty<MapConfig>('mapConfig');
   }
