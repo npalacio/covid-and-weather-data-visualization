@@ -19,7 +19,7 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  // TODO: update font size on search box
+
   search: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) => {
     return text$.pipe(
       debounceTime(200),
