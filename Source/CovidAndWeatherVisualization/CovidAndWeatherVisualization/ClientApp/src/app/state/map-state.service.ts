@@ -22,7 +22,7 @@ export class MapStateService extends ObservableStore<MapState> {
     return this.getStateProperty<County[]>('countySearchResults');
   }
 
-  setCountySearchResults(counties: County[]) {
+  setCountySearchResults(counties: County[]): void {
     this.setState(prevState => {
       return {
         ...prevState,

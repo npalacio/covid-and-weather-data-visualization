@@ -25,7 +25,7 @@ export class SearchComponent implements OnInit {
       debounceTime(200),
       distinctUntilChanged(),
       switchMap(term => {
-        if(term.length < this.TYPEAHEAD_MIN_CHARS) {
+        if (term.length < this.TYPEAHEAD_MIN_CHARS) {
           return of([]);
         }
         return from(this.mapService.queryCounties(term, this.TYPEAHEAD_MAX_SUGGESTION_COUNT)).pipe(
@@ -34,7 +34,7 @@ export class SearchComponent implements OnInit {
               const countyNameCompare = c1.name.localeCompare(c2.name);
               return countyNameCompare !== 0 ? countyNameCompare : c1.state.localeCompare(c2.state);
             }).map((county: County) => {
-              return `${county.name}, ${county.state}`
+              return `${county.name}, ${county.state}`;
             });
           }));
       })

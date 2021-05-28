@@ -11,7 +11,7 @@ import { County } from '../shared/models/state';
 })
 export class MapService {
   private mapView?: MapView;
-  private countyLayer: FeatureLayer = <any>{};
+  private countyLayer: FeatureLayer = {} as any;
 
   constructor(private mapStateService: MapStateService) { }
 
@@ -44,13 +44,12 @@ export class MapService {
     };
 
     const counties = await this.countyLayer?.queryFeatures(query).then(result => {
-      const counties = result.features.map(feature => {
+      return result.features.map(feature => {
         return {
           name: feature.attributes.NAME,
           state: feature.attributes.STATE_NAME
-        }
-      })
-      return counties;
+        };
+      });
     });
 
     // Push new search results onto state
