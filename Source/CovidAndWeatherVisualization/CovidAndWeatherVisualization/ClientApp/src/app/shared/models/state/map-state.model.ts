@@ -1,6 +1,7 @@
+import { County } from '.';
+import { MapConfig } from './map-config.model';
+
 export interface MapState {
-  basemap: string;
-  center: number[];
-  zoom: number;
-  layerConfigs: any[];
+  mapConfig: MapConfig;
+  countySearchResults: County[];
 }
