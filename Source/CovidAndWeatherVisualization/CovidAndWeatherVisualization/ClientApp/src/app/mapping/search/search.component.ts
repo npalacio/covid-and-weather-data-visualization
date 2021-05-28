@@ -12,8 +12,8 @@ import { MapStateService } from '../../state/map-state.service';
 })
 export class SearchComponent implements OnInit {
   public model: any;
-  private TYPEAHEAD_MIN_CHARS = 3;
-  private TYPEAHEAD_SUGGESTION_COUNT = 10;
+  private TYPEAHEAD_MIN_CHARS = 4;
+  private TYPEAHEAD_MAX_SUGGESTION_COUNT = 20;
 
   constructor(private mapStateService: MapStateService, private mapService: MapService) { }
 
@@ -28,9 +28,12 @@ export class SearchComponent implements OnInit {
         if(term.length < this.TYPEAHEAD_MIN_CHARS) {
           return of([]);
         }
-        return from(this.mapService.queryCounties(term, this.TYPEAHEAD_SUGGESTION_COUNT)).pipe(
+        return from(this.mapService.queryCounties(term, this.TYPEAHEAD_MAX_SUGGESTION_COUNT)).pipe(
           map(() => {
-            return this.mapStateService.getCountySearchResults().map((county: County) => {
+            return this.mapStateService.getCountySearchResults().sort((c1, c2) => {
+              const countyNameCompare = c1.name.localeCompare(c2.name);
+              return countyNameCompare !== 0 ? countyNameCompare : c1.state.localeCompare(c2.state);
+            }).map((county: County) => {
               return `${county.name}, ${county.state}`
             });
           }));

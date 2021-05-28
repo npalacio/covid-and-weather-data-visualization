@@ -36,8 +36,6 @@ export class MapService {
   }
 
   async queryCounties(searchTerm: string, recordCount: number): Promise<void> {
-    //TODO: move into private method
-    // TODO: Search by FIPS
     const query = {
       where: `STATE_NAME LIKE \'${searchTerm}%\' OR NAME LIKE\'${searchTerm}%\'`,
       returnGeometry: false,
@@ -54,6 +52,7 @@ export class MapService {
       })
       return counties;
     });
+
     // Push new search results onto state
     this.mapStateService.setCountySearchResults(counties);
   }
