@@ -4,6 +4,7 @@ import { debounceTime, distinctUntilChanged, filter, map, switchMap, tap } from 
 import { County } from 'src/app/shared/models/state';
 import { MapService } from '../map.service';
 import { MapStateService } from '../../state/map-state.service';
+import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-search',
@@ -40,5 +41,9 @@ export class SearchComponent implements OnInit {
   }
 
   formatter = (county: County) => `${county.name}, ${county.state}`;
+
+  onItemSelected(event: NgbTypeaheadSelectItemEvent<County>): void {
+    console.log(event.item);
+  }
 }
 

@@ -30,4 +30,13 @@ export class MapStateService extends ObservableStore<MapState> {
       };
     }, 'UPDATE_COUNTY_SEARCH_RESULTS');
   }
+
+  setSelectedCounty(county: County): void {
+    this.setState(prevState => {
+      return {
+        ...prevState,
+        selectedCounty: county
+      };
+    }, 'UPDATE_SELECTED_COUNTY');
+  }
 }
