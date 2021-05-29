@@ -13,6 +13,10 @@ export class MapStateService extends ObservableStore<MapState> {
   // Potential Solution 1: Get away from updating state with lambda, just call getState and modify result and set state again
     // Then I could use observable with properties that were changed in state
   // Potential Solution 2: Pipe stateChanged observable and filter accordingly?
+
+  // Note: ObservableStore does not seem to be able to work with properties in state that are ESRI types with functions as properties
+    // i.e. It errors out when I try to put an ESRI Geometry, FeatureLayer type in state
+
   constructor() {
     super({});
     this.setState(initialMapState, 'INIT_STATE');
