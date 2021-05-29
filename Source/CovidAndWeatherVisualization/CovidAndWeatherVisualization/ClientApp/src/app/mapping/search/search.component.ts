@@ -20,7 +20,7 @@ export class SearchComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  search: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) => {
+  search: OperatorFunction<string, readonly County[]> = (text$: Observable<string>) => {
     return text$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
@@ -33,12 +33,12 @@ export class SearchComponent implements OnInit {
             return this.mapStateService.getCountySearchResults().sort((c1, c2) => {
               const countyNameCompare = c1.name.localeCompare(c2.name);
               return countyNameCompare !== 0 ? countyNameCompare : c1.state.localeCompare(c2.state);
-            }).map((county: County) => {
-              return `${county.name}, ${county.state}`;
             });
           }));
       })
     );
   }
+
+  formatter = (county: County) => `${county.name}, ${county.state}`;
 }
 
