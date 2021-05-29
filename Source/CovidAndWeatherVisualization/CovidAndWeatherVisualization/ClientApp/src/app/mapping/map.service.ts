@@ -3,8 +3,7 @@ import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import MapView from '@arcgis/core/views/MapView';
 import Map from '@arcgis/core/Map';
 import { MapStateService } from '../state';
-import { from, Observable, of } from 'rxjs';
-import { County } from '../shared/models/state';
+import { County } from '../shared/models/state/county.model';
 
 @Injectable({
   providedIn: 'root'
@@ -39,13 +38,14 @@ export class MapService {
     const query = {
       where: `STATE_NAME LIKE \'${searchTerm}%\' OR NAME LIKE\'${searchTerm}%\'`,
       returnGeometry: false,
-      outFields: ['NAME', 'STATE_NAME'],
+      outFields: ['OBJECTID', 'NAME', 'STATE_NAME'],
       num: recordCount
     };
 
-    const counties = await this.countyLayer?.queryFeatures(query).then(result => {
+    const counties: County[] = await this.countyLayer?.queryFeatures(query).then(result => {
       return result.features.map(feature => {
         return {
+          objectId: feature.attributes.OBJECTID,
           name: feature.attributes.NAME,
           state: feature.attributes.STATE_NAME
         };
