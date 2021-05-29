@@ -9,6 +9,10 @@ import { initialMapState } from './map-state.initial';
 })
 export class MapStateService extends ObservableStore<MapState> {
 
+  // Potential Issue: Need to expose an observable that only fires when a particular property in state has actually changed
+  // Potential Solution 1: Get away from updating state with lambda, just call getState and modify result and set state again
+    // Then I could use observable with properties that were changed in state
+  // Potential Solution 2: Pipe stateChanged observable and filter accordingly?
   constructor() {
     super({});
     this.setState(initialMapState, 'INIT_STATE');
