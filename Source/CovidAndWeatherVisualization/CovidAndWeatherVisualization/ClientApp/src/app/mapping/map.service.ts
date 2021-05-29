@@ -1,6 +1,7 @@
 import { ElementRef, Injectable } from '@angular/core';
 import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import MapView from '@arcgis/core/views/MapView';
+import FeatureLayerView from '@arcgis/core/views/layers/FeatureLayerView';
 import Map from '@arcgis/core/Map';
 import { MapStateService } from '../state';
 import { County } from '../shared/models/state/county.model';
@@ -12,13 +13,11 @@ import { MapState } from '../shared/models/state';
 export class MapService {
   private mapView?: MapView;
   private countyLayer: FeatureLayer = {} as any;
-  private selectedCounty?: County;
 
   constructor(private mapStateService: MapStateService) {
     this.mapStateService.stateChanged.subscribe((mapState: MapState) => {
       if(mapState.selectedCounty) {
-        this.selectedCounty = mapState.selectedCounty;
-        console.log(this.selectedCounty);
+
         // In the end we want to be zooming somewhere here
         // We only want to zoom when they select a county
       }
@@ -42,6 +41,10 @@ export class MapService {
       center: mapConfig.center,
       zoom: mapConfig.zoom,
       container: mapHtmlElement?.nativeElement
+    });
+    this.mapView.whenLayerView(this.countyLayer).then((layerView: FeatureLayerView) => {
+      console.log('loaded feature layer view');
+      console.log(layerView);
     });
   }
 
