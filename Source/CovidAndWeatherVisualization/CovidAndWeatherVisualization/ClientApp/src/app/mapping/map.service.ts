@@ -4,6 +4,7 @@ import MapView from '@arcgis/core/views/MapView';
 import Map from '@arcgis/core/Map';
 import { MapStateService } from '../state';
 import { County } from '../shared/models/state/county.model';
+import { MapState } from '../shared/models/state';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,18 @@ import { County } from '../shared/models/state/county.model';
 export class MapService {
   private mapView?: MapView;
   private countyLayer: FeatureLayer = {} as any;
+  private selectedCounty?: County;
 
-  constructor(private mapStateService: MapStateService) { }
+  constructor(private mapStateService: MapStateService) {
+    this.mapStateService.stateChanged.subscribe((mapState: MapState) => {
+      if(mapState.selectedCounty) {
+        this.selectedCounty = mapState.selectedCounty;
+        console.log(this.selectedCounty);
+        // In the end we want to be zooming somewhere here
+        // We only want to zoom when they select a county
+      }
+    });
+   }
 
 
   initializeMap(mapHtmlElement?: ElementRef): void {
