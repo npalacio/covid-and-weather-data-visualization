@@ -31,20 +31,10 @@ export class MapStateService extends ObservableStore<MapState> {
   }
 
   setCountySearchResults(counties: County[]): void {
-    this.setState(prevState => {
-      return {
-        ...prevState,
-        countySearchResults: counties
-      };
-    }, 'UPDATE_COUNTY_SEARCH_RESULTS');
+    this.setState({countySearchResults: counties}, 'UPDATE_COUNTY_SEARCH_RESULTS');
   }
 
   setSelectedCounty(county: County): void {
-    this.setState(prevState => {
-      return {
-        ...prevState,
-        selectedCounty: county
-      };
-    }, 'UPDATE_SELECTED_COUNTY');
+    this.setState({selectedCounty: county}, 'UPDATE_SELECTED_COUNTY');
   }
 }

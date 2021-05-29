@@ -6,6 +6,7 @@ import Map from '@arcgis/core/Map';
 import { MapStateService } from '../state';
 import { County } from '../shared/models/state/county.model';
 import { MapState } from '../shared/models/state';
+import { StateWithPropertyChanges } from '@codewithdan/observable-store';
 
 @Injectable({
   providedIn: 'root'
@@ -15,17 +16,18 @@ export class MapService {
   private countyLayer: FeatureLayer = {} as any;
   private countyLayerView?: FeatureLayerView;
   private highlightedCounty?: __esri.Handle;
+  private countyObjectIdField = 'FID';
 
   constructor(private mapStateService: MapStateService) {
-    this.mapStateService.stateChanged.subscribe(async (mapState: MapState) => {
-      if(mapState.selectedCounty) {
+    this.mapStateService.stateWithPropertyChanges.subscribe(async (stateWithChanges: StateWithPropertyChanges<MapState>) => {
+      if(stateWithChanges.state.selectedCounty && stateWithChanges.stateChanges.selectedCounty) {
         // In the end we want to be zooming somewhere here
         // We only want to zoom when they select a county
-        var countyGraphic = await this.getCountyGraphic(mapState.selectedCounty.objectId);
+        var countyGraphic = await this.getCountyGraphic(stateWithChanges.state.selectedCounty.objectId);
         if(this.highlightedCounty) {
           this.highlightedCounty.remove();
         }
-        this.highlightedCounty = this.countyLayerView?.highlight(mapState.selectedCounty.objectId);
+        this.highlightedCounty = this.countyLayerView?.highlight(stateWithChanges.state.selectedCounty.objectId);
         this.mapView?.goTo({
           target: countyGraphic,
           zoom: 8
@@ -61,7 +63,7 @@ export class MapService {
     const query = {
       where: `STATE_NAME LIKE \'${searchTerm}%\' OR NAME LIKE\'${searchTerm}%\'`,
       returnGeometry: true,
-      outFields: ['FID', 'NAME', 'STATE_NAME'],
+      outFields: [this.countyObjectIdField, 'NAME', 'STATE_NAME'],
       num: recordCount
     };
 
@@ -81,9 +83,9 @@ export class MapService {
 
   private async getCountyGraphic(objectId: number): Promise<__esri.Graphic> {
     const query = {
-      where: `FID = ${objectId}`,
+      where: `${this.countyObjectIdField} = ${objectId}`,
       returnGeometry: true,
-      outFields: ['FID']
+      outFields: [this.countyObjectIdField]
     };
 
     return await this.countyLayer?.queryFeatures(query).then(result => {
