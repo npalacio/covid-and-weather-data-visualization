@@ -16,7 +16,7 @@ export class MapService {
   private countyLayer: FeatureLayer = {} as any;
   private countyLayerView?: FeatureLayerView;
   private highlightedCounty?: __esri.Handle;
-  private countyObjectIdField = 'FID';
+  private countyLayerObjectIdField = 'FID';
 
   constructor(private mapStateService: MapStateService, private countyStateService: CountyStateService) {
     this.countyStateService.stateWithPropertyChanges.subscribe(async (stateWithChanges: StateWithPropertyChanges<CountyState>) => {
@@ -27,7 +27,7 @@ export class MapService {
         if(this.highlightedCounty) {
           this.highlightedCounty.remove();
         }
-        this.highlightedCounty = this.countyLayerView?.highlight(countyGraphic.attributes[this.countyObjectIdField]);
+        this.highlightedCounty = this.countyLayerView?.highlight(countyGraphic.attributes[this.countyLayerObjectIdField]);
         this.mapView?.goTo({
           target: countyGraphic,
           zoom: 8
@@ -63,7 +63,7 @@ export class MapService {
     const query = {
       where: `STATE_NAME LIKE \'${searchTerm}%\' OR NAME LIKE\'${searchTerm}%\'`,
       returnGeometry: true,
-      outFields: [this.countyObjectIdField, 'NAME', 'STATE_NAME','FIPS'],
+      outFields: [this.countyLayerObjectIdField, 'NAME', 'STATE_NAME','FIPS'],
       num: recordCount
     };
 
@@ -86,7 +86,7 @@ export class MapService {
     const query = {
       where: `FIPS = ${countyFips}`,
       returnGeometry: true,
-      outFields: [this.countyObjectIdField, 'FIPS']
+      outFields: [this.countyLayerObjectIdField, 'FIPS']
     };
 
     return await this.countyLayer?.queryFeatures(query).then(result => {
