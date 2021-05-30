@@ -27,10 +27,20 @@ export class MapService {
       this.highlightedCounty.remove();
     }
     this.highlightedCounty = this.countyLayerView?.highlight(countyGraphic.attributes[this.countyLayerObjectIdField]);
-    this.mapView?.goTo({
+    await this.mapView?.goTo({
       target: countyGraphic,
       zoom: 8
     });
+    this.showPopup(countyGraphic);
+  }
+
+  private showPopup(countyGraphic: __esri.Graphic) {
+    this.mapView?.popup.close();
+    this.mapView?.popup.open({
+      title: 'County FIPS: ' + countyGraphic.attributes.FIPS,
+      location: (countyGraphic.geometry as __esri.Polygon).centroid
+    });
+
   }
 
   async initializeMap(mapHtmlElement?: ElementRef): Promise<void> {
