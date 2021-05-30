@@ -15,7 +15,7 @@ export class MapComponent implements OnInit {
 
   ngOnInit(): void {
     config.apiKey = 'AAPK731e0b4f7bf541ec9a2e542735af6990fUotVKYCQgH1Jssz-aMZSQ5pWUQuk3E4HBw4Zy9YVMVMhvEReKg1nLvtRyzRroPw';
-    config.assetsPath = './assets';
+    config.assetsPath = '/assets';
     this.mapService.initializeMap(this.mapViewEl);
   }
 
