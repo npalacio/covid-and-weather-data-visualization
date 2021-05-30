@@ -1,4 +1,4 @@
-import { MapState } from '../shared/models/state/map-state.model';
+import { MapState } from '../../shared/models/state/map-state.model';
 
 export const initialMapState: MapState = {
   mapConfig: {

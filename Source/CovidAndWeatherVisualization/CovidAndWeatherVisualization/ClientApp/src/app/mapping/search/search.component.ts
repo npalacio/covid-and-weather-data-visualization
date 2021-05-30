@@ -3,7 +3,7 @@ import { from, Observable, of, OperatorFunction } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, switchMap, tap } from 'rxjs/operators';
 import { County } from 'src/app/shared/models/state';
 import { MapService } from '../map.service';
-import { MapStateService } from '../../state/map-state.service';
+import { MapStateService } from '../../state/map/map-state.service';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({

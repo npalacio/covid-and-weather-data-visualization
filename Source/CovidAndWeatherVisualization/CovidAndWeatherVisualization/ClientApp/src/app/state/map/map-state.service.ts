@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ObservableStore } from '@codewithdan/observable-store';
-import { County, MapState } from '../shared/models/state';
-import { MapConfig } from '../shared/models/state/map-config.model';
+import { County, MapState } from '../../shared/models/state';
+import { MapConfig } from '../../shared/models/state/map-config.model';
 import { initialMapState } from './map-state.initial';
 
 @Injectable({
