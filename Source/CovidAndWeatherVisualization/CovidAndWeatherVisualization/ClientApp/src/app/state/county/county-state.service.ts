@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { ObservableStore } from '@codewithdan/observable-store';
-import { County, MapState } from '../../shared/models/state';
-import { MapConfig } from '../../shared/models/state/map-config.model';
-import { initialMapState } from './map-state.initial';
+import { County, CountyState } from '../../shared/models/state';
+import { initialCountyState } from './county-state.initial';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MapStateService extends ObservableStore<MapState> {
+export class CountyStateService extends ObservableStore<CountyState> {
 
   // Potential Issue: Need to expose an observable that only fires when a particular property in state has actually changed
   // Potential Solution 1: Get away from updating state with lambda, just call getState and modify result and set state again
@@ -19,10 +18,18 @@ export class MapStateService extends ObservableStore<MapState> {
 
   constructor() {
     super({});
-    this.setState(initialMapState, 'INIT_STATE');
+    this.setState(initialCountyState, 'INIT_STATE');
   }
 
-  getMapConfig(): MapConfig {
-    return this.getStateProperty<MapConfig>('mapConfig');
+  getCountySearchResults(): County[] {
+    return this.getStateProperty<County[]>('countySearchResults');
+  }
+
+  setCountySearchResults(counties: County[]): void {
+    this.setState({countySearchResults: counties}, 'UPDATE_COUNTY_SEARCH_RESULTS');
+  }
+
+  setSelectedCounty(county: County): void {
+    this.setState({selectedCounty: county}, 'UPDATE_SELECTED_COUNTY');
   }
 }

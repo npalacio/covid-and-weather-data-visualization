@@ -3,8 +3,8 @@ import { from, Observable, of, OperatorFunction } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, switchMap, tap } from 'rxjs/operators';
 import { County } from 'src/app/shared/models/state';
 import { MapService } from '../map.service';
-import { MapStateService } from '../../state/map/map-state.service';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
+import { CountyStateService } from '../../state';
 
 @Component({
   selector: 'app-search',
@@ -16,7 +16,7 @@ export class SearchComponent implements OnInit {
   private TYPEAHEAD_MIN_CHARS = 4;
   private TYPEAHEAD_MAX_SUGGESTION_COUNT = 20;
 
-  constructor(private mapStateService: MapStateService, private mapService: MapService) { }
+  constructor(private countyStateService: CountyStateService, private mapService: MapService) { }
 
   ngOnInit(): void {
   }
@@ -31,7 +31,7 @@ export class SearchComponent implements OnInit {
         }
         return from(this.mapService.queryCounties(term, this.TYPEAHEAD_MAX_SUGGESTION_COUNT)).pipe(
           map(() => {
-            return this.mapStateService.getCountySearchResults().sort((c1, c2) => {
+            return this.countyStateService.getCountySearchResults().sort((c1, c2) => {
               const countyNameCompare = c1.name.localeCompare(c2.name);
               return countyNameCompare !== 0 ? countyNameCompare : c1.state.localeCompare(c2.state);
             });
@@ -43,7 +43,6 @@ export class SearchComponent implements OnInit {
   formatter = (county: County) => `${county.name}, ${county.state}`;
 
   onItemSelected(event: NgbTypeaheadSelectItemEvent<County>): void {
-    this.mapStateService.setSelectedCounty(event.item);
+    this.countyStateService.setSelectedCounty(event.item);
   }
 }
-

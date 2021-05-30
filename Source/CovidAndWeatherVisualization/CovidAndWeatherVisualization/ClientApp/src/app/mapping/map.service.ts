@@ -3,9 +3,9 @@ import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import MapView from '@arcgis/core/views/MapView';
 import FeatureLayerView from '@arcgis/core/views/layers/FeatureLayerView';
 import Map from '@arcgis/core/Map';
-import { MapStateService } from '../state';
+import { CountyStateService, MapStateService } from '../state';
 import { County } from '../shared/models/state/county.model';
-import { MapState } from '../shared/models/state';
+import { CountyState } from '../shared/models/state';
 import { StateWithPropertyChanges } from '@codewithdan/observable-store';
 
 @Injectable({
@@ -18,8 +18,8 @@ export class MapService {
   private highlightedCounty?: __esri.Handle;
   private countyObjectIdField = 'FID';
 
-  constructor(private mapStateService: MapStateService) {
-    this.mapStateService.stateWithPropertyChanges.subscribe(async (stateWithChanges: StateWithPropertyChanges<MapState>) => {
+  constructor(private mapStateService: MapStateService, private countyStateService: CountyStateService) {
+    this.countyStateService.stateWithPropertyChanges.subscribe(async (stateWithChanges: StateWithPropertyChanges<CountyState>) => {
       if(stateWithChanges.state.selectedCounty && stateWithChanges.stateChanges.selectedCounty) {
         // In the end we want to be zooming somewhere here
         // We only want to zoom when they select a county
@@ -78,7 +78,7 @@ export class MapService {
     });
 
     // Push new search results onto state
-    this.mapStateService.setCountySearchResults(counties);
+    this.countyStateService.setCountySearchResults(counties);
   }
 
   private async getCountyGraphic(objectId: number): Promise<__esri.Graphic> {

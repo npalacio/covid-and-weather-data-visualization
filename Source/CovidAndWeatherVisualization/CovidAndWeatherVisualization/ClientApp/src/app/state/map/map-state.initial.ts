@@ -25,7 +25,5 @@ export const initialMapState: MapState = {
         title: '{NAME} County, {STATE_NAME}',
       }
     }],
-  },
-  countySearchResults: [],
-  selectedCounty: undefined
+  }
 };
