@@ -19,25 +19,21 @@ export class MapService {
   private countyLayerObjectIdField = 'FID';
 
   constructor(private mapStateService: MapStateService, private countyStateService: CountyStateService) {
-    this.countyStateService.stateWithPropertyChanges.subscribe(async (stateWithChanges: StateWithPropertyChanges<CountyState>) => {
-      if(stateWithChanges.state.selectedCountyFips && stateWithChanges.stateChanges.selectedCountyFips) {
-        // In the end we want to be zooming somewhere here
-        // We only want to zoom when they select a county
-        var countyGraphic = await this.getCountyGraphic(stateWithChanges.state.selectedCountyFips);
-        if(this.highlightedCounty) {
-          this.highlightedCounty.remove();
-        }
-        this.highlightedCounty = this.countyLayerView?.highlight(countyGraphic.attributes[this.countyLayerObjectIdField]);
-        this.mapView?.goTo({
-          target: countyGraphic,
-          zoom: 8
-        });
-      }
+  }
+
+  async zoomToCounty(countyFips: number): Promise<void> {
+    var countyGraphic = await this.getCountyGraphic(countyFips);
+    if (this.highlightedCounty) {
+      this.highlightedCounty.remove();
+    }
+    this.highlightedCounty = this.countyLayerView?.highlight(countyGraphic.attributes[this.countyLayerObjectIdField]);
+    this.mapView?.goTo({
+      target: countyGraphic,
+      zoom: 8
     });
-   }
+  }
 
-
-  initializeMap(mapHtmlElement?: ElementRef): void {
+  async initializeMap(mapHtmlElement?: ElementRef): Promise<void> {
     const mapConfig = this.mapStateService.getMapConfig();
     const layers = mapConfig.layerConfigs.map((layerConfig) => {
       return new FeatureLayer({ ...layerConfig });
@@ -54,7 +50,7 @@ export class MapService {
       zoom: mapConfig.zoom,
       container: mapHtmlElement?.nativeElement
     });
-    this.mapView.whenLayerView(this.countyLayer).then((layerView: FeatureLayerView) => {
+    await this.mapView.whenLayerView(this.countyLayer).then((layerView: FeatureLayerView) => {
       this.countyLayerView = layerView;
     });
   }
@@ -63,7 +59,7 @@ export class MapService {
     const query = {
       where: `STATE_NAME LIKE \'${searchTerm}%\' OR NAME LIKE\'${searchTerm}%\'`,
       returnGeometry: true,
-      outFields: [this.countyLayerObjectIdField, 'NAME', 'STATE_NAME','FIPS'],
+      outFields: [this.countyLayerObjectIdField, 'NAME', 'STATE_NAME', 'FIPS'],
       num: recordCount
     };
 

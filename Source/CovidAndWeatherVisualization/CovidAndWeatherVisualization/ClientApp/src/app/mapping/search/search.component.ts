@@ -5,6 +5,7 @@ import { County } from 'src/app/shared/models/state';
 import { MapService } from '../map.service';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import { CountyStateService } from '../../state';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search',
@@ -16,7 +17,7 @@ export class SearchComponent implements OnInit {
   private TYPEAHEAD_MIN_CHARS = 4;
   private TYPEAHEAD_MAX_SUGGESTION_COUNT = 20;
 
-  constructor(private countyStateService: CountyStateService, private mapService: MapService) { }
+  constructor(private countyStateService: CountyStateService, private mapService: MapService, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -43,6 +44,6 @@ export class SearchComponent implements OnInit {
   formatter = (county: County) => `${county.name}, ${county.state}`;
 
   onItemSelected(event: NgbTypeaheadSelectItemEvent<County>): void {
-    this.countyStateService.setSelectedCounty(event.item.fips);
+    this.router.navigate(['counties', event.item.fips]);
   }
 }

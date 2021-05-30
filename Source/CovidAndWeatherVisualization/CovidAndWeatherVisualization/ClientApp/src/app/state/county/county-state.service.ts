@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ObservableStore } from '@codewithdan/observable-store';
 import { County, CountyState } from '../../shared/models/state';
 import { initialCountyState } from './county-state.initial';
@@ -17,7 +17,7 @@ export class CountyStateService extends ObservableStore<CountyState> {
   // Note: ObservableStore does not seem to be able to work with properties in state that are ESRI types with functions as properties
     // i.e. It errors out when I try to put an ESRI Geometry, FeatureLayer type in state
 
-  constructor(private router: Router) {
+  constructor() {
     super({});
     this.setState(initialCountyState, 'INIT_STATE');
   }
@@ -28,10 +28,5 @@ export class CountyStateService extends ObservableStore<CountyState> {
 
   setCountySearchResults(counties: County[]): void {
     this.setState({countySearchResults: counties}, 'UPDATE_COUNTY_SEARCH_RESULTS');
-  }
-
-  setSelectedCounty(countyFips: number): void {
-    this.router.navigateByUrl(`/counties/${countyFips}`);
-    this.setState({selectedCountyFips: countyFips}, 'UPDATE_SELECTED_COUNTY');
   }
 }
