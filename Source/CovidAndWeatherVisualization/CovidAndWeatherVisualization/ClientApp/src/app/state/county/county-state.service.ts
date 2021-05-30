@@ -30,8 +30,8 @@ export class CountyStateService extends ObservableStore<CountyState> {
     this.setState({countySearchResults: counties}, 'UPDATE_COUNTY_SEARCH_RESULTS');
   }
 
-  setSelectedCounty(county: County): void {
-    this.router.navigateByUrl(`/counties/${county.fips}`);
-    this.setState({selectedCounty: county}, 'UPDATE_SELECTED_COUNTY');
+  setSelectedCounty(countyFips: number): void {
+    this.router.navigateByUrl(`/counties/${countyFips}`);
+    this.setState({selectedCountyFips: countyFips}, 'UPDATE_SELECTED_COUNTY');
   }
 }

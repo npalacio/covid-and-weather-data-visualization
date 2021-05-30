@@ -20,14 +20,14 @@ export class MapService {
 
   constructor(private mapStateService: MapStateService, private countyStateService: CountyStateService) {
     this.countyStateService.stateWithPropertyChanges.subscribe(async (stateWithChanges: StateWithPropertyChanges<CountyState>) => {
-      if(stateWithChanges.state.selectedCounty && stateWithChanges.stateChanges.selectedCounty) {
+      if(stateWithChanges.state.selectedCountyFips && stateWithChanges.stateChanges.selectedCountyFips) {
         // In the end we want to be zooming somewhere here
         // We only want to zoom when they select a county
-        var countyGraphic = await this.getCountyGraphic(stateWithChanges.state.selectedCounty.objectId);
+        var countyGraphic = await this.getCountyGraphic(stateWithChanges.state.selectedCountyFips);
         if(this.highlightedCounty) {
           this.highlightedCounty.remove();
         }
-        this.highlightedCounty = this.countyLayerView?.highlight(stateWithChanges.state.selectedCounty.objectId);
+        this.highlightedCounty = this.countyLayerView?.highlight(countyGraphic.attributes.FID);
         this.mapView?.goTo({
           target: countyGraphic,
           zoom: 8
@@ -82,11 +82,11 @@ export class MapService {
     this.countyStateService.setCountySearchResults(counties);
   }
 
-  private async getCountyGraphic(objectId: number): Promise<__esri.Graphic> {
+  private async getCountyGraphic(countyFips: number): Promise<__esri.Graphic> {
     const query = {
-      where: `${this.countyObjectIdField} = ${objectId}`,
+      where: `FIPS = ${countyFips}`,
       returnGeometry: true,
-      outFields: [this.countyObjectIdField]
+      outFields: [this.countyObjectIdField, 'FIPS']
     };
 
     return await this.countyLayer?.queryFeatures(query).then(result => {

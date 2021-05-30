@@ -43,6 +43,6 @@ export class SearchComponent implements OnInit {
   formatter = (county: County) => `${county.name}, ${county.state}`;
 
   onItemSelected(event: NgbTypeaheadSelectItemEvent<County>): void {
-    this.countyStateService.setSelectedCounty(event.item);
+    this.countyStateService.setSelectedCounty(event.item.fips);
   }
 }
