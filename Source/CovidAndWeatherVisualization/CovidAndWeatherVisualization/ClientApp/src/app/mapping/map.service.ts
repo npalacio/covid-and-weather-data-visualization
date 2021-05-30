@@ -27,7 +27,7 @@ export class MapService {
         if(this.highlightedCounty) {
           this.highlightedCounty.remove();
         }
-        this.highlightedCounty = this.countyLayerView?.highlight(countyGraphic.attributes.FID);
+        this.highlightedCounty = this.countyLayerView?.highlight(countyGraphic.attributes[this.countyObjectIdField]);
         this.mapView?.goTo({
           target: countyGraphic,
           zoom: 8
