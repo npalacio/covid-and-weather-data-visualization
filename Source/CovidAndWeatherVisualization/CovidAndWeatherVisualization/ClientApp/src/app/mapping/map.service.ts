@@ -63,7 +63,7 @@ export class MapService {
     const query = {
       where: `STATE_NAME LIKE \'${searchTerm}%\' OR NAME LIKE\'${searchTerm}%\'`,
       returnGeometry: true,
-      outFields: [this.countyObjectIdField, 'NAME', 'STATE_NAME'],
+      outFields: [this.countyObjectIdField, 'NAME', 'STATE_NAME','FIPS'],
       num: recordCount
     };
 
@@ -72,7 +72,8 @@ export class MapService {
         return {
           objectId: feature.attributes.FID,
           name: feature.attributes.NAME,
-          state: feature.attributes.STATE_NAME
+          state: feature.attributes.STATE_NAME,
+          fips: feature.attributes.FIPS
         };
       });
     });
