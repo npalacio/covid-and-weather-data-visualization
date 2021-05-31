@@ -73,6 +73,16 @@ export class MapService {
     await this.mapView.whenLayerView(this.countyLayer).then((layerView: FeatureLayerView) => {
       this.countyLayerView = layerView;
     });
+    this.mapView.on("click", (event) => {
+      this.mapView?.hitTest(event.screenPoint,{
+        include: this.countyLayer
+      }).then((response) => {
+        var graphics = response.results;
+        graphics.forEach(function(graphic) {
+          console.log(graphic);
+        });
+      });
+    });
   }
 
   async queryCountiesForSearch(searchTerm: string, recordCount: number): Promise<void> {
