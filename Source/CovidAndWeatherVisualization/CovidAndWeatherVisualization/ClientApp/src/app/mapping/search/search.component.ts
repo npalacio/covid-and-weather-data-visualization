@@ -30,7 +30,7 @@ export class SearchComponent implements OnInit {
         if (term.length < this.TYPEAHEAD_MIN_CHARS) {
           return of([]);
         }
-        return from(this.mapService.queryCounties(term, this.TYPEAHEAD_MAX_SUGGESTION_COUNT)).pipe(
+        return from(this.mapService.queryCountiesForSearch(term, this.TYPEAHEAD_MAX_SUGGESTION_COUNT)).pipe(
           map(() => {
             return this.countyStateService.getCountySearchResults().sort((c1, c2) => {
               const countyNameCompare = c1.name.localeCompare(c2.name);

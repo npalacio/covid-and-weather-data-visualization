@@ -37,8 +37,11 @@ export class MapService {
   private showPopup(countyGraphic: __esri.Graphic) {
     this.mapView?.popup.close();
     this.mapView?.popup.open({
-      title: 'County FIPS: ' + countyGraphic.attributes.FIPS,
-      location: (countyGraphic.geometry as __esri.Polygon).centroid
+      title: `${countyGraphic.attributes.NAME} County, ${countyGraphic.attributes.STATE_NAME}`,
+      location: (countyGraphic.geometry as __esri.Polygon).centroid,
+      content: `<div>FIPS: ${countyGraphic.attributes.FIPS}</div>
+      <div>Population: ${countyGraphic.attributes.POPULATION}</div>
+      `
     });
 
   }
@@ -65,7 +68,7 @@ export class MapService {
     });
   }
 
-  async queryCounties(searchTerm: string, recordCount: number): Promise<void> {
+  async queryCountiesForSearch(searchTerm: string, recordCount: number): Promise<void> {
     const query = {
       where: `STATE_NAME LIKE \'${searchTerm}%\' OR NAME LIKE\'${searchTerm}%\'`,
       returnGeometry: true,
@@ -92,7 +95,7 @@ export class MapService {
     const query = {
       where: `FIPS = ${countyFips}`,
       returnGeometry: true,
-      outFields: [this.countyLayerObjectIdField, 'FIPS']
+      outFields: [this.countyLayerObjectIdField, 'FIPS', 'NAME', 'STATE_NAME', 'POPULATION']
     };
 
     return await this.countyLayer?.queryFeatures(query).then(result => {
