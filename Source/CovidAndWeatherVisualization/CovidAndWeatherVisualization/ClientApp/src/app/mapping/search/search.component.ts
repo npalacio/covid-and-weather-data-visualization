@@ -1,10 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { from, Observable, of, OperatorFunction } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, map, switchMap, tap } from 'rxjs/operators';
-import { County } from 'src/app/shared/models/state';
+import { Observable, OperatorFunction } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, mergeMap } from 'rxjs/operators';
+import { County } from 'src/app/shared/models';
 import { MapService } from '../map.service';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
-import { CountyStateService } from '../../state';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -20,8 +19,7 @@ export class SearchComponent implements OnInit {
   private TYPEAHEAD_MAX_SUGGESTION_COUNT = 20;
   private currentSearchFips?: number;
 
-  constructor(private countyStateService: CountyStateService
-            , private mapService: MapService
+  constructor(private mapService: MapService
             , private router: Router
             , private route: ActivatedRoute) { }
 
@@ -38,17 +36,13 @@ export class SearchComponent implements OnInit {
     return text$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
-      switchMap(term => {
-        if (term.length < this.TYPEAHEAD_MIN_CHARS) {
-          return of([]);
-        }
-        return from(this.mapService.queryCountiesForSearch(term, this.TYPEAHEAD_MAX_SUGGESTION_COUNT)).pipe(
-          map(() => {
-            return this.countyStateService.getCountySearchResults().sort((c1, c2) => {
-              const countyNameCompare = c1.name.localeCompare(c2.name);
-              return countyNameCompare !== 0 ? countyNameCompare : c1.state.localeCompare(c2.state);
-            });
-          }));
+      filter(term => term.length >= this.TYPEAHEAD_MIN_CHARS),
+      mergeMap(async (term) => {
+        const countySearchResults = await this.mapService.queryCountiesForSearch(term, this.TYPEAHEAD_MAX_SUGGESTION_COUNT);
+        return countySearchResults.sort((c1, c2) => {
+          const countyNameCompare = c1.name.localeCompare(c2.name);
+          return countyNameCompare !== 0 ? countyNameCompare : c1.state.localeCompare(c2.state);
+        });
       })
     );
   }

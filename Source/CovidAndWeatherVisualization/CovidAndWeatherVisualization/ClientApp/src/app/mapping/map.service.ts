@@ -4,8 +4,8 @@ import MapView from '@arcgis/core/views/MapView';
 import FeatureLayerView from '@arcgis/core/views/layers/FeatureLayerView';
 import Map from '@arcgis/core/Map';
 import * as watchUtils from '@arcgis/core/core/watchUtils';
-import { CountyStateService, MapStateService } from '../state';
-import { County } from '../shared/models/state/county.model';
+import { mapConfig } from './map-config';
+import { County } from '../shared/models/county.model';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -19,7 +19,7 @@ export class MapService {
   private countyLayerObjectIdField = 'FID';
   private countyLayerOutFields = [this.countyLayerObjectIdField, 'FIPS', 'NAME', 'STATE_NAME', 'POPULATION'];
 
-  constructor(private mapStateService: MapStateService, private countyStateService: CountyStateService, private router: Router) {
+  constructor(private router: Router) {
   }
 
   async selectCounty(countyFips: number): Promise<void> {
@@ -60,7 +60,6 @@ export class MapService {
   }
 
   async initializeMap(mapHtmlElement?: ElementRef): Promise<void> {
-    const mapConfig = this.mapStateService.getMapConfig();
     const layers = mapConfig.layerConfigs.map((layerConfig) => {
       return new FeatureLayer({ ...layerConfig });
     });
@@ -93,7 +92,7 @@ export class MapService {
     });
   }
 
-  async queryCountiesForSearch(searchTerm: string, recordCount: number): Promise<void> {
+  async queryCountiesForSearch(searchTerm: string, recordCount: number): Promise<County[]> {
     const query = {
       where: `STATE_NAME LIKE \'${searchTerm}%\' OR NAME LIKE\'${searchTerm}%\'`,
       returnGeometry: true,
@@ -101,7 +100,7 @@ export class MapService {
       num: recordCount
     };
 
-    const counties: County[] = await this.countyLayer?.queryFeatures(query).then(result => {
+    return this.countyLayer?.queryFeatures(query).then(result => {
       return result.features.map((feature): County => {
         return {
           objectId: feature.attributes.FID,
@@ -111,9 +110,6 @@ export class MapService {
         };
       });
     });
-
-    // Push new search results onto state
-    this.countyStateService.setCountySearchResults(counties);
   }
 
   private async getCountyGraphic(countyFips: number): Promise<__esri.Graphic> {
