@@ -37,6 +37,10 @@ jobs:
         working-directory: ${{ env.CLIENT_APP_PATH }}
         run: npm run lint
 
+      - name: NPM Test
+        working-directory: ${{ env.CLIENT_APP_PATH }}
+        run: npm run test
+
       # Run dotnet build and publish
       - name: dotnet build and publish
         working-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
