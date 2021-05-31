@@ -20,10 +20,7 @@ export const initialMapState: MapState = {
             width: 1
           }
         }
-      } as any,
-      popupTemplate: {
-        title: '{NAME} County, {STATE_NAME}',
-      }
-    }],
+      } as any
+    }]
   }
 };
