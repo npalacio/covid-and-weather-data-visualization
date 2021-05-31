@@ -25,7 +25,7 @@ export class SearchComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       var fips = params.get('fips');
-      if (fips && +fips != this.currentSearchFips && this.searchInput) {
+      if (fips && +fips !== this.currentSearchFips && this.searchInput) {
         this.searchInput.nativeElement.value = '';
       }
     });

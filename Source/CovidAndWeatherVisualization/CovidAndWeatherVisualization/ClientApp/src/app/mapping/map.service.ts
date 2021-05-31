@@ -23,8 +23,12 @@ export class MapService {
 
   async selectCounty(countyFips: number): Promise<void> {
     var countyGraphic = await this.getCountyGraphic(countyFips);
-    this.zoomToCounty(countyGraphic);
-    this.showPopup(countyGraphic);
+    if (countyGraphic) {
+      this.zoomToCounty(countyGraphic);
+      this.showPopup(countyGraphic);
+    } else {
+      this.router.navigate(['counties']);
+    }
   }
 
   private async zoomToCounty(countyGraphic: __esri.Graphic): Promise<void> {
@@ -73,7 +77,7 @@ export class MapService {
     await this.mapView.whenLayerView(this.countyLayer).then(async (layerView: FeatureLayerView) => {
       this.countyLayerView = layerView;
       // Wait for layer to finish drawing before we zoom to selected county
-      await watchUtils.whenFalseOnce(this.countyLayerView, "updating", () => {});
+      await watchUtils.whenFalseOnce(this.countyLayerView, "updating", () => { });
     });
     this.mapView.on("click", (event) => {
       this.mapView?.hitTest(event.screenPoint, {
