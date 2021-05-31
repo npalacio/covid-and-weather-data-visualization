@@ -42,7 +42,7 @@ jobs:
         run: npm run test
 
       # Run dotnet build and publish
-      - name: dotnet build and publish
+      - name: dotnet/NPM build and publish
         working-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
         run: |
           dotnet restore
