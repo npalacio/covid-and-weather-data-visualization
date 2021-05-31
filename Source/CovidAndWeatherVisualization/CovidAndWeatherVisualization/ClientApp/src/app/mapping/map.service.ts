@@ -17,6 +17,7 @@ export class MapService {
   private countyLayerView?: FeatureLayerView;
   private highlightedCounty?: __esri.Handle;
   private countyLayerObjectIdField = 'FID';
+  private countyLayerOutFields = [this.countyLayerObjectIdField, 'FIPS', 'NAME', 'STATE_NAME', 'POPULATION'];
 
   constructor(private mapStateService: MapStateService, private countyStateService: CountyStateService, private router: Router) {
   }
@@ -27,6 +28,7 @@ export class MapService {
       this.zoomToCounty(countyGraphic);
       this.showPopup(countyGraphic);
     } else {
+      // County not found, navigate to home page
       this.router.navigate(['counties']);
     }
   }
@@ -95,7 +97,7 @@ export class MapService {
     const query = {
       where: `STATE_NAME LIKE \'${searchTerm}%\' OR NAME LIKE\'${searchTerm}%\'`,
       returnGeometry: true,
-      outFields: [this.countyLayerObjectIdField, 'NAME', 'STATE_NAME', 'FIPS'],
+      outFields: this.countyLayerOutFields,
       num: recordCount
     };
 
@@ -118,7 +120,7 @@ export class MapService {
     const query = {
       where: `FIPS = ${countyFips}`,
       returnGeometry: true,
-      outFields: [this.countyLayerObjectIdField, 'FIPS', 'NAME', 'STATE_NAME', 'POPULATION']
+      outFields: this.countyLayerOutFields
     };
 
     return await this.countyLayer?.queryFeatures(query).then(result => {
