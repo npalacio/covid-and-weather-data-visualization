@@ -35,6 +35,10 @@ export class MapService {
     await this.mapView?.goTo({
       target: countyGraphic,
       zoom: 8
+    }, {
+      animate: true,
+      duration: 800,
+      easing: 'ease'
     });
   }
 
