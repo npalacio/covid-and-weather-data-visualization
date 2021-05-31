@@ -22,7 +22,7 @@ export class MapComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       var fips = params.get('fips');
       if (fips) {
-        this.mapService.zoomToCounty(+fips);
+        this.mapService.selectCounty(+fips);
       }
     });
   }

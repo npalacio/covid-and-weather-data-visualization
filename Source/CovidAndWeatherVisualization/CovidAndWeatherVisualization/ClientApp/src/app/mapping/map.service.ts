@@ -21,8 +21,13 @@ export class MapService {
   constructor(private mapStateService: MapStateService, private countyStateService: CountyStateService) {
   }
 
-  async zoomToCounty(countyFips: number): Promise<void> {
+  async selectCounty(countyFips: number): Promise<void> {
     var countyGraphic = await this.getCountyGraphic(countyFips);
+    this.zoomToCounty(countyGraphic);
+    this.showPopup(countyGraphic);
+  }
+
+  private async zoomToCounty(countyGraphic: __esri.Graphic): Promise<void> {
     if (this.highlightedCounty) {
       this.highlightedCounty.remove();
     }
@@ -31,7 +36,6 @@ export class MapService {
       target: countyGraphic,
       zoom: 8
     });
-    this.showPopup(countyGraphic);
   }
 
   private showPopup(countyGraphic: __esri.Graphic) {
@@ -40,8 +44,7 @@ export class MapService {
       title: `${countyGraphic.attributes.NAME} County, ${countyGraphic.attributes.STATE_NAME}`,
       location: (countyGraphic.geometry as __esri.Polygon).centroid,
       content: `<div>FIPS: ${countyGraphic.attributes.FIPS}</div>
-      <div>Population: ${countyGraphic.attributes.POPULATION}</div>
-      `
+      <div>Population: ${countyGraphic.attributes.POPULATION}</div>`
     });
 
   }
