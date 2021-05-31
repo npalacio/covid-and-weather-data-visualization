@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { from, Observable, of, OperatorFunction } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, switchMap, tap } from 'rxjs/operators';
 import { County } from 'src/app/shared/models/state';
 import { MapService } from '../map.service';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import { CountyStateService } from '../../state';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-search',
@@ -13,13 +13,22 @@ import { Router } from '@angular/router';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
+  @ViewChild('searchInput', { static: true })
+  private searchInput?: ElementRef;
   public model: any;
   private TYPEAHEAD_MIN_CHARS = 4;
   private TYPEAHEAD_MAX_SUGGESTION_COUNT = 20;
+  private currentSearchFips?: number;
 
-  constructor(private countyStateService: CountyStateService, private mapService: MapService, private router: Router) { }
+  constructor(private countyStateService: CountyStateService, private mapService: MapService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      var fips = params.get('fips');
+      if (fips && +fips != this.currentSearchFips && this.searchInput) {
+        this.searchInput.nativeElement.value = '';
+      }
+    });
   }
 
   search: OperatorFunction<string, readonly County[]> = (text$: Observable<string>) => {
@@ -44,6 +53,7 @@ export class SearchComponent implements OnInit {
   formatter = (county: County) => `${county.name}, ${county.state}`;
 
   onItemSelected(event: NgbTypeaheadSelectItemEvent<County>): void {
-    this.router.navigate(['counties', event.item.fips]);
+    this.currentSearchFips = event.item.fips;
+    this.router.navigate(['counties', this.currentSearchFips]);
   }
 }
