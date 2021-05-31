@@ -8,7 +8,7 @@ export const initialMapState: MapState = {
     layerConfigs: [{
       url: 'https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Counties_Generalized/FeatureServer',
       layerId: 0,
-      outFields: ['NAME', 'STATE_NAME'],
+      outFields: ['NAME', 'STATE_NAME', 'FIPS'],
       renderer: {
         type: 'simple',
         symbol: {

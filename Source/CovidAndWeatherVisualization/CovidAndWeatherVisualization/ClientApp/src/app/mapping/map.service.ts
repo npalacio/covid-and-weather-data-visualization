@@ -5,8 +5,7 @@ import FeatureLayerView from '@arcgis/core/views/layers/FeatureLayerView';
 import Map from '@arcgis/core/Map';
 import { CountyStateService, MapStateService } from '../state';
 import { County } from '../shared/models/state/county.model';
-import { CountyState } from '../shared/models/state';
-import { StateWithPropertyChanges } from '@codewithdan/observable-store';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +17,7 @@ export class MapService {
   private highlightedCounty?: __esri.Handle;
   private countyLayerObjectIdField = 'FID';
 
-  constructor(private mapStateService: MapStateService, private countyStateService: CountyStateService) {
+  constructor(private mapStateService: MapStateService, private countyStateService: CountyStateService, private router: Router) {
   }
 
   async selectCounty(countyFips: number): Promise<void> {
@@ -77,10 +76,10 @@ export class MapService {
       this.mapView?.hitTest(event.screenPoint,{
         include: this.countyLayer
       }).then((response) => {
-        var graphics = response.results;
-        graphics.forEach(function(graphic) {
-          console.log(graphic);
-        });
+        if (response.results.length > 0) {
+          var newCountyFips = +response.results[0].graphic.attributes.FIPS;
+          this.router.navigate(['counties', newCountyFips]);
+        }
       });
     });
   }
