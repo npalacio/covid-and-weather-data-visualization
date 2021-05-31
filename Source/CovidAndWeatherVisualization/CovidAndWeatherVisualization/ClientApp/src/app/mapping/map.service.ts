@@ -3,6 +3,7 @@ import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import MapView from '@arcgis/core/views/MapView';
 import FeatureLayerView from '@arcgis/core/views/layers/FeatureLayerView';
 import Map from '@arcgis/core/Map';
+import * as watchUtils from '@arcgis/core/core/watchUtils';
 import { CountyStateService, MapStateService } from '../state';
 import { County } from '../shared/models/state/county.model';
 import { Router } from '@angular/router';
@@ -69,11 +70,13 @@ export class MapService {
       zoom: mapConfig.zoom,
       container: mapHtmlElement?.nativeElement
     });
-    await this.mapView.whenLayerView(this.countyLayer).then((layerView: FeatureLayerView) => {
+    await this.mapView.whenLayerView(this.countyLayer).then(async (layerView: FeatureLayerView) => {
       this.countyLayerView = layerView;
+      // Wait for layer to finish drawing before we zoom to selected county
+      await watchUtils.whenFalseOnce(this.countyLayerView, "updating", () => {});
     });
     this.mapView.on("click", (event) => {
-      this.mapView?.hitTest(event.screenPoint,{
+      this.mapView?.hitTest(event.screenPoint, {
         include: this.countyLayer
       }).then((response) => {
         if (response.results.length > 0) {
