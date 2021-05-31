@@ -1,4 +1,4 @@
-import { MapConfig } from "../shared/models";
+import { MapConfig } from '../shared/models';
 
 export const mapConfig: MapConfig = {
     basemap: 'arcgis-streets',
