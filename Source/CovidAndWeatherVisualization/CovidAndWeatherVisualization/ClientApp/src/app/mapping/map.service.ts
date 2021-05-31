@@ -23,7 +23,7 @@ export class MapService {
   }
 
   async selectCounty(countyFips: number): Promise<void> {
-    var countyGraphic = await this.getCountyGraphic(countyFips);
+    const countyGraphic = await this.getCountyGraphic(countyFips);
     if (countyGraphic) {
       this.zoomToCounty(countyGraphic);
       this.showPopup(countyGraphic);
@@ -48,7 +48,7 @@ export class MapService {
     });
   }
 
-  private showPopup(countyGraphic: __esri.Graphic) {
+  private showPopup(countyGraphic: __esri.Graphic): void {
     this.mapView?.popup.close();
     this.mapView?.popup.open({
       title: `${countyGraphic.attributes.NAME} County, ${countyGraphic.attributes.STATE_NAME}`,
@@ -79,14 +79,14 @@ export class MapService {
     await this.mapView.whenLayerView(this.countyLayer).then(async (layerView: FeatureLayerView) => {
       this.countyLayerView = layerView;
       // Wait for layer to finish drawing before we zoom to selected county
-      await watchUtils.whenFalseOnce(this.countyLayerView, "updating", () => { });
+      await watchUtils.whenFalseOnce(this.countyLayerView, 'updating', () => { });
     });
-    this.mapView.on("click", (event) => {
+    this.mapView.on('click', (event) => {
       this.mapView?.hitTest(event.screenPoint, {
         include: this.countyLayer
       }).then((response) => {
         if (response.results.length > 0) {
-          var newCountyFips = +response.results[0].graphic.attributes.FIPS;
+          const newCountyFips = +response.results[0].graphic.attributes.FIPS;
           this.router.navigate(['counties', newCountyFips]);
         }
       });
@@ -124,7 +124,7 @@ export class MapService {
     };
 
     return await this.countyLayer?.queryFeatures(query).then(result => {
-      return result.features[0]
+      return result.features[0];
     });
   }
 

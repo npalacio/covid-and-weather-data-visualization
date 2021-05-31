@@ -20,11 +20,14 @@ export class SearchComponent implements OnInit {
   private TYPEAHEAD_MAX_SUGGESTION_COUNT = 20;
   private currentSearchFips?: number;
 
-  constructor(private countyStateService: CountyStateService, private mapService: MapService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private countyStateService: CountyStateService
+            , private mapService: MapService
+            , private router: Router
+            , private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      var fips = params.get('fips');
+      const fips = params.get('fips');
       if (fips && +fips !== this.currentSearchFips && this.searchInput) {
         this.searchInput.nativeElement.value = '';
       }

@@ -20,7 +20,7 @@ export class MapComponent implements OnInit {
     config.assetsPath = '/assets';
     await this.mapService.initializeMap(this.mapViewEl);
     this.route.paramMap.subscribe(params => {
-      var fips = params.get('fips');
+      const fips = params.get('fips');
       if (fips) {
         this.mapService.selectCounty(+fips);
       }
