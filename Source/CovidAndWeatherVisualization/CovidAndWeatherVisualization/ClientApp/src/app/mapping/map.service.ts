@@ -39,8 +39,7 @@ export class MapService {
     }
     this.highlightedCounty = this.countyLayerView?.highlight(countyGraphic.attributes[this.countyLayerObjectIdField]);
     await this.mapView?.goTo({
-      target: countyGraphic,
-      zoom: 8
+      target: countyGraphic
     }, {
       animate: true,
       duration: 800,
