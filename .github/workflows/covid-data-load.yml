@@ -5,10 +5,10 @@ on:
     - az-function-setup
 env:
   AZURE_FUNCTIONAPP_NAME: covid-data-load
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: CovidDataLoad\published
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: ./Source/CovidDataLoad/published
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 3.1.x
-  WORKING_DIRECTORY: CovidDataLoad
+  WORKING_DIRECTORY: ./Source/CovidDataLoad
   DOTNET_CORE_VERSION_INPROC: ''
 jobs:
   build-and-deploy:
