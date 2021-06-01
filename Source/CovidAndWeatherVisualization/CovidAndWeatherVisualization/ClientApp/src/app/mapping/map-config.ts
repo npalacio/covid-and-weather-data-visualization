@@ -12,7 +12,7 @@ export const mapConfig: MapConfig = {
         type: 'simple',
         symbol: {
           type: 'simple-fill',
-          color: [ 51, 51, 204, 0.9 ],
+          color: [ 51, 51, 204, 0.5 ],
           style: 'solid',
           outline: {
             color: 'white',
