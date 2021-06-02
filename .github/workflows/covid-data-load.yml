@@ -4,12 +4,12 @@ on:
     branches:
       - main
     paths:
-      - 'Source\CovidDataLoad'
+      - 'Source/CovidDataLoad'
   pull_request:
     branches:
       - main
     paths:
-      - 'Source\CovidDataLoad'
+      - 'Source/CovidDataLoad'
 
 env:
   AZURE_FUNCTIONAPP_NAME: covid-data-load
