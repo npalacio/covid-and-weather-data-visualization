@@ -32,20 +32,27 @@ namespace CovidDataLoad
         {
             // have to trigger path filter
             var connectionString = Environment.GetEnvironmentVariable("connection-string-db-capstone");
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                conn.Open();
-                var text = "SELECT TOP (1000) [AddressID],[AddressLine1],[AddressLine2],[City],[StateProvince],[CountryRegion],[PostalCode],[rowguid],[ModifiedDate] FROM [SalesLT].[Address]";
-
-                using (SqlCommand cmd = new SqlCommand(text, conn))
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    // Execute the command and log the # rows affected.
-                    var dataReader = await cmd.ExecuteReaderAsync();
-                    DataTable dt = new DataTable();
-                    dt.Load(dataReader);
-                    int numRows = dt.Rows.Count;
-                    log.LogInformation($"{numRows} rows were read");
+                    conn.Open();
+                    var text = "SELECT TOP (1000) [AddressID],[AddressLine1],[AddressLine2],[City],[StateProvince],[CountryRegion],[PostalCode],[rowguid],[ModifiedDate] FROM [SalesLT].[Address]";
+
+                    using (SqlCommand cmd = new SqlCommand(text, conn))
+                    {
+                        // Execute the command and log the # rows affected.
+                        var dataReader = await cmd.ExecuteReaderAsync();
+                        DataTable dt = new DataTable();
+                        dt.Load(dataReader);
+                        int numRows = dt.Rows.Count;
+                        log.LogInformation($"{numRows} rows were read");
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                log.LogError(e);
             }
         }
     }
