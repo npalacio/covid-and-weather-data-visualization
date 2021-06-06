@@ -53,6 +53,7 @@ namespace CovidDataLoad
             catch (Exception e)
             {
                 log.LogError(e.ToString());
+                throw e;
             }
         }
     }
