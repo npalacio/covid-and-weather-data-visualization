@@ -31,7 +31,6 @@ namespace CovidDataLoad
         private async Task ReadFromDb(ILogger log)
         {
             var connectionString = Environment.GetEnvironmentVariable("connection-string-db-capstone");
-            log.LogInformation($"Conn string: {connectionString}");
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
