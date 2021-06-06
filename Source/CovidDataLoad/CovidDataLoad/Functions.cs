@@ -30,6 +30,7 @@ namespace CovidDataLoad
 
         private async Task ReadFromDb(ILogger log)
         {
+            // have to trigger path filter
             var connectionString = Environment.GetEnvironmentVariable("connection-string-db-capstone");
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
