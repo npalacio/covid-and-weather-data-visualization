@@ -18,8 +18,8 @@ namespace CovidDataLoad
             _covidRepo = covidRepo;
         }
 
-        [FunctionName("DataLoad")]
         //public async void Run([TimerTrigger("0 12 * * *")] TimerInfo myTimer, ILogger log)
+        [FunctionName("DataLoad")]
         public async void Run([TimerTrigger("0 */5 * * * *")] TimerInfo myTimer, ILogger log)
         {
             //log.LogInformation($"DataLoad function started at {DateTime.Now}");
