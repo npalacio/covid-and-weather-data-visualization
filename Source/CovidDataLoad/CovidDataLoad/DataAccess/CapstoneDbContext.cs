@@ -14,9 +14,9 @@ namespace CovidDataLoad.DataAccess
         }
         private DbSet<Address> Addresses { get; set; }
 
-        public List<Address> GetAddresses()
+        public async Task<List<Address>> GetAddresses()
         {
-            return Addresses.FromSqlRaw("SELECT [AddressID],[AddressLine1],[PostalCode],[ModifiedDate] FROM [SalesLT].[Address]").ToList();
+            return await Addresses.FromSqlRaw("SELECT [AddressID],[AddressLine1],[PostalCode],[ModifiedDate] FROM [SalesLT].[Address]").ToListAsync();
         }
     }
 }

@@ -23,19 +23,19 @@ namespace CovidDataLoad
 
         //public async void Run([TimerTrigger("0 12 * * *")] TimerInfo myTimer, ILogger log)
         [FunctionName("DataLoad")]
-        public void Run([TimerTrigger("0 */5 * * * *")] TimerInfo myTimer, ILogger log)
+        public async Task Run([TimerTrigger("0 */1 * * * *")] TimerInfo myTimer, ILogger log)
         {
             //log.LogInformation($"DataLoad function started at {DateTime.Now}");
             //var covidData = await _covidRepo.GetCovidCumulativeDataByCounty();
             //log.LogInformation($"Record count: {covidData.Count()}");
-            ReadFromDb(log);
+            await ReadFromDb(log);
         }
 
-        private void ReadFromDb(ILogger log)
+        private async Task ReadFromDb(ILogger log)
         {
             try
             {
-                var addresses = _dbContext.GetAddresses();
+                var addresses = await _dbContext.GetAddresses();
                 log.LogInformation($"{addresses.Count} rows were read");
             }
             catch (Exception e)

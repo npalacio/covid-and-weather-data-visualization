@@ -17,7 +17,7 @@ namespace CovidDataLoad
             builder.Services.AddHttpClient();
 
             builder.Services.AddSingleton<ICovidRepository, CovidRepository>();
-            builder.Services.AddDbContext<CapstoneDbContext>(options => options.UseSqlServer(Environment.GetEnvironmentVariable("connection-string-db-capstone")));
+            builder.Services.AddDbContext<CapstoneDbContext>(options => options.UseSqlServer(Environment.GetEnvironmentVariable("connection-string-db-capstone"), o => o.EnableRetryOnFailure()));
         }
     }
 }
