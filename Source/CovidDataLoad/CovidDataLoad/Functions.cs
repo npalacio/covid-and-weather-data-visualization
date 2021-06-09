@@ -16,48 +16,29 @@ namespace CovidDataLoad
     public class Functions
     {
         private readonly ICovidRepository _covidRepo;
-        private readonly CapstoneDbContext _dbContext;
 
-        public Functions(ICovidRepository covidRepo, CapstoneDbContext dbContext)
+        public Functions(ICovidRepository covidRepo)
         {
             _covidRepo = covidRepo;
-            _dbContext = dbContext;
         }
 
         //public async void Run([TimerTrigger("0 12 * * *")] TimerInfo myTimer, ILogger log)
         [FunctionName("DataLoad")]
-        public void Run([TimerTrigger("0 */1 * * * *")] TimerInfo myTimer, ILogger log)
-        {
-            //log.LogInformation($"DataLoad function started at {DateTime.Now}");
-            //var covidData = await _covidRepo.GetCovidCumulativeDataByCounty();
-            //log.LogInformation($"Record count: {covidData.Count()}");
-            //await ReadFromDb(log);
-            SaveToDb();
-        }
-
-        private void SaveToDb()
-        {
-            _dbContext.SaveCovidData(new List<CovidCumulativeByCounty>(){new CovidCumulativeByCounty
-            {
-                Date = DateTime.Today,
-                County = "test county",
-                State = "test state",
-                Fips = 1,
-                Cases = 2,
-                Deaths = 3
-            }});
-        }
-        private async Task ReadFromDb(ILogger log)
+        public async Task Run([TimerTrigger("* */1 * * * *")] TimerInfo myTimer, ILogger log)
         {
             try
             {
-                var addresses = await _dbContext.GetAddresses();
-                log.LogInformation($"{addresses.Count} rows were read");
+                log.LogInformation($"DataLoad function started at {DateTime.Now}");
+                log.LogInformation($"Fetching Covid data...");
+                var covidData = await _covidRepo.GetCovidCumulativeDataByCounty();
+                log.LogInformation($"Covid records retrieved: {covidData.Count()}");
+                log.LogInformation($"Saving Covid data to DB...");
+                _covidRepo.SaveCovidCumulativeDataByCounty(covidData);
             }
             catch (Exception e)
             {
                 log.LogError(e.ToString());
-                throw e;
+                throw;
             }
         }
     }

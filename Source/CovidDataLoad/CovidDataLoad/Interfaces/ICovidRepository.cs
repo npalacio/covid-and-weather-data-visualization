@@ -7,5 +7,6 @@ namespace CovidDataLoad.Interfaces
     public interface ICovidRepository
     {
         Task<List<CovidCumulativeByCounty>> GetCovidCumulativeDataByCounty();
+        void SaveCovidCumulativeDataByCounty(List<CovidCumulativeByCounty> covidData);
     }
 }

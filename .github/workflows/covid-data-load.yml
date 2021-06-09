@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - read-from-db
+      # - read-from-db
     paths:
       - 'Source/CovidDataLoad/**'
   pull_request:

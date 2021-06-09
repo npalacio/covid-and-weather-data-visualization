@@ -26,7 +26,11 @@ namespace CovidDataLoad.DataAccess
         {
             var tvp = GetTvpParam(covidData);
             Database.ExecuteSqlRaw($"EXEC [Covid].[DataByCountyMerge] @CovidDataByCounty=@{tvp.ParameterName}", tvp);
+        }
 
+        public void ClearCovidEtlTable()
+        {
+            Database.ExecuteSqlRaw($"TRUNCATE TABLE [Covid].[DataByCountyEtl]");
         }
 
         private SqlParameter GetTvpParam(List<CovidCumulativeByCounty> covidData)
