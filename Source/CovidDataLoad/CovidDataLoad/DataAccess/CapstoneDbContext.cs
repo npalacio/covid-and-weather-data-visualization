@@ -22,8 +22,10 @@ namespace CovidDataLoad.DataAccess
             return await Addresses.FromSqlRaw("SELECT [AddressID],[AddressLine1],[PostalCode],[ModifiedDate] FROM [SalesLT].[Address]").ToListAsync();
         }
 
-        private void SaveCovidData(List<CovidCumulativeByCounty> covidData)
+        public void SaveCovidData(List<CovidCumulativeByCounty> covidData)
         {
+            var tvp = GetTvpParam(covidData);
+            Database.ExecuteSqlRaw($"EXEC [Covid].[DataByCountyMerge] @CovidDataByCounty=@{tvp.ParameterName}", tvp);
 
         }
 
