@@ -25,9 +25,9 @@ namespace CovidDataLoad
         [FunctionName("DataLoad")]
         public async Task Run([TimerTrigger("0 */15 * * * *")] TimerInfo myTimer, ILogger log)
         {
-            //log.LogInformation($"DataLoad function started at {DateTime.Now}");
-            //var covidData = await _covidRepo.GetCovidCumulativeDataByCounty();
-            //log.LogInformation($"Record count: {covidData.Count()}");
+            log.LogInformation($"DataLoad function started at {DateTime.Now}");
+            var covidData = await _covidRepo.GetCovidCumulativeDataByCounty();
+            log.LogInformation($"Record count: {covidData.Count()}");
             await ReadFromDb(log);
         }
 
