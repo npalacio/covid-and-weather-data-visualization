@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using CovidDataLoad.DataAccess;
 using CovidDataLoad.Interfaces;
+using CovidDataLoad.Models;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
@@ -23,14 +26,27 @@ namespace CovidDataLoad
 
         //public async void Run([TimerTrigger("0 12 * * *")] TimerInfo myTimer, ILogger log)
         [FunctionName("DataLoad")]
-        public async Task Run([TimerTrigger("0 */15 * * * *")] TimerInfo myTimer, ILogger log)
+        public void Run([TimerTrigger("0 */1 * * * *")] TimerInfo myTimer, ILogger log)
         {
-            log.LogInformation($"DataLoad function started at {DateTime.Now}");
-            var covidData = await _covidRepo.GetCovidCumulativeDataByCounty();
-            log.LogInformation($"Record count: {covidData.Count()}");
-            await ReadFromDb(log);
+            //log.LogInformation($"DataLoad function started at {DateTime.Now}");
+            //var covidData = await _covidRepo.GetCovidCumulativeDataByCounty();
+            //log.LogInformation($"Record count: {covidData.Count()}");
+            //await ReadFromDb(log);
+            SaveToDb();
         }
 
+        private void SaveToDb()
+        {
+            _dbContext.SaveCovidData(new List<CovidCumulativeByCounty>(){new CovidCumulativeByCounty
+            {
+                Date = DateTime.Today,
+                County = "test county",
+                State = "test state",
+                Fips = 1,
+                Cases = 2,
+                Deaths = 3
+            }});
+        }
         private async Task ReadFromDb(ILogger log)
         {
             try

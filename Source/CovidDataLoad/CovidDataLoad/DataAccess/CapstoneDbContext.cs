@@ -31,10 +31,10 @@ namespace CovidDataLoad.DataAccess
 
         private SqlParameter GetTvpParam(List<CovidCumulativeByCounty> covidData)
         {
-            var tvpBuilder = new TvpBuilder("Patronage.TVP_LoanExclusionResult",
+            var tvpBuilder = new TvpBuilder("Covid.TVP_DataByCounty",
                 new SqlMetaData("Date", SqlDbType.Date),
-                new SqlMetaData("County", SqlDbType.NVarChar),
-                new SqlMetaData("State", SqlDbType.NVarChar),
+                new SqlMetaData("County", SqlDbType.NVarChar, 60),
+                new SqlMetaData("State", SqlDbType.NVarChar, 60),
                 new SqlMetaData("FIPS", SqlDbType.Int),
                 new SqlMetaData("Cases", SqlDbType.Int),
                 new SqlMetaData("Deaths", SqlDbType.Int));
