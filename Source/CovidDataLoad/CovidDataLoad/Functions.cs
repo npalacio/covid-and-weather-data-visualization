@@ -16,7 +16,7 @@ namespace CovidDataLoad
         }
 
         [FunctionName("DataLoad")]
-        public async Task Run([TimerTrigger("0 */1 * * * *")] TimerInfo myTimer, ILogger log)
+        public async Task Run([TimerTrigger("0 12 * * * *")] TimerInfo myTimer, ILogger log)
         {
             try
             {
