@@ -15,11 +15,11 @@ namespace CovidDataLoad
 {
     public class Functions
     {
-        private readonly ICovidRepository _covidRepo;
+        private readonly ICovidLogic _covidLogic;
 
-        public Functions(ICovidRepository covidRepo)
+        public Functions(ICovidLogic covidLogic)
         {
-            _covidRepo = covidRepo;
+            _covidLogic = covidLogic;
         }
 
         //public async void Run([TimerTrigger("0 12 * * *")] TimerInfo myTimer, ILogger log)
@@ -29,12 +29,9 @@ namespace CovidDataLoad
             try
             {
                 log.LogInformation($"DataLoad function started at {DateTime.Now}");
-                log.LogInformation($"Fetching and saving Covid data...");
-                await _covidRepo.GetCovidCumulativeDataByCounty();
-                //log.LogInformation($"Covid records retrieved: {covidData.Count()}");
-                //log.LogInformation($"Saving Covid data to DB...");
-                //_covidRepo.SaveCovidCumulativeDataByCounty(covidData);
-                log.LogInformation($"Saved Covid data to DB!");
+                log.LogInformation($"Refreshing Covid data...");
+                await _covidLogic.RefreshCovidData();
+                log.LogInformation($"Successfully refreshed Covid data");
             }
             catch (Exception e)
             {
