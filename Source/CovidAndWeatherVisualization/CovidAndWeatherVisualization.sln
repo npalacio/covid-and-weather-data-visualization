@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CovidAndWeatherVisualization", "CovidAndWeatherVisualization\CovidAndWeatherVisualization.csproj", "{4FE36F80-6E78-4DE1-8EA2-29E1FA6F3886}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CovidAndWeatherVisualization", "CovidAndWeatherVisualization\CovidAndWeatherVisualization.csproj", "{4FE36F80-6E78-4DE1-8EA2-29E1FA6F3886}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CovidAndWeatherVisualization.Services", "CovidAndWeatherVisualization.Services\CovidAndWeatherVisualization.Services.csproj", "{350DF779-C672-4130-AF83-237F264F9B4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CovidAndWeatherVisualization.Interfaces", "CovidAndWeatherVisualization.Interfaces\CovidAndWeatherVisualization.Interfaces.csproj", "{09E1B0C8-90E9-42BF-AAD6-F0C7D6A67ACD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CovidAndWeatherVisualization.Core", "CovidAndWeatherVisualization.Core\CovidAndWeatherVisualization.Core.csproj", "{0D11857F-ABC8-4226-BAE1-C7E4C3465758}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{4FE36F80-6E78-4DE1-8EA2-29E1FA6F3886}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FE36F80-6E78-4DE1-8EA2-29E1FA6F3886}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4FE36F80-6E78-4DE1-8EA2-29E1FA6F3886}.Release|Any CPU.Build.0 = Release|Any CPU
+		{350DF779-C672-4130-AF83-237F264F9B4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{350DF779-C672-4130-AF83-237F264F9B4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{350DF779-C672-4130-AF83-237F264F9B4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{350DF779-C672-4130-AF83-237F264F9B4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09E1B0C8-90E9-42BF-AAD6-F0C7D6A67ACD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09E1B0C8-90E9-42BF-AAD6-F0C7D6A67ACD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09E1B0C8-90E9-42BF-AAD6-F0C7D6A67ACD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09E1B0C8-90E9-42BF-AAD6-F0C7D6A67ACD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D11857F-ABC8-4226-BAE1-C7E4C3465758}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D11857F-ABC8-4226-BAE1-C7E4C3465758}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D11857F-ABC8-4226-BAE1-C7E4C3465758}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D11857F-ABC8-4226-BAE1-C7E4C3465758}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

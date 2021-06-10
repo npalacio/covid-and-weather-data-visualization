@@ -1,3 +1,5 @@
+using CovidAndWeatherVisualization.Interfaces;
+using CovidAndWeatherVisualization.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,6 +29,7 @@ namespace CovidAndWeatherVisualization
                 configuration.RootPath = "ClientApp/dist";
             });
             services.AddApplicationInsightsTelemetry();
+            services.AddTransient<ICovidService, CovidService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
