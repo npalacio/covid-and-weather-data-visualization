@@ -33,6 +33,11 @@ namespace CovidDataLoad.DataAccess
             Database.ExecuteSqlRaw($"TRUNCATE TABLE [Covid].[DataByCountyEtl]");
         }
 
+        public void MergeCovidTables()
+        {
+            Database.ExecuteSqlRaw($"EXEC [Covid].[DataByCountyMerge]");
+        }
+
         private SqlParameter GetTvpParam(IEnumerable<CovidCumulativeByCounty> covidData)
         {
             var tvpBuilder = new TvpBuilder("Covid.TVP_DataByCounty",

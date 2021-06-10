@@ -57,7 +57,7 @@ namespace CovidDataLoad.Repositories
                     _log.LogInformation($"Done loading all buckets");
                 }
             }
-
+            _dbContext.MergeCovidTables();
         }
     }
 }
