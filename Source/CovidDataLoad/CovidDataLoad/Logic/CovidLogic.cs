@@ -17,7 +17,6 @@ namespace CovidDataLoad.Logic
 {
     public class CovidLogic : ICovidLogic
     {
-        private readonly string csvUri = "https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv";
         private readonly HttpClient _httpClient;
         private readonly CapstoneDbContext _dbContext;
         private readonly ILogger<CovidLogic> _log;
@@ -32,7 +31,9 @@ namespace CovidDataLoad.Logic
 
         public async Task RefreshCovidData()
         {
-            using (HttpResponseMessage response = await _httpClient.GetAsync(csvUri, HttpCompletionOption.ResponseHeadersRead))
+            var covidDataUri = Environment.GetEnvironmentVariable("covid-data-uri");
+            _log.LogInformation($"Fetching covid data from: {covidDataUri}");
+            using (HttpResponseMessage response = await _httpClient.GetAsync(covidDataUri, HttpCompletionOption.ResponseHeadersRead))
             using (var stream = await response.Content.ReadAsStreamAsync())
             using (var streamReader = new StreamReader(stream))
             using (var csv = new CsvReader(streamReader, CultureInfo.InvariantCulture))
@@ -57,6 +58,7 @@ namespace CovidDataLoad.Logic
                     _log.LogInformation($"Done loading all buckets");
                 }
             }
+
             _dbContext.MergeCovidTables();
         }
     }
