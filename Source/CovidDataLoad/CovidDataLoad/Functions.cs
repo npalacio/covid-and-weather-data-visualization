@@ -1,5 +1,5 @@
 using System;
-using System.Linq;
+using System.Threading.Tasks;
 using CovidDataLoad.Interfaces;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
@@ -8,19 +8,28 @@ namespace CovidDataLoad
 {
     public class Functions
     {
-        private readonly ICovidRepository _covidRepo;
+        private readonly ICovidLogic _covidLogic;
 
-        public Functions(ICovidRepository covidRepo)
+        public Functions(ICovidLogic covidLogic)
         {
-            _covidRepo = covidRepo;
+            _covidLogic = covidLogic;
         }
 
         [FunctionName("DataLoad")]
-        public async void Run([TimerTrigger("0 12 * * *")] TimerInfo myTimer, ILogger log)
+        public async Task Run([TimerTrigger("0 12 * * * *")] TimerInfo myTimer, ILogger log)
         {
-            log.LogInformation($"DataLoad function started at {DateTime.Now}");
-            var covidData = await _covidRepo.GetCovidCumulativeDataByCounty();
-            log.LogInformation($"Record count: {covidData.Count()}");
+            try
+            {
+                log.LogInformation($"DataLoad function started at {DateTime.Now}");
+                log.LogInformation($"Refreshing Covid data...");
+                await _covidLogic.RefreshCovidData();
+                log.LogInformation($"Successfully refreshed Covid data");
+            }
+            catch (Exception e)
+            {
+                log.LogError(e.ToString());
+                throw;
+            }
         }
     }
 }
