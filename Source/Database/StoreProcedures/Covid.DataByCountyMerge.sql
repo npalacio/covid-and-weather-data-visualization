@@ -1,4 +1,4 @@
-CREATE   PROCEDURE [Covid].[DataByCountyMerge]
+CREATE PROCEDURE [Covid].[DataByCountyMerge]
 AS
 	MERGE Covid.DataByCounty AS myTarget
 	USING
@@ -14,10 +14,14 @@ AS
 	ON myTarget.Date = mySource.Date
 	   AND myTarget.State = mySource.State
 	   AND myTarget.County = mySource.County
-	WHEN MATCHED THEN UPDATE SET myTarget.FIPS = mySource.FIPS
-							   , myTarget.Cases = mySource.Cases
-							   , myTarget.Deaths = mySource.Deaths
-							   , myTarget.UpdatedOnUtc = SYSDATETIMEOFFSET ()
+	WHEN MATCHED AND (
+						 myTarget.Cases <> mySource.Cases
+						 OR myTarget.Deaths <> mySource.Deaths
+						 OR myTarget.FIPS <> mySource.FIPS
+					 ) THEN UPDATE SET myTarget.FIPS = mySource.FIPS
+									 , myTarget.Cases = mySource.Cases
+									 , myTarget.Deaths = mySource.Deaths
+									 , myTarget.UpdatedOnUtc = SYSDATETIMEOFFSET ()
 	WHEN NOT MATCHED THEN INSERT
 						  (
 							  Date
