@@ -22,7 +22,7 @@ namespace CovidDataLoad.DataAccess
             return await Addresses.FromSqlRaw("SELECT [AddressID],[AddressLine1],[PostalCode],[ModifiedDate] FROM [SalesLT].[Address]").ToListAsync();
         }
 
-        public void SaveCovidData(List<CovidCumulativeByCounty> covidData)
+        public void SaveCovidData(IEnumerable<CovidCumulativeByCounty> covidData)
         {
             var tvp = GetTvpParam(covidData);
             Database.ExecuteSqlRaw($"EXEC [Covid].[DataByCountyMerge] @CovidDataByCounty=@{tvp.ParameterName}", tvp);
@@ -33,7 +33,7 @@ namespace CovidDataLoad.DataAccess
             Database.ExecuteSqlRaw($"TRUNCATE TABLE [Covid].[DataByCountyEtl]");
         }
 
-        private SqlParameter GetTvpParam(List<CovidCumulativeByCounty> covidData)
+        private SqlParameter GetTvpParam(IEnumerable<CovidCumulativeByCounty> covidData)
         {
             var tvpBuilder = new TvpBuilder("Covid.TVP_DataByCounty",
                 new SqlMetaData("Date", SqlDbType.Date),

@@ -15,7 +15,7 @@ namespace CovidDataLoad
         public override void Configure(IFunctionsHostBuilder builder)
         {
             builder.Services.AddHttpClient();
-
+            builder.Services.AddLogging();
             builder.Services.AddScoped<ICovidRepository, CovidRepository>();
             builder.Services.AddDbContext<CapstoneDbContext>(options => options.UseSqlServer(Environment.GetEnvironmentVariable("connection-string-db-capstone"), o => o.EnableRetryOnFailure()));
         }

@@ -29,11 +29,12 @@ namespace CovidDataLoad
             try
             {
                 log.LogInformation($"DataLoad function started at {DateTime.Now}");
-                log.LogInformation($"Fetching Covid data...");
-                var covidData = await _covidRepo.GetCovidCumulativeDataByCounty();
-                log.LogInformation($"Covid records retrieved: {covidData.Count()}");
-                log.LogInformation($"Saving Covid data to DB...");
-                _covidRepo.SaveCovidCumulativeDataByCounty(covidData);
+                log.LogInformation($"Fetching and saving Covid data...");
+                await _covidRepo.GetCovidCumulativeDataByCounty();
+                //log.LogInformation($"Covid records retrieved: {covidData.Count()}");
+                //log.LogInformation($"Saving Covid data to DB...");
+                //_covidRepo.SaveCovidCumulativeDataByCounty(covidData);
+                log.LogInformation($"Saved Covid data to DB!");
             }
             catch (Exception e)
             {
