@@ -15,12 +15,6 @@ namespace CovidDataLoad.DataAccess
             : base(options)
         {
         }
-        private DbSet<Address> Addresses { get; set; }
-
-        public async Task<List<Address>> GetAddresses()
-        {
-            return await Addresses.FromSqlRaw("SELECT [AddressID],[AddressLine1],[PostalCode],[ModifiedDate] FROM [SalesLT].[Address]").ToListAsync();
-        }
 
         public void SaveCovidData(IEnumerable<CovidCumulativeByCounty> covidData)
         {
