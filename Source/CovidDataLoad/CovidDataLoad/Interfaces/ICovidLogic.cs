@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using CovidDataLoad.Models;
+﻿using System.Threading.Tasks;
 
 namespace CovidDataLoad.Interfaces
 {

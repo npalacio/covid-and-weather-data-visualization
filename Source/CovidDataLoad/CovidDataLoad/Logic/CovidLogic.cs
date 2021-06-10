@@ -13,7 +13,7 @@ using CsvHelper;
 using Microsoft.Extensions.Logging;
 using MoreLinq;
 
-namespace CovidDataLoad.Repositories
+namespace CovidDataLoad.Logic
 {
     public class CovidLogic : ICovidLogic
     {
@@ -45,7 +45,7 @@ namespace CovidDataLoad.Repositories
                     _log.LogInformation($"Fetching covid data...");
                     var covidData = csv.GetRecords<CovidCumulativeByCounty>();
 
-                    _log.LogInformation($"Beginning batches...");
+                    _log.LogInformation($"Beginning batches of size {BATCH_SIZE}...");
                     var bucketsCompleted = 0;
                     foreach (var batch in covidData.Batch(BATCH_SIZE))
                     {

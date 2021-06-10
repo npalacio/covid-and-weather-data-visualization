@@ -1,7 +1,7 @@
 ﻿using System;
 using CovidDataLoad.DataAccess;
 using CovidDataLoad.Interfaces;
-using CovidDataLoad.Repositories;
+using CovidDataLoad.Logic;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

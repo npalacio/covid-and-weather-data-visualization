@@ -7,7 +7,7 @@
       }
     },
     "logLevel": {
-      "CovidDataLoad.Repositories.CovidRepository": "Information"
+      "CovidDataLoad.Logic.CovidLogic": "Information"
     }
   }
 }

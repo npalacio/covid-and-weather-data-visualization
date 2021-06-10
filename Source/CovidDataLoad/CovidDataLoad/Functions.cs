@@ -1,14 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
-using CovidDataLoad.DataAccess;
 using CovidDataLoad.Interfaces;
-using CovidDataLoad.Models;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
 
 namespace CovidDataLoad
