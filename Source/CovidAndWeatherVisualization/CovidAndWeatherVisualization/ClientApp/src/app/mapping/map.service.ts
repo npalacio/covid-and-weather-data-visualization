@@ -61,8 +61,7 @@ export class MapService {
   }
 
   async initializeMap(mapHtmlElement?: ElementRef): Promise<void> {
-    const baseUrl = document.getElementsByTagName('base')[0].href;
-    this.httpClient.get(`${baseUrl}Covid`).subscribe(response => {
+    this.httpClient.get(`${BASE_URL}Covid`).subscribe(response => {
       console.log(response);
     });
 
