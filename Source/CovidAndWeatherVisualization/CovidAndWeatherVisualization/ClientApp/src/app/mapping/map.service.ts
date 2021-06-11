@@ -7,6 +7,8 @@ import * as watchUtils from '@arcgis/core/core/watchUtils';
 import { mapConfig } from './map-config';
 import { County } from '../shared/models/county.model';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { BASE_URL } from '../shared/models/constants.model';
 
 @Injectable({
   providedIn: 'root'

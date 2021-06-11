@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.15.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.5" />
   </ItemGroup>
@@ -19,6 +20,13 @@
     <Content Remove="$(SpaRoot)**" />
     <None Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CovidAndWeatherVisualization.Core\CovidAndWeatherVisualization.Core.csproj" />
+    <ProjectReference Include="..\CovidAndWeatherVisualization.DataAccess\CovidAndWeatherVisualization.DataAccess.csproj" />
+    <ProjectReference Include="..\CovidAndWeatherVisualization.Interfaces\CovidAndWeatherVisualization.Interfaces.csproj" />
+    <ProjectReference Include="..\CovidAndWeatherVisualization.Services\CovidAndWeatherVisualization.Services.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
