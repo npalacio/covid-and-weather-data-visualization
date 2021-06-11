@@ -61,7 +61,7 @@ export class MapService {
   }
 
   async initializeMap(mapHtmlElement?: ElementRef): Promise<void> {
-    this.httpClient.get(`${BASE_URL}Covid`).subscribe(response => {
+    this.httpClient.get(`${BASE_URL}Covid?startDate=2021-03-03&endDate=2021-04-03&fips=27099`).subscribe(response => {
       console.log(response);
     });
 

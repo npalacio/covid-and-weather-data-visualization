@@ -14,9 +14,9 @@ namespace CovidAndWeatherVisualization.DataAccess
         {
         }
 
-        public async Task<List<CovidDataByCountyDto>> GetCovidDataByCounty()
+        public async Task<List<CovidDataByCountyDto>> GetCovidDataByCounty(CovidDataRequest request)
         {
-            return await CovidDataByCounty.FromSqlInterpolated($"EXEC Covid.DataByCounty_S").ToListAsync();
+            return await CovidDataByCounty.FromSqlInterpolated($"EXEC Covid.DataByCounty_S @StartDate = {request.StartDate.Value}, @EndDate = {request.EndDate.Value}, @Fips = {request.Fips.Value}").ToListAsync();
         }
     }
 }

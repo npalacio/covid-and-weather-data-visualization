@@ -19,9 +19,9 @@ namespace CovidAndWeatherVisualization.Services
             _mapper = mapper;
         }
 
-        public async Task<List<CovidDataByCounty>> GetCovidDataByCounty()
+        public async Task<List<CovidDataByCounty>> GetCovidDataByCounty(CovidDataRequest request)
         {
-            var dtos = await _dbContext.GetCovidDataByCounty();
+            var dtos = await _dbContext.GetCovidDataByCounty(request);
             return _mapper.Map<List<CovidDataByCounty>>(dtos);
         }
     }
