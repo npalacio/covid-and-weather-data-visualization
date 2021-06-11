@@ -1,13 +1,19 @@
-CREATE PROCEDURE [Covid].[DataByCounty_S]
+CREATE OR ALTER PROCEDURE [Covid].[DataByCounty_S]
+	@StartDate DATE
+  , @EndDate DATE
+  , @Fips INT
 AS
-	SELECT TOP 10
-		   DataByCountyID
+	SELECT DataByCountyID
 		 , Date
 		 , County
 		 , State
 		 , FIPS
 		 , Cases
-	FROM Covid.DataByCounty ;
+	FROM Covid.DataByCounty
+	WHERE
+		Date >= @StartDate
+		AND Date <= @EndDate
+		AND FIPS = @Fips ;
 GO
 
 
