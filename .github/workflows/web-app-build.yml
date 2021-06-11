@@ -5,7 +5,6 @@ on:
   push:
     branches:
       - main
-      - covid-api
     paths:
       - 'Source/CovidAndWeatherVisualization/**'
   pull_request:
@@ -61,7 +60,7 @@ jobs:
       # Deploy to Azure Web apps
       - name: 'Run Azure webapp deploy action using publish profile credentials'
         uses: azure/webapps-deploy@v2
-        if: ${{ github.ref == 'refs/heads/covid-api' }}
+        if: ${{ github.ref == 'refs/heads/main' }}
         with: 
           app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE  }} # Define secret variable in repository settings as per action documentation
