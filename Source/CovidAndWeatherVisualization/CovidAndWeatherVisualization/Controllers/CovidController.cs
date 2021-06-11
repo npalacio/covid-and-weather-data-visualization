@@ -10,6 +10,7 @@ using CovidAndWeatherVisualization.Interfaces;
 namespace CovidAndWeatherVisualization.Controllers
 {
     [ApiController]
+    [Route("[controller]")]
     public class CovidController : ControllerBase
     {
         private readonly ICovidService _covidService;
@@ -20,7 +21,7 @@ namespace CovidAndWeatherVisualization.Controllers
         }
 
         [HttpGet]
-        [Route("Covid")]
+        //[Route("Covid")]
         public async Task<List<CovidDataByCounty>> Get([FromQuery]CovidDataRequest request)
         {
             return await _covidService.GetCovidDataByCounty(request);
