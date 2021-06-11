@@ -21,7 +21,7 @@ export class MapService {
   private countyLayerObjectIdField = 'FID';
   private countyLayerOutFields = [this.countyLayerObjectIdField, 'FIPS', 'NAME', 'STATE_NAME', 'POPULATION'];
 
-  constructor(private router: Router, private httpClient: HttpClient) {
+  constructor(private router: Router) {
   }
 
   async selectCounty(countyFips: number): Promise<void> {
@@ -61,11 +61,6 @@ export class MapService {
   }
 
   async initializeMap(mapHtmlElement?: ElementRef): Promise<void> {
-    this.httpClient.get(`${BASE_URL}Covid?startDate=2021-03-03&endDate=2021-04-03&fips=27099`).subscribe(response => {
-      console.log(response);
-    });
-
-
     const layers = mapConfig.layerConfigs.map((layerConfig) => {
       return new FeatureLayer({ ...layerConfig });
     });
