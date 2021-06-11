@@ -7,6 +7,8 @@ import * as watchUtils from '@arcgis/core/core/watchUtils';
 import { mapConfig } from './map-config';
 import { County } from '../shared/models/county.model';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { BASE_URL } from '../shared/models/constants.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +21,7 @@ export class MapService {
   private countyLayerObjectIdField = 'FID';
   private countyLayerOutFields = [this.countyLayerObjectIdField, 'FIPS', 'NAME', 'STATE_NAME', 'POPULATION'];
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private httpClient: HttpClient) {
   }
 
   async selectCounty(countyFips: number): Promise<void> {
@@ -59,6 +61,12 @@ export class MapService {
   }
 
   async initializeMap(mapHtmlElement?: ElementRef): Promise<void> {
+    const baseUrl = document.getElementsByTagName('base')[0].href;
+    this.httpClient.get(`${baseUrl}Covid`).subscribe(response => {
+      console.log(response);
+    });
+
+
     const layers = mapConfig.layerConfigs.map((layerConfig) => {
       return new FeatureLayer({ ...layerConfig });
     });

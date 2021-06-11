@@ -1,25 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using AutoMapper;
 using CovidAndWeatherVisualization.Core.Models;
+using CovidAndWeatherVisualization.DataAccess;
 using CovidAndWeatherVisualization.Interfaces;
 
 namespace CovidAndWeatherVisualization.Services
 {
     public class CovidService : ICovidService
     {
-        public List<CovidDataByCounty> GetCovidDataByCounty()
+        private readonly CapstoneDbContext _dbContext;
+        private readonly IMapper _mapper;
+
+        public CovidService(CapstoneDbContext dbContext, IMapper mapper)
         {
-            return new List<CovidDataByCounty>
-            {
-                new CovidDataByCounty
-                {
-                    Date = DateTime.Now,
-                    State = "test state",
-                    County = "test county",
-                    Fips = 1,
-                    Cases = 2
-                }
-            };
+            _dbContext = dbContext;
+            _mapper = mapper;
+        }
+
+        public async Task<List<CovidDataByCounty>> GetCovidDataByCounty()
+        {
+            var dtos = await _dbContext.GetCovidDataByCounty();
+            return _mapper.Map<List<CovidDataByCounty>>(dtos);
         }
     }
 }

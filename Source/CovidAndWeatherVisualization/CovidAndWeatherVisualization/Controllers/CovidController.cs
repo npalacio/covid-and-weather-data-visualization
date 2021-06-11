@@ -21,9 +21,9 @@ namespace CovidAndWeatherVisualization.Controllers
         }
 
         [HttpGet]
-        public List<CovidDataByCounty> Get()
+        public async Task<List<CovidDataByCounty>> Get()
         {
-            return _covidService.GetCovidDataByCounty();
+            return await _covidService.GetCovidDataByCounty();
         }
     }
 }

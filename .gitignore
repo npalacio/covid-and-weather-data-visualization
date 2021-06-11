@@ -350,3 +350,5 @@ MigrationBackup/
 .ionide/
 
 Source/CovidAndWeatherVisualization/scratch.txt
+
+Source/CovidAndWeatherVisualization/CovidAndWeatherVisualization/secretSettings.json

@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CovidAndWeatherVisualizatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CovidAndWeatherVisualization.Core", "CovidAndWeatherVisualization.Core\CovidAndWeatherVisualization.Core.csproj", "{0D11857F-ABC8-4226-BAE1-C7E4C3465758}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CovidAndWeatherVisualization.DataAccess", "CovidAndWeatherVisualization.DataAccess\CovidAndWeatherVisualization.DataAccess.csproj", "{D93DFE16-B557-4203-B6A7-AA324D2E0126}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{0D11857F-ABC8-4226-BAE1-C7E4C3465758}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D11857F-ABC8-4226-BAE1-C7E4C3465758}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D11857F-ABC8-4226-BAE1-C7E4C3465758}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D93DFE16-B557-4203-B6A7-AA324D2E0126}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D93DFE16-B557-4203-B6A7-AA324D2E0126}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D93DFE16-B557-4203-B6A7-AA324D2E0126}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D93DFE16-B557-4203-B6A7-AA324D2E0126}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
