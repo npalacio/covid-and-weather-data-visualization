@@ -1,11 +1,3 @@
-<div *ngIf="isPanelVisible" [ngClass]="{'hidden-charts': !areChartsVisible}">
-  <button *ngIf="areChartsVisible" class="visibility-toggle px-2" (click)="hideCharts()">
-    <i class="fas fa-angle-double-right"></i>
-  </button>
-  <button *ngIf="!areChartsVisible" class="visibility-toggle px-2" (click)="showCharts()">
-    <i class="fas fa-angle-double-left"></i>
-  </button>
-  <div class="panel">
-    <p>panel works!</p>
-  </div>
+<div class="panel">
+  <app-panel-header></app-panel-header>
 </div>
