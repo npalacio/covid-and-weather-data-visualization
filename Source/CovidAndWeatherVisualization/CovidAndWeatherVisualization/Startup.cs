@@ -40,7 +40,6 @@ namespace CovidAndWeatherVisualization
                 o.EnableRetryOnFailure();
             }));
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            //trigger build
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
