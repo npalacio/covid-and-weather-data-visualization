@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CovidAndWeatherVisualization.Core.Models;
@@ -21,8 +22,21 @@ namespace CovidAndWeatherVisualization.Services
 
         public async Task<List<CovidDataByCounty>> GetCovidDataByCounty(CovidDataRequest request)
         {
-            var dtos = await _dbContext.GetCovidDataByCounty(request);
-            return _mapper.Map<List<CovidDataByCounty>>(dtos);
+            var orderedDtos = await _dbContext.GetCovidDataByCounty(request);
+            var returnList = new List<CovidDataByCounty>();
+            CovidDataByCountyDto latestDto;
+            foreach (var currentDay in EachDay(request.StartDate.Value, request.EndDate.Value))
+            {
+                latestDto = orderedDtos.First(dto => dto.Date <= currentDay);
+                returnList.Add(new CovidDataByCounty {Date = currentDay});
+            }
+            return returnList;
+        }
+
+        private IEnumerable<DateTime> EachDay(DateTime from, DateTime thru)
+        {
+            for (var day = from.Date; day.Date <= thru.Date; day = day.AddDays(1))
+                yield return day;
         }
     }
 }
