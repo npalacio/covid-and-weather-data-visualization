@@ -24,15 +24,16 @@ namespace CovidAndWeatherVisualization.Services
         {
             var orderedDtos = await _dbContext.GetCovidDataByCounty(request);
             var returnList = new List<CovidDataByCounty>();
-            CovidDataByCountyDto latestDto;
+            CovidDataByCountyDto latestDto = null;
             foreach (var currentDay in EachDay(request.StartDate.Value, request.EndDate.Value))
             {
-                latestDto = orderedDtos.First(dto => dto.Date <= currentDay);
-                returnList.Add(new CovidDataByCounty {Date = currentDay});
+                latestDto = orderedDtos.FirstOrDefault(dto => dto.Date == currentDay) ?? latestDto;
+                returnList.Add(new CovidDataByCounty {Date = currentDay, Cases = latestDto.Cases});
             }
             return returnList;
         }
 
+        // https://stackoverflow.com/questions/1847580/how-do-i-loop-through-a-date-range
         private IEnumerable<DateTime> EachDay(DateTime from, DateTime thru)
         {
             for (var day = from.Date; day.Date <= thru.Date; day = day.AddDays(1))

@@ -51,13 +51,34 @@ namespace CovidAndWeatherVisualization.UnitTests
         }
 
         [Test]
-        public void GetCovidDataByCounty_WithGapsInDateRange_ReturnsWithGapsFilledCorrectly()
+        public async Task GetCovidDataByCounty_WithGapsInDateRange_ReturnsWithGapsFilledCorrectly()
         {
             // Arrange
+            var dataWithGaps = new List<CovidDataByCountyDto>
+            {
+                new CovidDataByCountyDto
+                {
+                    Date = DateTime.Today.AddDays(-1).Date,
+                    Cases = 2
+                },
+                new CovidDataByCountyDto
+                {
+                    Date = DateTime.Today.AddDays(1).Date
+                }
+            };
+            var fakeContext = A.Fake<CapstoneDbContext>();
+            A.CallTo(() => fakeContext.GetCovidDataByCounty(A<CovidDataRequest>.Ignored)).Returns(dataWithGaps);
+            var covidService = setupCovidService(fakeContext);
 
             // Assert
+            var result = await covidService.GetCovidDataByCounty(new CovidDataRequest
+            {
+                StartDate = dataWithGaps.Min(_ => _.Date).Date,
+                EndDate = dataWithGaps.Max(_ => _.Date).Date
+            });
 
             // Act
+            Assert.AreEqual(2, result.First(_ => _.Date == DateTime.Today).Cases);
         }
 
         private CovidService setupCovidService(CapstoneDbContext fakeContext)
