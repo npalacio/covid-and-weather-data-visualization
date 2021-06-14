@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - covid-api-enhancement
     paths:
       - 'Source/CovidAndWeatherVisualization/**'
   pull_request:
