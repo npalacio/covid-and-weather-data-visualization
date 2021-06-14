@@ -3,9 +3,6 @@ import { RouterModule, Routes, } from '@angular/router';
 import { MapComponent } from './map/map.component';
 
 const routes: Routes = [
-  { path: 'counties', redirectTo: 'counties/', pathMatch: 'full' },
-  { path: 'counties/:fips', component: MapComponent },
-  { path: '**', redirectTo: 'counties/' }
 ];
 
 @NgModule({
