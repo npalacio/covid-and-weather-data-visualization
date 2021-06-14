@@ -28,7 +28,9 @@ namespace CovidAndWeatherVisualization.Services
             foreach (var currentDay in EachDay(request.StartDate.Value, request.EndDate.Value))
             {
                 latestDto = orderedDtos.FirstOrDefault(dto => dto.Date == currentDay) ?? latestDto;
-                returnList.Add(new CovidDataByCounty {Date = currentDay, Cases = latestDto.Cases});
+                var currentDayData = _mapper.Map<CovidDataByCounty>(latestDto);
+                currentDayData.Date = currentDay;
+                returnList.Add(currentDayData);
             }
             return returnList;
         }

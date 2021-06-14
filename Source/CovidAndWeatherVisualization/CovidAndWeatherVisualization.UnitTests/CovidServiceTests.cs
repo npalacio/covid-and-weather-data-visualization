@@ -14,11 +14,6 @@ namespace CovidAndWeatherVisualization.UnitTests
 {
     public class CovidServiceTests
     {
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         [Test]
         public async Task GetCovidDataByCounty_WithGapsInDateRange_ReturnsWithNoGaps()
         {
@@ -51,15 +46,16 @@ namespace CovidAndWeatherVisualization.UnitTests
         }
 
         [Test]
-        public async Task GetCovidDataByCounty_WithGapsInDateRange_ReturnsWithGapsFilledCorrectly()
+        public async Task GetCovidDataByCounty_WithSingleGapInDateRange_ReturnsWithGapFilledCorrectly()
         {
             // Arrange
+            var caseCount = 2;
             var dataWithGaps = new List<CovidDataByCountyDto>
             {
                 new CovidDataByCountyDto
                 {
                     Date = DateTime.Today.AddDays(-1).Date,
-                    Cases = 2
+                    Cases = caseCount
                 },
                 new CovidDataByCountyDto
                 {
@@ -78,7 +74,114 @@ namespace CovidAndWeatherVisualization.UnitTests
             });
 
             // Act
-            Assert.AreEqual(2, result.First(_ => _.Date == DateTime.Today).Cases);
+            Assert.AreEqual(caseCount, result.First(_ => _.Date == DateTime.Today).Cases);
+        }
+
+        [Test]
+        public async Task GetCovidDataByCounty_WithMultipleGapsInDateRange_ReturnsWithGapsFilledCorrectly()
+        {
+            // Arrange
+            var unchangedCaseCount = 2;
+            var dataWithGaps = new List<CovidDataByCountyDto>
+            {
+                new CovidDataByCountyDto
+                {
+                    Date = DateTime.Today.AddDays(-5).Date,
+                    Cases = unchangedCaseCount
+                },
+                new CovidDataByCountyDto
+                {
+                    Date = DateTime.Today.AddDays(3).Date,
+                    Cases = unchangedCaseCount
+                }
+            };
+            var fakeContext = A.Fake<CapstoneDbContext>();
+            A.CallTo(() => fakeContext.GetCovidDataByCounty(A<CovidDataRequest>.Ignored)).Returns(dataWithGaps);
+            var covidService = setupCovidService(fakeContext);
+
+            // Assert
+            var result = await covidService.GetCovidDataByCounty(new CovidDataRequest
+            {
+                StartDate = dataWithGaps.Min(_ => _.Date).Date,
+                EndDate = dataWithGaps.Max(_ => _.Date).Date
+            });
+
+            // Act
+            Assert.IsTrue(result.All(_ => _.Cases == unchangedCaseCount));
+        }
+
+        [Test]
+        public async Task GetCovidDataByCounty_WithMultipleGapsInDateRange_DoesNotChangeResultsWithData()
+        {
+            // Arrange
+            var caseCount = 2;
+            var dateWithData = DateTime.Today.AddDays(3).Date;
+            var dataWithGaps = new List<CovidDataByCountyDto>
+            {
+                new CovidDataByCountyDto
+                {
+                    Date = DateTime.Today.AddDays(-5).Date,
+                    Cases = caseCount - 1
+                },
+                new CovidDataByCountyDto
+                {
+                    Date = dateWithData,
+                    Cases = caseCount
+                }
+            };
+            var fakeContext = A.Fake<CapstoneDbContext>();
+            A.CallTo(() => fakeContext.GetCovidDataByCounty(A<CovidDataRequest>.Ignored)).Returns(dataWithGaps);
+            var covidService = setupCovidService(fakeContext);
+
+            // Assert
+            var result = await covidService.GetCovidDataByCounty(new CovidDataRequest
+            {
+                StartDate = dataWithGaps.Min(_ => _.Date).Date,
+                EndDate = dataWithGaps.Max(_ => _.Date).Date
+            });
+
+            // Act
+            Assert.AreEqual(caseCount, result.First(_ => _.Date == dateWithData).Cases);
+        }
+
+        [Test]
+        public async Task GetCovidDataByCounty_WithSeparateGapsInDateRange_ReturnsWithGapsFilledCorrectly()
+        {
+            // Arrange
+            var caseCount = 2;
+            var dateWithData = DateTime.Today.AddDays(3).Date;
+            var dataWithGaps = new List<CovidDataByCountyDto>
+            {
+                new CovidDataByCountyDto
+                {
+                    Date = DateTime.Today.AddDays(-3).Date,
+                    Cases = caseCount - 1
+                },
+                new CovidDataByCountyDto
+                {
+                    Date = DateTime.Today.Date,
+                    Cases = caseCount
+                },
+                new CovidDataByCountyDto
+                {
+                    Date = dateWithData,
+                    Cases = caseCount + 1
+                }
+            };
+            var fakeContext = A.Fake<CapstoneDbContext>();
+            A.CallTo(() => fakeContext.GetCovidDataByCounty(A<CovidDataRequest>.Ignored)).Returns(dataWithGaps);
+            var covidService = setupCovidService(fakeContext);
+
+            // Assert
+            var result = await covidService.GetCovidDataByCounty(new CovidDataRequest
+            {
+                StartDate = dataWithGaps.Min(_ => _.Date).Date,
+                EndDate = dataWithGaps.Max(_ => _.Date).Date
+            });
+
+            // Act
+            var filledGap = result.Where(_ => _.Date > DateTime.Today && _.Date < dateWithData);
+            Assert.IsTrue(filledGap.All(_ => _.Cases == caseCount));
         }
 
         private CovidService setupCovidService(CapstoneDbContext fakeContext)
