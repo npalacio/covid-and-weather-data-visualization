@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class PanelComponent implements OnInit {
   isPanelVisible = false;
+  areChartsVisible = false;
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -15,8 +16,11 @@ export class PanelComponent implements OnInit {
       const fips = params.get('fips');
       if (fips) {
         this.isPanelVisible = true;
+        this.areChartsVisible = true;
       }
     });
   }
-
+  hideCharts() {
+    this.areChartsVisible = false;
+  }
 }
