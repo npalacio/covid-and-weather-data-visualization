@@ -23,4 +23,7 @@ export class PanelComponent implements OnInit {
   hideCharts() {
     this.areChartsVisible = false;
   }
+  showCharts() {
+    this.areChartsVisible = true;
+  }
 }
