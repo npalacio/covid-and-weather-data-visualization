@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [Covid].[DataByCounty_S]
+CREATE PROCEDURE [Covid].[DataByCounty_S]
 	@StartDate DATE
   , @EndDate DATE
   , @Fips INT
@@ -13,7 +13,9 @@ AS
 	WHERE
 		Date >= @StartDate
 		AND Date <= @EndDate
-		AND FIPS = @Fips ;
+		AND FIPS = @Fips
+	ORDER BY
+		Date ASC ;
 GO
 
 
