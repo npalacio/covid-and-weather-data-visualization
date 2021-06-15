@@ -19,6 +19,7 @@
     z-index: 1000;
     border: 2px solid black;
     cursor: pointer;
+    float: left;
 
     i {
       font-size: 2.5rem;
@@ -33,4 +34,5 @@
 
 .chart-container {
   width: 100%;
+  float: left;
 }
