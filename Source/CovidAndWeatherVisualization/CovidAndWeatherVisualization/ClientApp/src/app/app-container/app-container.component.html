@@ -3,16 +3,12 @@
     <app-map></app-map>
   </div>
   <div *ngIf="isPanelVisible" class="panel-container" [ngClass]="{'panel-container-hidden': !areChartsVisible}">
-    <div>
-      <button *ngIf="areChartsVisible" class="visibility-toggle px-2" (click)="hideCharts()">
-        <i class="fas fa-angle-double-right"></i>
-      </button>
-      <button *ngIf="!areChartsVisible" class="visibility-toggle px-2" (click)="showCharts()">
-        <i class="fas fa-angle-double-left"></i>
-      </button>
-      <div *ngIf="areChartsVisible" class="chart-container">
-        <app-panel></app-panel>
-      </div>
-    </div>
+    <button *ngIf="areChartsVisible" class="visibility-toggle px-2" (click)="hideCharts()">
+      <i class="fas fa-angle-double-right"></i>
+    </button>
+    <button *ngIf="!areChartsVisible" class="visibility-toggle px-2" (click)="showCharts()">
+      <i class="fas fa-angle-double-left"></i>
+    </button>
+    <app-panel *ngIf="areChartsVisible"></app-panel>
   </div>
 </div>

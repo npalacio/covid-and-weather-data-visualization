@@ -10,15 +10,15 @@
 .panel-container {
   flex: 1;
   transition: flex 1s;
+  z-index: 1;
 
   .visibility-toggle {
     width: fit-content;
-    position: relative;
-    left: -55px;
+    margin-left: -3.438rem;
     background-color: white;
-    border-radius: 5px;
+    border-radius: .312rem;
     z-index: 1000;
-    border: 2px solid black;
+    border: .125rem solid black;
     cursor: pointer;
     float: left;
 
@@ -31,8 +31,4 @@
 .panel-container-hidden {
   width: 0;
   flex: 0;
-}
-
-.chart-container {
-  width: 100%;
 }
