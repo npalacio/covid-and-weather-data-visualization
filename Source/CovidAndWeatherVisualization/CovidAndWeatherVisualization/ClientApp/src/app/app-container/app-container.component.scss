@@ -9,6 +9,7 @@
 
 .panel-container {
   flex: 1;
+  transition: flex 1s;
 
   .visibility-toggle {
     width: fit-content;
