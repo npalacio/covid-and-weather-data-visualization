@@ -38,24 +38,32 @@ namespace CovidDataLoad.Logic
             using (var streamReader = new StreamReader(stream))
             using (var csv = new CsvReader(streamReader, CultureInfo.InvariantCulture))
             {
-                using (var transactionScope = new TransactionScope(TransactionScopeOption.Required, TimeSpan.FromMinutes(5)))
+                using (var transaction = _dbContext.Database.BeginTransaction())
                 {
-                    _log.LogInformation($"Clearing ETL table...");
-                    _dbContext.ClearCovidEtlTable();
-
-                    _log.LogInformation($"Fetching covid data...");
-                    var covidData = csv.GetRecords<CovidCumulativeByCounty>();
-
-                    _log.LogInformation($"Beginning batches of size {BATCH_SIZE}...");
-                    var bucketsCompleted = 0;
-                    foreach (var batch in covidData.Batch(BATCH_SIZE))
+                    try
                     {
-                        _dbContext.SaveCovidData(batch);
-                        _log.LogInformation($"Finished loading bucket {++bucketsCompleted}");
-                    }
+                        _log.LogInformation($"Clearing ETL table...");
+                        _dbContext.ClearCovidEtlTable();
 
-                    transactionScope.Complete();
-                    _log.LogInformation($"Done loading all buckets");
+                        _log.LogInformation($"Fetching covid data...");
+                        var covidData = csv.GetRecords<CovidCumulativeByCounty>();
+
+                        _log.LogInformation($"Beginning batches of size {BATCH_SIZE}...");
+                        var bucketsCompleted = 0;
+                        foreach (var batch in covidData.Batch(BATCH_SIZE))
+                        {
+                            _dbContext.SaveCovidData(batch);
+                            _log.LogInformation($"Finished loading bucket {++bucketsCompleted}");
+                        }
+
+                        transaction.Commit();
+                        _log.LogInformation($"Done loading all buckets");
+                    }
+                    catch (Exception e)
+                    {
+                        transaction.Rollback();
+                        _log.LogError(e.ToString());
+                    }
                 }
             }
 
