@@ -20,7 +20,7 @@ namespace CovidAndWeatherVisualization.Controllers
             _covidService = covidService;
         }
 
-        [HttpGet]
+        [HttpGet("")]
         public async Task<List<CovidDataByCounty>> Get([FromQuery]CovidDataRequest request)
         {
             return await _covidService.GetCovidDataByCounty(request);
