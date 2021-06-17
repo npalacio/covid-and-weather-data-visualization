@@ -14,33 +14,36 @@ import { CountyState } from '../../state/county/county-state.model';
 export class PanelHeaderComponent implements OnInit {
   dateFormat = 'MM-dd-yyyy';
   startDate: Date = new Date(2020, 0, 1);
+  endDate: Date = new Date(2021, 0, 1);
   selectedCounty?: County;
 
   constructor(private route: ActivatedRoute, private router: Router, private datePipe: DatePipe, private countyStateService: CountyStateService) { }
 
   ngOnInit(): void {
-    // Sync up date with URL
-    const startDateParam = this.route.snapshot.queryParamMap.get('startDate');
-    if (startDateParam) {
-      var startDateFromUrl = new Date(startDateParam);
-      if (!isNaN(startDateFromUrl.getTime())) {
-        this.startDate = startDateFromUrl;
-      } else {
-        this.setStartDateInUrl(this.startDate);
-      }
-    } else {
-      this.setStartDateInUrl(this.startDate);
-    }
-
     this.countyStateService.stateChanged.subscribe((countyState: CountyState) => {
       this.selectedCounty = countyState.selectedCounty;
     });
+
+    // Sync up date with URL
+    const startDateParam = this.route.snapshot.queryParamMap.get('startDate') ?? '';
+    var startDateFromUrl = new Date(startDateParam);
+    if (!isNaN(startDateFromUrl.getTime())) {
+      this.startDate = startDateFromUrl;
+    }
+
+    const endDateParam = this.route.snapshot.queryParamMap.get('endDate') ?? '';
+    var endDateFromUrl = new Date(endDateParam);
+    if (!isNaN(endDateFromUrl.getTime())) {
+      this.endDate = endDateFromUrl;
+    }
+    this.updateQueryParams();
   }
 
-  setStartDateInUrl(startDate: Date): void {
+  updateQueryParams(): void {
     this.router.navigate([], {
       queryParams: {
-        startDate: this.datePipe.transform(startDate, this.dateFormat)
+        startDate: this.datePipe.transform(this.startDate, this.dateFormat),
+        endDate: this.datePipe.transform(this.endDate, this.dateFormat)
       },
       queryParamsHandling: 'merge'
     });
