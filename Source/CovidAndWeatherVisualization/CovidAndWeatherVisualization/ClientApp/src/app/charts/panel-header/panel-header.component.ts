@@ -8,25 +8,34 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./panel-header.component.scss']
 })
 export class PanelHeaderComponent implements OnInit {
-  dateFormat = 'MM/dd/yyyy';
+  urlDateFormat = 'MM-dd-yyyy';
+  dateFormat = 'long';
   startDate: Date = new Date(2020, 0, 1);
 
   constructor(private route: ActivatedRoute, private router: Router, private datePipe: DatePipe) { }
 
   ngOnInit(): void {
-    this.route.queryParamMap.subscribe(params => {
-      const startDateParam = params.get('startDate') ?? '';
-      var startDate = new Date(startDateParam);
-      if (startDate) {
-        console.log('date from url: ' + startDate);
+    const startDateParam = this.route.snapshot.queryParamMap.get('startDate');
+    if (startDateParam) {
+      var startDateFromUrl = new Date(startDateParam);
+      if (!isNaN(startDateFromUrl.getTime())) {
+        // Valid start date in URL
+        this.startDate = startDateFromUrl;
+      } else {
+        this.setStartDateInUrl(this.startDate);
       }
+    } else {
+      this.setStartDateInUrl(this.startDate);
+    }
+  }
+
+  setStartDateInUrl(startDate: Date): void {
+    this.router.navigate([], {
+      queryParams: {
+        startDate: this.datePipe.transform(startDate, this.urlDateFormat)
+      },
+      queryParamsHandling: 'merge',
     });
-    // this.router.navigate([], {
-    //   queryParams: {
-    //     startDate: this.datePipe.transform(this.startDate, this.dateFormat)
-    //   },
-    //   queryParamsHandling: 'merge',
-    // });
   }
 
 }
