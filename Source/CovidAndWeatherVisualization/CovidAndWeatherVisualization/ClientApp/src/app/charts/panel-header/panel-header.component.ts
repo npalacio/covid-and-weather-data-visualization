@@ -9,7 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class PanelHeaderComponent implements OnInit {
   urlDateFormat = 'MM-dd-yyyy';
-  dateFormat = 'long';
+  dateFormat = 'MM-dd-yyyy';
   startDate: Date = new Date(2020, 0, 1);
 
   constructor(private route: ActivatedRoute, private router: Router, private datePipe: DatePipe) { }
