@@ -12,7 +12,8 @@ import { CountyState } from '../../state/county/county-state.model';
   styleUrls: ['./panel-header.component.scss']
 })
 export class PanelHeaderComponent implements OnInit {
-  dateFormat = 'MM-dd-yyyy';
+  dateFormat = 'MM/dd/yyyy';
+  dateFormatUrl = 'MM-dd-yyyy';
   startDate: Date = new Date(2020, 0, 1);
   endDate: Date = new Date(2021, 0, 1);
   selectedCounty?: County;
@@ -42,8 +43,8 @@ export class PanelHeaderComponent implements OnInit {
   updateQueryParams(): void {
     this.router.navigate([], {
       queryParams: {
-        startDate: this.datePipe.transform(this.startDate, this.dateFormat),
-        endDate: this.datePipe.transform(this.endDate, this.dateFormat)
+        startDate: this.datePipe.transform(this.startDate, this.dateFormatUrl),
+        endDate: this.datePipe.transform(this.endDate, this.dateFormatUrl)
       },
       queryParamsHandling: 'merge'
     });

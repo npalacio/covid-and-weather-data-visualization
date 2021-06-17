@@ -1,9 +1,6 @@
-<div *ngIf="selectedCounty">
-  {{selectedCounty.name}} County, {{selectedCounty.state}}
+<div *ngIf="selectedCounty" class="text-center">
+  <strong>{{selectedCounty.name}} County, {{selectedCounty.state}}</strong>
 </div>
-<div>
-  Start Date: {{startDate | date : dateFormat }}
-</div>
-<div>
-  End Date: {{endDate | date : dateFormat }}
+<div class="text-center">
+  {{startDate | date : dateFormat }} - {{endDate | date : dateFormat }}
 </div>
