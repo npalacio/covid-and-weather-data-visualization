@@ -26,9 +26,9 @@ export class MapService {
   async selectCounty(countyFips: number): Promise<void> {
     const countyGraphic = await this.getCountyGraphic(countyFips);
     if (countyGraphic) {
-      this.zoomToCounty(countyGraphic);
-      this.showPopup(countyGraphic);
       const countyModel = this.getCountyModelFromGraphic(countyGraphic);
+      this.zoomToCounty(countyGraphic);
+      this.showPopup(countyModel, countyGraphic.geometry);
       this.countyStateService.setSelectedCounty(countyModel);
     } else {
       // County not found, navigate to home page
@@ -50,13 +50,13 @@ export class MapService {
     });
   }
 
-  private showPopup(countyGraphic: __esri.Graphic): void {
+  private showPopup(countyModel: County, countyGeometry: __esri.Geometry): void {
     this.mapView?.popup.close();
     this.mapView?.popup.open({
-      title: `${countyGraphic.attributes.NAME} County, ${countyGraphic.attributes.STATE_NAME}`,
-      location: (countyGraphic.geometry as __esri.Polygon).centroid,
-      content: `<div>FIPS: ${countyGraphic.attributes.FIPS}</div>
-      <div>Population: ${countyGraphic.attributes.POPULATION}</div>`
+      title: `${countyModel.name} County, ${countyModel.state}`,
+      location: (countyGeometry as __esri.Polygon).centroid,
+      content: `<div>FIPS: ${countyModel.fips}</div>
+      <div>Population: ${countyModel.population}</div>`
     });
 
   }
@@ -124,7 +124,8 @@ export class MapService {
       objectId: countyGraphic.attributes.FID,
       name: countyGraphic.attributes.NAME,
       state: countyGraphic.attributes.STATE_NAME,
-      fips: countyGraphic.attributes.FIPS
+      fips: countyGraphic.attributes.FIPS,
+      population: countyGraphic.attributes.POPULATION
     };
 }
 
