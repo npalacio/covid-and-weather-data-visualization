@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MapService } from 'src/app/mapping/map.service';
 import { County } from 'src/app/shared/models';
+import { CountyStateService } from '../../state/county/county-state.service';
+import { CountyState } from '../../state/county/county-state.model';
 
 @Component({
   selector: 'app-panel-header',
@@ -14,7 +16,7 @@ export class PanelHeaderComponent implements OnInit {
   startDate: Date = new Date(2020, 0, 1);
   selectedCounty?: County;
 
-  constructor(private route: ActivatedRoute, private router: Router, private datePipe: DatePipe, private mapService: MapService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private datePipe: DatePipe, private countyStateService: CountyStateService) { }
 
   ngOnInit(): void {
     // Sync up date with URL
@@ -30,12 +32,8 @@ export class PanelHeaderComponent implements OnInit {
       this.setStartDateInUrl(this.startDate);
     }
 
-    // Subscribe to current selected county
-    this.route.paramMap.subscribe(async params => {
-      const fips = params.get('fips');
-      if (fips) {
-        // this.selectedCounty = await this.mapService.getCounty(+fips);
-      }
+    this.countyStateService.stateChanged.subscribe((countyState: CountyState) => {
+      this.selectedCounty = countyState.selectedCounty;
     });
   }
 
