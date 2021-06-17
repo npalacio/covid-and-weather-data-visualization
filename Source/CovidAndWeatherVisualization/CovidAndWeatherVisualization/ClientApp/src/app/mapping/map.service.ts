@@ -125,4 +125,24 @@ export class MapService {
     });
   }
 
+  async getCounty(countyFips: number): Promise<County> {
+    const query = {
+      where: `FIPS = ${countyFips}`,
+      returnGeometry: false,
+      outFields: this.countyLayerOutFields,
+      num: 1
+    };
+
+    return this.countyLayer?.queryFeatures(query).then(result => {
+      return result.features.map((feature): County => {
+        return {
+          objectId: feature.attributes.FID,
+          name: feature.attributes.NAME,
+          state: feature.attributes.STATE_NAME,
+          fips: feature.attributes.FIPS
+        };
+      })[0];
+    });
+  }
+
 }
