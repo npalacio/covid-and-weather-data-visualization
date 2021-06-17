@@ -34,7 +34,7 @@ export class PanelHeaderComponent implements OnInit {
     this.route.paramMap.subscribe(async params => {
       const fips = params.get('fips');
       if (fips) {
-        this.selectedCounty = await this.mapService.getCounty(+fips);
+        // this.selectedCounty = await this.mapService.getCounty(+fips);
       }
     });
   }

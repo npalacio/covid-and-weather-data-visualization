@@ -25,6 +25,7 @@
     "@angular/platform-browser-dynamic": "~11.2.12",
     "@angular/router": "~11.2.12",
     "@arcgis/core": "^4.19.3",
+    "@codewithdan/observable-store": "^2.2.11",
     "@fortawesome/fontawesome-free": "^5.15.3",
     "@ng-bootstrap/ng-bootstrap": "^9.1.1",
     "bootstrap": "^4.5.0",

@@ -7,8 +7,7 @@ import * as watchUtils from '@arcgis/core/core/watchUtils';
 import { mapConfig } from './map-config';
 import { County } from '../shared/models/county.model';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { BASE_URL } from '../shared/models/constants.model';
+import { CountyStateService } from '../state/county/county-store.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +20,7 @@ export class MapService {
   private countyLayerObjectIdField = 'FID';
   private countyLayerOutFields = [this.countyLayerObjectIdField, 'FIPS', 'NAME', 'STATE_NAME', 'POPULATION'];
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private countyStateService: CountyStateService) {
   }
 
   async selectCounty(countyFips: number): Promise<void> {
@@ -29,6 +28,8 @@ export class MapService {
     if (countyGraphic) {
       this.zoomToCounty(countyGraphic);
       this.showPopup(countyGraphic);
+      const countyModel = this.getCountyModelFromGraphic(countyGraphic);
+      this.countyStateService.setSelectedCounty(countyModel);
     } else {
       // County not found, navigate to home page
       this.router.navigate(['counties']);
@@ -102,14 +103,7 @@ export class MapService {
     };
 
     return this.countyLayer?.queryFeatures(query).then(result => {
-      return result.features.map((feature): County => {
-        return {
-          objectId: feature.attributes.FID,
-          name: feature.attributes.NAME,
-          state: feature.attributes.STATE_NAME,
-          fips: feature.attributes.FIPS
-        };
-      });
+      return result.features.map(this.getCountyModelFromGraphic);
     });
   }
 
@@ -125,24 +119,13 @@ export class MapService {
     });
   }
 
-  async getCounty(countyFips: number): Promise<County> {
-    const query = {
-      where: `FIPS = ${countyFips}`,
-      returnGeometry: false,
-      outFields: this.countyLayerOutFields,
-      num: 1
+  getCountyModelFromGraphic(countyGraphic: __esri.Graphic): County {
+    return {
+      objectId: countyGraphic.attributes.FID,
+      name: countyGraphic.attributes.NAME,
+      state: countyGraphic.attributes.STATE_NAME,
+      fips: countyGraphic.attributes.FIPS
     };
-
-    return this.countyLayer?.queryFeatures(query).then(result => {
-      return result.features.map((feature): County => {
-        return {
-          objectId: feature.attributes.FID,
-          name: feature.attributes.NAME,
-          state: feature.attributes.STATE_NAME,
-          fips: feature.attributes.FIPS
-        };
-      })[0];
-    });
-  }
+}
 
 }
