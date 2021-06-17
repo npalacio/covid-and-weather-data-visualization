@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CountyState } from '../state/county/county-state.model';
+import { CountyStateService } from '../state/county/county-state.service';
 
 @Component({
   selector: 'app-app-container',
@@ -10,12 +12,11 @@ export class AppContainerComponent implements OnInit {
   isPanelVisible = false;
   areChartsVisible = false;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private countyStateService: CountyStateService) { }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      const fips = params.get('fips');
-      if (fips) {
+    this.countyStateService.stateChanged.subscribe((countyState: CountyState) => {
+      if(countyState.selectedCounty) {
         this.isPanelVisible = true;
         this.areChartsVisible = true;
       }
