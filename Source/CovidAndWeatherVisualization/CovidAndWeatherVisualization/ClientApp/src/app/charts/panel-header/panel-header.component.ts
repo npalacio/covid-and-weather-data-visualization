@@ -14,11 +14,11 @@ export class PanelHeaderComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router, private datePipe: DatePipe) { }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
+    this.route.queryParamMap.subscribe(params => {
       const startDateParam = params.get('startDate') ?? '';
       var startDate = new Date(startDateParam);
-      if (startDateParam) {
-        console.log('date from url: ' + startDateParam);
+      if (startDate) {
+        console.log('date from url: ' + startDate);
       }
     });
     // this.router.navigate([], {
