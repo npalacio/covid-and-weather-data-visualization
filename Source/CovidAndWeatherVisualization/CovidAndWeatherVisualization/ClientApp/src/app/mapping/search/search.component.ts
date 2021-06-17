@@ -51,6 +51,6 @@ export class SearchComponent implements OnInit {
 
   onItemSelected(event: NgbTypeaheadSelectItemEvent<County>): void {
     this.currentSearchFips = event.item.fips;
-    this.router.navigate(['counties', this.currentSearchFips]);
+    this.router.navigate(['counties', this.currentSearchFips], {queryParamsHandling: 'preserve'});
   }
 }

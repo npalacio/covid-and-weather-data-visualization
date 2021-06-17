@@ -87,7 +87,7 @@ export class MapService {
       }).then((response) => {
         if (response.results.length > 0) {
           const newCountyFips = +response.results[0].graphic.attributes.FIPS;
-          this.router.navigate(['counties', newCountyFips]);
+          this.router.navigate(['counties', newCountyFips], {queryParamsHandling: 'preserve'});
         }
       });
     });
