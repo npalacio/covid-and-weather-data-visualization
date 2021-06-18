@@ -13,11 +13,23 @@ import { CovidDataByCounty } from '../../shared/models/covid-data.model';
 })
 export class ChartsComponent implements OnInit {
   public lineChartData: ChartDataSets[] = [
-    { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A', fill: false }
+    { data: [], fill: false, pointRadius: 0, pointHitRadius: 2 }
   ];
-  public lineChartLabels: Label[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+  public lineChartLabels: Label[] = [];
   public lineChartOptions: ChartOptions = {
-    responsive: true
+    responsive: true,
+    title: {
+      display: true,
+      text: 'COVID Infections'
+    },
+    scales: {
+      yAxes: [{
+        display: true,
+        ticks: {
+          suggestedMin: 0
+        }
+      }]
+    }
   };
   public lineChartColors: Color[] = [
     {
@@ -31,7 +43,7 @@ export class ChartsComponent implements OnInit {
   constructor(private httpClient: HttpClient, private datePipe: DatePipe) { }
 
   async ngOnInit(): Promise<void> {
-    const covidData = await this.httpClient.get<CovidDataByCounty[]>(BASE_URL + 'Covid?startDate=2021-03-01&endDate=2021-03-10&fips=31055').toPromise();
+    const covidData = await this.httpClient.get<CovidDataByCounty[]>(BASE_URL + 'Covid?startDate=2021-03-01&endDate=2021-06-10&fips=31055').toPromise();
     const dates = covidData.map(_ => _.date);
     const cases = covidData.map(_ => _.cases);
     this.lineChartData[0].data = cases;
