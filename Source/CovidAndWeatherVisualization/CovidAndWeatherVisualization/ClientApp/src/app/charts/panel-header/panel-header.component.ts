@@ -1,10 +1,8 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MapService } from 'src/app/mapping/map.service';
 import { County } from 'src/app/shared/models';
-import { CountyStateService } from '../../state/county/county-state.service';
-import { CountyState } from '../../state/county/county-state.model';
+import { ChartStateService, CountyState, CountyStateService } from 'src/app/state';
 
 @Component({
   selector: 'app-panel-header',
@@ -21,7 +19,8 @@ export class PanelHeaderComponent implements OnInit {
   constructor(private route: ActivatedRoute
             , private router: Router
             , private datePipe: DatePipe
-            , private countyStateService: CountyStateService) { }
+            , private countyStateService: CountyStateService
+            , private chartStateService: ChartStateService) { }
 
   ngOnInit(): void {
     this.countyStateService.stateChanged.subscribe((countyState: CountyState) => {
@@ -40,10 +39,10 @@ export class PanelHeaderComponent implements OnInit {
     if (!isNaN(endDateFromUrl.getTime())) {
       this.endDate = endDateFromUrl;
     }
-    this.updateQueryParams();
+    this.updateDates();
   }
 
-  updateQueryParams(): void {
+  updateDates(): void {
     this.router.navigate([], {
       queryParams: {
         startDate: this.datePipe.transform(this.startDate, this.dateFormatUrl),
@@ -51,6 +50,8 @@ export class PanelHeaderComponent implements OnInit {
       },
       queryParamsHandling: 'merge'
     });
+    this.chartStateService.setStartDate(this.startDate);
+    this.chartStateService.setEndDate(this.endDate);
   }
 
 }

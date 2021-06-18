@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { CountyState } from '../state/county/county-state.model';
-import { CountyStateService } from '../state/county/county-state.service';
+import { CountyState, CountyStateService } from 'src/app/state';
 
 @Component({
   selector: 'app-app-container',

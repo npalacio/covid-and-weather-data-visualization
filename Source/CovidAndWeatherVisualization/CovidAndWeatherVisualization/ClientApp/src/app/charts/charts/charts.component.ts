@@ -5,6 +5,7 @@ import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Color, Label } from 'ng2-charts';
 import { BASE_URL } from 'src/app/shared/models/constants.model';
 import { CovidDataByCounty } from '../../shared/models/covid-data.model';
+import { ChartStateService } from 'src/app/state';
 
 @Component({
   selector: 'app-charts',
@@ -12,11 +13,11 @@ import { CovidDataByCounty } from '../../shared/models/covid-data.model';
   styleUrls: ['./charts.component.scss']
 })
 export class ChartsComponent implements OnInit {
-  public lineChartData: ChartDataSets[] = [
+  lineChartData: ChartDataSets[] = [
     { data: [], fill: false, pointRadius: 0, pointHitRadius: 2 }
   ];
-  public lineChartLabels: Label[] = [];
-  public lineChartOptions: ChartOptions = {
+  lineChartLabels: Label[] = [];
+  lineChartOptions: ChartOptions = {
     responsive: true,
     title: {
       display: true,
@@ -31,19 +32,32 @@ export class ChartsComponent implements OnInit {
       }]
     }
   };
-  public lineChartColors: Color[] = [
+  lineChartColors: Color[] = [
     {
       borderColor: 'black'
     },
   ];
-  public lineChartLegend = false;
-  public lineChartType: ChartType = 'line';
-  public lineChartPlugins = [];
+  lineChartLegend = false;
+  lineChartType: ChartType = 'line';
+  lineChartPlugins = [];
+  startDate?: Date;
+  endDate?: Date;
+  dateFormat = 'MM-dd-yyyy';
 
-  constructor(private httpClient: HttpClient, private datePipe: DatePipe) { }
+  constructor(private httpClient: HttpClient, private datePipe: DatePipe, private chartStateService: ChartStateService) { }
 
   async ngOnInit(): Promise<void> {
-    const covidData = await this.httpClient.get<CovidDataByCounty[]>(BASE_URL + 'Covid?startDate=2021-03-01&endDate=2021-06-10&fips=31055').toPromise();
+    this.chartStateService.stateChanged.subscribe(state => {
+      this.startDate = state.startDate;
+      this.endDate = state.endDate;
+      if(this.startDate && this.endDate) {
+        this.updateChart();
+      }
+    });
+  }
+
+  async updateChart(): Promise<void> {
+    const covidData = await this.httpClient.get<CovidDataByCounty[]>(BASE_URL + `Covid?startDate=${this.datePipe.transform(this.startDate, this.dateFormat)}&endDate=${this.datePipe.transform(this.endDate, this.dateFormat)}&fips=31055`).toPromise();
     const dates = covidData.map(_ => _.date);
     const cases = covidData.map(_ => _.cases);
     this.lineChartData[0].data = cases;
