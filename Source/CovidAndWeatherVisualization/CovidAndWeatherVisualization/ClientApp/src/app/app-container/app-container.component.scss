@@ -1,0 +1,34 @@
+.app-container {
+  display: flex;
+  height: 100%;
+}
+
+.map-container {
+  flex: 3;
+}
+
+.panel-container {
+  flex: 1;
+  transition: flex 1s;
+  z-index: 1;
+
+  .visibility-toggle {
+    width: fit-content;
+    margin-left: -3.438rem;
+    background-color: white;
+    border-radius: .312rem;
+    z-index: 1000;
+    border: .125rem solid black;
+    cursor: pointer;
+    float: left;
+
+    i {
+      font-size: 2.5rem;
+    }
+  }
+}
+
+.panel-container-hidden {
+  width: 0;
+  flex: 0;
+}

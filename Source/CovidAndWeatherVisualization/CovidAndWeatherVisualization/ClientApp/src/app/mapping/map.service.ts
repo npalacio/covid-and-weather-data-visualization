@@ -7,8 +7,7 @@ import * as watchUtils from '@arcgis/core/core/watchUtils';
 import { mapConfig } from './map-config';
 import { County } from '../shared/models/county.model';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { BASE_URL } from '../shared/models/constants.model';
+import { CountyStateService } from '../state/county/county-state.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,14 +20,16 @@ export class MapService {
   private countyLayerObjectIdField = 'FID';
   private countyLayerOutFields = [this.countyLayerObjectIdField, 'FIPS', 'NAME', 'STATE_NAME', 'POPULATION'];
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private countyStateService: CountyStateService) {
   }
 
   async selectCounty(countyFips: number): Promise<void> {
     const countyGraphic = await this.getCountyGraphic(countyFips);
     if (countyGraphic) {
+      const countyModel = this.getCountyModelFromGraphic(countyGraphic);
       this.zoomToCounty(countyGraphic);
-      this.showPopup(countyGraphic);
+      this.showPopup(countyModel, countyGraphic.geometry);
+      this.countyStateService.setSelectedCounty(countyModel);
     } else {
       // County not found, navigate to home page
       this.router.navigate(['counties']);
@@ -49,13 +50,13 @@ export class MapService {
     });
   }
 
-  private showPopup(countyGraphic: __esri.Graphic): void {
+  private showPopup(countyModel: County, countyGeometry: __esri.Geometry): void {
     this.mapView?.popup.close();
     this.mapView?.popup.open({
-      title: `${countyGraphic.attributes.NAME} County, ${countyGraphic.attributes.STATE_NAME}`,
-      location: (countyGraphic.geometry as __esri.Polygon).centroid,
-      content: `<div>FIPS: ${countyGraphic.attributes.FIPS}</div>
-      <div>Population: ${countyGraphic.attributes.POPULATION}</div>`
+      title: `${countyModel.name} County, ${countyModel.state}`,
+      location: (countyGeometry as __esri.Polygon).centroid,
+      content: `<div>FIPS: ${countyModel.fips}</div>
+      <div>Population: ${countyModel.population}</div>`
     });
 
   }
@@ -87,7 +88,7 @@ export class MapService {
       }).then((response) => {
         if (response.results.length > 0) {
           const newCountyFips = +response.results[0].graphic.attributes.FIPS;
-          this.router.navigate(['counties', newCountyFips]);
+          this.router.navigate(['counties', newCountyFips], {queryParamsHandling: 'preserve'});
         }
       });
     });
@@ -102,14 +103,7 @@ export class MapService {
     };
 
     return this.countyLayer?.queryFeatures(query).then(result => {
-      return result.features.map((feature): County => {
-        return {
-          objectId: feature.attributes.FID,
-          name: feature.attributes.NAME,
-          state: feature.attributes.STATE_NAME,
-          fips: feature.attributes.FIPS
-        };
-      });
+      return result.features.map(this.getCountyModelFromGraphic);
     });
   }
 
@@ -124,5 +118,15 @@ export class MapService {
       return result.features[0];
     });
   }
+
+  getCountyModelFromGraphic(countyGraphic: __esri.Graphic): County {
+    return {
+      objectId: countyGraphic.attributes.FID,
+      name: countyGraphic.attributes.NAME,
+      state: countyGraphic.attributes.STATE_NAME,
+      fips: countyGraphic.attributes.FIPS,
+      population: countyGraphic.attributes.POPULATION
+    };
+}
 
 }

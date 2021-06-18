@@ -3,4 +3,5 @@ export interface County {
   name: string;
   state: string;
   fips: number;
+  population: number;
 }
