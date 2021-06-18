@@ -16,18 +16,18 @@ export class AppContainerComponent implements OnInit {
 
   ngOnInit(): void {
     this.countyStateService.stateChanged.subscribe((countyState: CountyState) => {
-      if(countyState.selectedCounty) {
+      if (countyState.selectedCounty) {
         this.isPanelVisible = true;
         this.areChartsVisible = true;
       }
     });
   }
 
-  hideCharts() {
+  hideCharts(): void {
     this.areChartsVisible = false;
   }
 
-  showCharts() {
+  showCharts(): void {
     this.areChartsVisible = true;
   }
 
