@@ -16,6 +16,7 @@ namespace CovidDataLoad
         }
 
         [FunctionName("DataLoad")]
+        [FixedDelayRetry(5, "00:00:30")]
         public async Task Run([TimerTrigger("0 0 12 * * *")] TimerInfo myTimer, ILogger log)
         {
             try
