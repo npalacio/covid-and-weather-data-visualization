@@ -6,6 +6,7 @@ import { PanelHeaderComponent } from './panel-header/panel-header.component';
 import { ChartsRoutingModule } from './charts-routing.module';
 import { ChartsComponent } from './charts/charts.component';
 import { ChartsModule as Ng2ChartsModule } from 'ng2-charts';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { ChartsModule as Ng2ChartsModule } from 'ng2-charts';
     CommonModule,
     RouterModule,
     ChartsRoutingModule,
-    Ng2ChartsModule
+    Ng2ChartsModule,
+    HttpClientModule
   ],
   exports: [
     PanelComponent
