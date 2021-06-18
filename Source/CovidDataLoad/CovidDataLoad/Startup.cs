@@ -19,7 +19,7 @@ namespace CovidDataLoad
             builder.Services.AddScoped<ICovidLogic, CovidLogic>();
             builder.Services.AddDbContext<CapstoneDbContext>(options => options.UseSqlServer(Environment.GetEnvironmentVariable("connection-string-db-capstone"), o =>
             {
-                o.EnableRetryOnFailure();
+                o.EnableRetryOnFailure(5, TimeSpan.FromSeconds(30), null);
                 o.CommandTimeout(5 * 60);
             }));
         }
