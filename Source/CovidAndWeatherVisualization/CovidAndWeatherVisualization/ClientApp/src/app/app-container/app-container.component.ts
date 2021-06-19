@@ -22,7 +22,7 @@ export class AppContainerComponent implements OnInit {
         this.areChartsVisible = true;
       }
     });
-    // Only need to do this if county in URL
+    // TODO: Only need to do this if county in URL
     console.log('container created');
     this.chartSettingsStateService.syncDatesInUrl(
       this.route.snapshot.queryParamMap.get('startDate') ?? '',
