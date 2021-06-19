@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ObservableStore } from '@codewithdan/observable-store';
-import { ChartState } from './chart-state.model';
+import { ChartState } from './chart-settings-state.model';
 
 @Injectable({
   providedIn: 'root'
