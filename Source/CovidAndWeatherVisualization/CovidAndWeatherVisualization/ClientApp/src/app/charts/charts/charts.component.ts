@@ -48,10 +48,8 @@ export class ChartsComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.covidStateService.stateChanged.subscribe(state => {
-      const dates = state.dataByCounty.map(_ => _.date);
-      const cases = state.dataByCounty.map(_ => _.cases);
-      this.lineChartData[0].data = cases;
-      this.lineChartLabels = dates.map(date => this.datePipe.transform(date, 'MM/dd') ?? '');
+      this.lineChartData[0].data = state.cases;
+      this.lineChartLabels = state.dates.map(date => this.datePipe.transform(date, 'MM/dd') ?? '');
     });
   }
 }

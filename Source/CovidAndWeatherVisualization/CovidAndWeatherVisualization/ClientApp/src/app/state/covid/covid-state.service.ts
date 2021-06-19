@@ -16,7 +16,9 @@ export class CovidStateService extends ObservableStore<CovidState> {
   constructor(private chartSettingsStateService: ChartSettingsStateService, private covidDataService: CovidDataService, private countyStateService: CountyStateService) {
     super({});
     const initialState: CovidState = {
-      dataByCounty: []
+      dataByCounty: [],
+      dates: [],
+      cases: []
     };
     this.setState(initialState, 'INIT_STATE');
     this.chartSettingsStateService.stateChanged.subscribe(async state => {
@@ -32,12 +34,18 @@ export class CovidStateService extends ObservableStore<CovidState> {
 
   private async updateState(action: string): Promise<void> {
     if (this.fips && this.startDate && this.endDate) {
-      const covidData = await this.covidDataService.getCovidDataByCounty({
+      const dataByCounty = await this.covidDataService.getCovidDataByCounty({
         fips: this.fips,
         startDate: this.startDate,
         endDate: this.endDate
       });
-      this.setState({dataByCounty: covidData}, action);
+      const dates = dataByCounty.map(_ => _.date);
+      const cases = dataByCounty.map(_ => _.cases);
+      this.setState({
+        dataByCounty,
+        dates,
+        cases
+      }, action);
     }
   }
 }
