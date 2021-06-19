@@ -5,7 +5,7 @@ import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Color, Label } from 'ng2-charts';
 import { BASE_URL } from 'src/app/shared/models/constants.model';
 import { CovidDataByCounty } from '../../shared/models/covid-data.model';
-import { ChartStateService } from 'src/app/state';
+import { ChartSettingsStateService } from 'src/app/state';
 import { CovidDataService } from '../../state/data-services/covid-data.service';
 
 @Component({
@@ -47,10 +47,10 @@ export class ChartsComponent implements OnInit {
   endDate?: Date;
   dateFormat = 'MM-dd-yyyy';
 
-  constructor(private datePipe: DatePipe, private chartStateService: ChartStateService, private covidDataService: CovidDataService) { }
+  constructor(private datePipe: DatePipe, private chartSettingsStateService: ChartSettingsStateService, private covidDataService: CovidDataService) { }
 
   async ngOnInit(): Promise<void> {
-    this.chartStateService.stateChanged.subscribe(state => {
+    this.chartSettingsStateService.stateChanged.subscribe(state => {
       this.startDate = state.startDate;
       this.endDate = state.endDate;
       if(this.startDate && this.endDate) {

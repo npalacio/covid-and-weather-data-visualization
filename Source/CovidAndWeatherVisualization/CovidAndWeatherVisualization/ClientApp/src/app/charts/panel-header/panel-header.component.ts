@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { County } from 'src/app/shared/models';
-import { ChartStateService, CountyState, CountyStateService } from 'src/app/state';
+import { ChartSettingsStateService, CountyState, CountyStateService } from 'src/app/state';
 
 @Component({
   selector: 'app-panel-header',
@@ -20,7 +20,7 @@ export class PanelHeaderComponent implements OnInit {
             , private router: Router
             , private datePipe: DatePipe
             , private countyStateService: CountyStateService
-            , private chartStateService: ChartStateService) { }
+            , private chartSettingsStateService: ChartSettingsStateService) { }
 
   ngOnInit(): void {
     this.countyStateService.stateChanged.subscribe((countyState: CountyState) => {
@@ -50,8 +50,8 @@ export class PanelHeaderComponent implements OnInit {
       },
       queryParamsHandling: 'merge'
     });
-    this.chartStateService.setStartDate(this.startDate);
-    this.chartStateService.setEndDate(this.endDate);
+    this.chartSettingsStateService.setStartDate(this.startDate);
+    this.chartSettingsStateService.setEndDate(this.endDate);
   }
 
 }

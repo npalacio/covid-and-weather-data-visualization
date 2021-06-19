@@ -5,7 +5,7 @@ import { ChartState } from './chart-state.model';
 @Injectable({
   providedIn: 'root'
 })
-export class ChartStateService extends ObservableStore<ChartState> {
+export class ChartSettingsStateService extends ObservableStore<ChartState> {
 
   constructor() {
     const initialState: ChartState = {
