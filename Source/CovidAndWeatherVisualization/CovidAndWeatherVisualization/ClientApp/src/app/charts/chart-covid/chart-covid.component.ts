@@ -17,8 +17,6 @@ export class ChartCovidComponent implements OnInit {
   lineChartLabels: Label[] = [];
   lineChartOptions: ChartOptions = {
     responsive: true,
-    responsiveAnimationDuration: 1000,
-    maintainAspectRatio: false,
     title: {
       display: true,
       text: 'COVID Infections'
@@ -33,6 +31,12 @@ export class ChartCovidComponent implements OnInit {
         scaleLabel: {
           display: true,
           labelString: 'Confirmed Infections'
+        }
+      }],
+      xAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: 'Date'
         }
       }]
     }
