@@ -21,20 +21,6 @@ export class ChartSettingsStateService extends ObservableStore<ChartState> {
     this.setState(initialState, 'INIT_STATE');
   }
 
-  setStartDate(startDate: Date): void {
-    const currentState = this.getState();
-    console.log('Current start date: ' + currentState.startDate?.toLocaleDateString());
-    console.log('New start date: ' + startDate.toLocaleDateString());
-    this.setState({ startDate }, 'SET_START_DATE');
-  }
-
-  setEndDate(endDate: Date): void {
-    const currentState = this.getState();
-    console.log('Current end date: ' + currentState.endDate?.toLocaleDateString());
-    console.log('New end date: ' + endDate.toLocaleDateString());
-    this.setState({ endDate }, 'SET_END_DATE');
-  }
-
   syncDatesInUrl(startDateUrlParam: string, endDateUrlParam: string) {
     let startDate = this.startDateDefault;
     let endDate = this.endDateDefault;
@@ -58,5 +44,6 @@ export class ChartSettingsStateService extends ObservableStore<ChartState> {
       },
       queryParamsHandling: 'merge'
     });
+    this.setState({startDate, endDate}, 'SYNC_DATES_WITH_URL');
   }
 }
