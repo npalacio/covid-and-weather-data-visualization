@@ -19,6 +19,8 @@ export class ChartsComponent implements OnInit {
   lineChartLabels: Label[] = [];
   lineChartOptions: ChartOptions = {
     responsive: true,
+    responsiveAnimationDuration: 1000,
+    maintainAspectRatio: false,
     title: {
       display: true,
       text: 'COVID Infections'
