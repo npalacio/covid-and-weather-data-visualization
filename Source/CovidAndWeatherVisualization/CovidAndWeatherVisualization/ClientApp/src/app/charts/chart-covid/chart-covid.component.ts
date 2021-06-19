@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Color, Label } from 'ng2-charts';
 import { CovidStateService } from 'src/app/state';
@@ -27,7 +27,12 @@ export class ChartCovidComponent implements OnInit {
       yAxes: [{
         display: true,
         ticks: {
-          suggestedMin: 0
+          suggestedMin: 0,
+          callback: (value, index, values) => this.tickFormatter(+value)
+        },
+        scaleLabel: {
+          display: true,
+          labelString: 'Confirmed Infections'
         }
       }]
     }
@@ -39,7 +44,6 @@ export class ChartCovidComponent implements OnInit {
   ];
   lineChartLegend = false;
   lineChartType: ChartType = 'line';
-  lineChartPlugins = [];
   isLoading = false;
 
   constructor(private datePipe: DatePipe, private covidStateService: CovidStateService, private spinner: NgxSpinnerService) { }
@@ -55,5 +59,27 @@ export class ChartCovidComponent implements OnInit {
         this.spinner.hide();
       }
     });
+  }
+
+  private tickFormatter(number: number) {
+    if (number == 0) {
+      return 0;
+    }
+    else {
+      // hundreds
+      if (number <= 999) {
+        return number;
+      }
+      // thousands
+      else if (number >= 1000 && number <= 999999) {
+        return (number / 1000) + 'K';
+      }
+      // millions
+      else if (number >= 1000000 && number <= 999999999) {
+        return (number / 1000000) + 'M';
+      }
+      else
+        return number;
+    }
   }
 }
