@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { DatePipe, DecimalPipe } from '@angular/common';
-import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
-import { Color, Label } from 'ng2-charts';
+import { DatePipe } from '@angular/common';
+import { Label } from 'ng2-charts';
 import { CovidStateService } from 'src/app/state';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { chartConfigs } from '../charts-config';
@@ -26,7 +25,7 @@ export class ChartCovidComponent implements OnInit {
         this.spinner.show();
       } else {
         this.chartConfig.data.data = state.cases;
-        this.labels = state.dates.map(date => this.datePipe.transform(date, 'MM/dd') ?? '');
+        this.labels = state.dates.map(date => this.datePipe.transform(date, 'MM/dd') ?? 'unknown');
         this.spinner.hide();
       }
     });

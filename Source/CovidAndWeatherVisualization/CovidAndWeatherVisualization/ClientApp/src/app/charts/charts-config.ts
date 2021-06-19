@@ -22,13 +22,16 @@ export const chartConfigs = {
           },
           scaleLabel: {
             display: true,
-            labelString: 'Confirmed Infections'
+            labelString: 'Confirmed Infections',
+            fontSize: 16,
+            fontStyle: 'bold'
           }
         }],
         xAxes: [{
           scaleLabel: {
             display: true,
-            labelString: 'Date'
+            labelString: 'Date',
+            fontSize: 18
           }
         }]
       }
