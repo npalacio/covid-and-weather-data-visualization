@@ -6,6 +6,7 @@ import { Color, Label } from 'ng2-charts';
 import { BASE_URL } from 'src/app/shared/models/constants.model';
 import { CovidDataByCounty } from '../../shared/models/covid-data.model';
 import { ChartStateService } from 'src/app/state';
+import { CovidDataService } from '../../state/data-services/covid-data.service';
 
 @Component({
   selector: 'app-charts',
@@ -46,7 +47,7 @@ export class ChartsComponent implements OnInit {
   endDate?: Date;
   dateFormat = 'MM-dd-yyyy';
 
-  constructor(private httpClient: HttpClient, private datePipe: DatePipe, private chartStateService: ChartStateService) { }
+  constructor(private httpClient: HttpClient, private datePipe: DatePipe, private chartStateService: ChartStateService, private covidDataService: CovidDataService) { }
 
   async ngOnInit(): Promise<void> {
     this.chartStateService.stateChanged.subscribe(state => {
@@ -59,7 +60,11 @@ export class ChartsComponent implements OnInit {
   }
 
   async updateChart(): Promise<void> {
-    const covidData = await this.httpClient.get<CovidDataByCounty[]>(BASE_URL + `Covid?startDate=${this.datePipe.transform(this.startDate, this.dateFormat)}&endDate=${this.datePipe.transform(this.endDate, this.dateFormat)}&fips=31055`).toPromise();
+    const covidData = await this.covidDataService.getCovidDataByCounty({
+      fips: 31055,
+      startDate: this.startDate,
+      endDate: this.endDate
+    });
     const dates = covidData.map(_ => _.date);
     const cases = covidData.map(_ => _.cases);
     this.lineChartData[0].data = cases;
