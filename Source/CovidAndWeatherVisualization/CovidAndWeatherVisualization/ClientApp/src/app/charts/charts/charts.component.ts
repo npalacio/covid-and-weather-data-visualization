@@ -47,7 +47,7 @@ export class ChartsComponent implements OnInit {
   endDate?: Date;
   dateFormat = 'MM-dd-yyyy';
 
-  constructor(private httpClient: HttpClient, private datePipe: DatePipe, private chartStateService: ChartStateService, private covidDataService: CovidDataService) { }
+  constructor(private datePipe: DatePipe, private chartStateService: ChartStateService, private covidDataService: CovidDataService) { }
 
   async ngOnInit(): Promise<void> {
     this.chartStateService.stateChanged.subscribe(state => {

@@ -23,5 +23,4 @@ export class ChartStateService extends ObservableStore<ChartState> {
   setEndDate(endDate: Date): void {
     this.setState({ endDate }, 'SET_END_DATE');
   }
-
 }
