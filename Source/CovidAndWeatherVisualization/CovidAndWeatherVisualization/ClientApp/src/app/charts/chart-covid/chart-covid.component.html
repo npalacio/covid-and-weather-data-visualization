@@ -3,11 +3,11 @@
     <p class="loading">Loading Covid data...</p>
   </ngx-spinner>
   <canvas *ngIf="!isLoading" baseChart
-    [datasets]="lineChartData"
-    [labels]="lineChartLabels"
-    [options]="lineChartOptions"
-    [colors]="lineChartColors"
-    [legend]="lineChartLegend"
-    [chartType]="lineChartType">
+    [datasets]="chartConfig.data"
+    [labels]="labels"
+    [options]="chartConfig.options"
+    [colors]="colors"
+    [legend]="legend"
+    [chartType]="type">
   </canvas>
 </div>
