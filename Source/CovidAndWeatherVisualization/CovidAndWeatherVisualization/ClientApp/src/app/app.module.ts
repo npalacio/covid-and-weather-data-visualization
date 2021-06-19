@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ChartsModule } from './charts/charts.module';
 import { MappingModule } from './mapping/mapping.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppContainerComponent } from './app-container/app-container.component';
 
 @NgModule({
@@ -15,6 +16,7 @@ import { AppContainerComponent } from './app-container/app-container.component';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     NgbModule,
     HttpClientModule,

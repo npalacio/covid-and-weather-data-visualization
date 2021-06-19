@@ -1,5 +1,8 @@
-<div class="h-100">
-  <canvas baseChart
+<div class="h-100 position-relative">
+  <ngx-spinner [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium">
+    <p class="loading">Loading Awesomeness...</p>
+  </ngx-spinner>
+  <canvas *ngIf="false" baseChart
     [datasets]="lineChartData"
     [labels]="lineChartLabels"
     [options]="lineChartOptions"

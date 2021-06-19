@@ -2,8 +2,8 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Color, Label } from 'ng2-charts';
-import { ChartSettingsStateService, CovidStateService } from 'src/app/state';
-import { CovidDataService } from '../../state/data-services/covid-data.service';
+import { CovidStateService } from 'src/app/state';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-charts',
@@ -40,16 +40,14 @@ export class ChartsComponent implements OnInit {
   lineChartLegend = false;
   lineChartType: ChartType = 'line';
   lineChartPlugins = [];
-  startDate?: Date;
-  endDate?: Date;
-  dateFormat = 'MM-dd-yyyy';
 
-  constructor(private datePipe: DatePipe, private covidStateService: CovidStateService) { }
+  constructor(private datePipe: DatePipe, private covidStateService: CovidStateService, private spinner: NgxSpinnerService) { }
 
   async ngOnInit(): Promise<void> {
     this.covidStateService.stateChanged.subscribe(state => {
       this.lineChartData[0].data = state.cases;
       this.lineChartLabels = state.dates.map(date => this.datePipe.transform(date, 'MM/dd') ?? '');
     });
+    this.spinner.show();
   }
 }
