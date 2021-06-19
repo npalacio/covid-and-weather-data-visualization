@@ -1,11 +1,8 @@
 import { DatePipe } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Color, Label } from 'ng2-charts';
-import { BASE_URL } from 'src/app/shared/models/constants.model';
-import { CovidDataByCounty } from '../../shared/models/covid-data.model';
-import { ChartSettingsStateService } from 'src/app/state';
+import { ChartSettingsStateService, CovidStateService } from 'src/app/state';
 import { CovidDataService } from '../../state/data-services/covid-data.service';
 
 @Component({
@@ -47,28 +44,14 @@ export class ChartsComponent implements OnInit {
   endDate?: Date;
   dateFormat = 'MM-dd-yyyy';
 
-  constructor(private datePipe: DatePipe, private chartSettingsStateService: ChartSettingsStateService, private covidDataService: CovidDataService) { }
+  constructor(private datePipe: DatePipe, private covidStateService: CovidStateService) { }
 
   async ngOnInit(): Promise<void> {
-    this.chartSettingsStateService.stateChanged.subscribe(state => {
-      this.startDate = state.startDate;
-      this.endDate = state.endDate;
-      if(this.startDate && this.endDate) {
-        this.updateChart();
-      }
+    this.covidStateService.stateChanged.subscribe(state => {
+      const dates = state.dataByCounty.map(_ => _.date);
+      const cases = state.dataByCounty.map(_ => _.cases);
+      this.lineChartData[0].data = cases;
+      this.lineChartLabels = dates.map(date => this.datePipe.transform(date, 'MM/dd') ?? '');
     });
   }
-
-  async updateChart(): Promise<void> {
-    const covidData = await this.covidDataService.getCovidDataByCounty({
-      fips: 31055,
-      startDate: this.startDate,
-      endDate: this.endDate
-    });
-    const dates = covidData.map(_ => _.date);
-    const cases = covidData.map(_ => _.cases);
-    this.lineChartData[0].data = cases;
-    this.lineChartLabels = dates.map(date => this.datePipe.transform(date, 'MM/dd') ?? '');
-  }
-
 }
