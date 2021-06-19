@@ -1,4 +1,6 @@
+import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { ObservableStore } from '@codewithdan/observable-store';
 import { ChartState } from './chart-settings-state.model';
 
@@ -6,21 +8,55 @@ import { ChartState } from './chart-settings-state.model';
   providedIn: 'root'
 })
 export class ChartSettingsStateService extends ObservableStore<ChartState> {
+  private startDateDefault: Date = new Date(2020, 0, 1);
+  private endDateDefault: Date = new Date(2021, 0, 1);
+  private dateFormatUrl = 'MM-dd-yyyy';
 
-  constructor() {
+  constructor(private datePipe: DatePipe, private router: Router) {
+    super({});
     const initialState: ChartState = {
       startDate: undefined,
       endDate: undefined
     };
-    super({});
     this.setState(initialState, 'INIT_STATE');
   }
 
   setStartDate(startDate: Date): void {
+    const currentState = this.getState();
+    console.log('Current start date: ' + currentState.startDate?.toLocaleDateString());
+    console.log('New start date: ' + startDate.toLocaleDateString());
     this.setState({ startDate }, 'SET_START_DATE');
   }
 
   setEndDate(endDate: Date): void {
+    const currentState = this.getState();
+    console.log('Current end date: ' + currentState.endDate?.toLocaleDateString());
+    console.log('New end date: ' + endDate.toLocaleDateString());
     this.setState({ endDate }, 'SET_END_DATE');
+  }
+
+  syncDatesInUrl(startDateUrlParam: string, endDateUrlParam: string) {
+    let startDate = this.startDateDefault;
+    let endDate = this.endDateDefault;
+
+    const startDateFromUrl = new Date(startDateUrlParam);
+    if (!isNaN(startDateFromUrl.getTime())) {
+      // Valid start date in URL, use this
+      startDate = startDateFromUrl;
+    }
+
+    const endDateFromUrl = new Date(endDateUrlParam);
+    if (!isNaN(endDateFromUrl.getTime())) {
+      // Valid end date in URL, use this
+      endDate = endDateFromUrl;
+    }
+
+    this.router.navigate([], {
+      queryParams: {
+        startDate: this.datePipe.transform(startDate, this.dateFormatUrl),
+        endDate: this.datePipe.transform(endDate, this.dateFormatUrl)
+      },
+      queryParamsHandling: 'merge'
+    });
   }
 }

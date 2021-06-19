@@ -8,12 +8,14 @@ import { ChartsComponent } from './charts/charts.component';
 import { ChartsModule as Ng2ChartsModule } from 'ng2-charts';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { ChartCovidComponent } from './chart-covid/chart-covid.component';
 
 @NgModule({
   declarations: [
     PanelComponent,
     PanelHeaderComponent,
-    ChartsComponent
+    ChartsComponent,
+    ChartCovidComponent
   ],
   imports: [
     CommonModule,

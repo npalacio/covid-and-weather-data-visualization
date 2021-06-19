@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CountyState, CountyStateService } from 'src/app/state';
+import { ActivatedRoute } from '@angular/router';
+import { ChartSettingsStateService, CountyState, CountyStateService } from 'src/app/state';
 
 @Component({
   selector: 'app-app-container',
@@ -10,7 +11,7 @@ export class AppContainerComponent implements OnInit {
   isPanelVisible = false;
   areChartsVisible = false;
 
-  constructor(private countyStateService: CountyStateService) { }
+  constructor(private route: ActivatedRoute, private chartSettingsStateService: ChartSettingsStateService, private countyStateService: CountyStateService) { }
 
   ngOnInit(): void {
     this.countyStateService.stateChanged.subscribe((countyState: CountyState) => {
@@ -19,6 +20,7 @@ export class AppContainerComponent implements OnInit {
         this.areChartsVisible = true;
       }
     });
+    this.chartSettingsStateService.syncDatesInUrl(this.route.snapshot.queryParamMap.get('startDate') ?? '', this.route.snapshot.queryParamMap.get('endDate') ?? '')
   }
 
   hideCharts(): void {
