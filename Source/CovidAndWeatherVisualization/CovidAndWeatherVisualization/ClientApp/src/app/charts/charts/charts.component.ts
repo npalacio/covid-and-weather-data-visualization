@@ -40,14 +40,20 @@ export class ChartsComponent implements OnInit {
   lineChartLegend = false;
   lineChartType: ChartType = 'line';
   lineChartPlugins = [];
+  isLoading = false;
 
   constructor(private datePipe: DatePipe, private covidStateService: CovidStateService, private spinner: NgxSpinnerService) { }
 
   async ngOnInit(): Promise<void> {
     this.covidStateService.stateChanged.subscribe(state => {
-      this.lineChartData[0].data = state.cases;
-      this.lineChartLabels = state.dates.map(date => this.datePipe.transform(date, 'MM/dd') ?? '');
+      this.isLoading = state.isLoading;
+      if (this.isLoading) {
+        this.spinner.show();
+      } else {
+        this.lineChartData[0].data = state.cases;
+        this.lineChartLabels = state.dates.map(date => this.datePipe.transform(date, 'MM/dd') ?? '');
+        this.spinner.hide();
+      }
     });
-    this.spinner.show();
   }
 }
