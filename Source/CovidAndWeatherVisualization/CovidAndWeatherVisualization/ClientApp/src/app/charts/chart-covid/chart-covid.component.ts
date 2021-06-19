@@ -13,13 +13,6 @@ import { chartConfigs } from '../charts-config';
 })
 export class ChartCovidComponent implements OnInit {
   labels: Label[] = [];
-  colors: Color[] = [
-    {
-      borderColor: 'black'
-    },
-  ];
-  legend = false;
-  type: ChartType = 'line';
   isLoading = false;
   chartConfig: any;
 
@@ -32,7 +25,7 @@ export class ChartCovidComponent implements OnInit {
       if (this.isLoading) {
         this.spinner.show();
       } else {
-        this.chartConfig.data[0].data = state.cases;
+        this.chartConfig.data.data = state.cases;
         this.labels = state.dates.map(date => this.datePipe.transform(date, 'MM/dd') ?? '');
         this.spinner.hide();
       }

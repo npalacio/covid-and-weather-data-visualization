@@ -1,8 +1,11 @@
 export const chartConfigs = {
   covid: {
-    data: [
-      { data: [], fill: false, pointRadius: 0, pointHitRadius: 5 }
-    ],
+    data: {
+      data: [],
+      fill: false,
+      pointRadius: 0,
+      pointHitRadius: 5
+    },
     options: {
       responsive: true,
       maintainAspectRatio: false,
@@ -29,7 +32,14 @@ export const chartConfigs = {
           }
         }]
       }
-    }
+    },
+    colors: [
+      {
+        borderColor: 'black'
+      }
+    ],
+    legend: false,
+    type: 'line'
   }
 }
 
