@@ -1,8 +1,8 @@
-import { DatePipe } from "@angular/common";
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { BASE_URL } from "src/app/shared/models/constants.model";
-import { CovidDataByCounty } from "src/app/shared/models/covid-data-by-county.model";
+import { DatePipe } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { BASE_URL } from 'src/app/shared/models/constants.model';
+import { CovidDataByCounty } from 'src/app/shared/models/covid-data-by-county.model';
 
 @Injectable({
   providedIn: 'root'

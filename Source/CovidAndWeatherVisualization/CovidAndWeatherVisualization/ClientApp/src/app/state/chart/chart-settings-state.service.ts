@@ -21,7 +21,7 @@ export class ChartSettingsStateService extends ObservableStore<ChartState> {
     this.setState(initialState, 'INIT_STATE');
   }
 
-  syncDatesInUrl(startDateUrlParam: string, endDateUrlParam: string) {
+  syncDatesInUrl(startDateUrlParam: string, endDateUrlParam: string): void {
     let startDate = this.startDateDefault;
     let endDate = this.endDateDefault;
 

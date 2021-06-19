@@ -1,4 +1,4 @@
-import { CovidDataByCounty } from "src/app/shared/models";
+import { CovidDataByCounty } from 'src/app/shared/models';
 
 export interface CovidState {
   isLoading: boolean;

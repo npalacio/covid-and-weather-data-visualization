@@ -13,7 +13,9 @@ export class CovidStateService extends ObservableStore<CovidState> {
   private endDate?: Date;
   private fips?: number;
 
-  constructor(private chartSettingsStateService: ChartSettingsStateService, private covidDataService: CovidDataService, private countyStateService: CountyStateService) {
+  constructor(private chartSettingsStateService: ChartSettingsStateService
+            , private covidDataService: CovidDataService
+            , private countyStateService: CountyStateService) {
     super({});
     const initialState: CovidState = {
       isLoading: false,

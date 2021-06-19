@@ -11,7 +11,9 @@ export class AppContainerComponent implements OnInit {
   isPanelVisible = false;
   areChartsVisible = false;
 
-  constructor(private route: ActivatedRoute, private chartSettingsStateService: ChartSettingsStateService, private countyStateService: CountyStateService) { }
+  constructor(private route: ActivatedRoute
+    , private chartSettingsStateService: ChartSettingsStateService
+    , private countyStateService: CountyStateService) { }
 
   ngOnInit(): void {
     this.countyStateService.stateChanged.subscribe((countyState: CountyState) => {
@@ -20,7 +22,12 @@ export class AppContainerComponent implements OnInit {
         this.areChartsVisible = true;
       }
     });
-    this.chartSettingsStateService.syncDatesInUrl(this.route.snapshot.queryParamMap.get('startDate') ?? '', this.route.snapshot.queryParamMap.get('endDate') ?? '')
+    // Only need to do this if county in URL
+    console.log('container created');
+    this.chartSettingsStateService.syncDatesInUrl(
+      this.route.snapshot.queryParamMap.get('startDate') ?? '',
+      this.route.snapshot.queryParamMap.get('endDate') ?? ''
+    );
   }
 
   hideCharts(): void {

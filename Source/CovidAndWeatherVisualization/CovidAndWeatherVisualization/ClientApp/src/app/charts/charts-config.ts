@@ -44,26 +44,27 @@ export const chartConfigs = {
     legend: false,
     type: 'line'
   }
-}
+};
 
-function tickFormatter(number: number) {
-  if (number == 0) {
+function tickFormatter(value: number): number | string {
+  if (value === 0) {
     return 0;
   }
   else {
     // hundreds
-    if (number <= 999) {
-      return number;
+    if (value <= 999) {
+      return value;
     }
     // thousands
-    else if (number >= 1000 && number <= 999999) {
-      return (number / 1000) + 'K';
+    else if (value >= 1000 && value <= 999999) {
+      return (value / 1000) + 'K';
     }
     // millions
-    else if (number >= 1000000 && number <= 999999999) {
-      return (number / 1000000) + 'M';
+    else if (value >= 1000000 && value <= 999999999) {
+      return (value / 1000000) + 'M';
     }
-    else
-      return number;
+    else {
+      return value;
+    }
   }
 }
