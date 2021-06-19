@@ -184,6 +184,21 @@ namespace CovidAndWeatherVisualization.UnitTests
             Assert.IsTrue(filledGap.All(_ => _.Cases == caseCount));
         }
 
+        [Test]
+        public async Task GetCovidDataByCounty_WithNoDataFound_ReturnsEmptyList()
+        {
+            // Arrange
+            var fakeContext = A.Fake<CapstoneDbContext>();
+            A.CallTo(() => fakeContext.GetCovidDataByCounty(A<CovidDataRequest>.Ignored)).Returns(new List<CovidDataByCountyDto>());
+            var covidService = setupCovidService(fakeContext);
+
+            // Assert
+            var result = await covidService.GetCovidDataByCounty(new CovidDataRequest());
+
+            // Act
+            CollectionAssert.IsEmpty(result);
+        }
+
         private CovidService setupCovidService(CapstoneDbContext fakeContext)
         {
             var configuration = new MapperConfiguration(cfg =>

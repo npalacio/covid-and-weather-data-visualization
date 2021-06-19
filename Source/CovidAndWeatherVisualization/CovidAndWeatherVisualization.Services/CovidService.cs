@@ -23,6 +23,10 @@ namespace CovidAndWeatherVisualization.Services
         public async Task<List<CovidDataByCounty>> GetCovidDataByCounty(CovidDataRequest request)
         {
             var orderedDtos = await _dbContext.GetCovidDataByCounty(request);
+            if (!orderedDtos.Any())
+            {
+                return new List<CovidDataByCounty>();
+            }
             var returnList = new List<CovidDataByCounty>();
             CovidDataByCountyDto latestDto = null;
             foreach (var currentDay in EachDay(orderedDtos.Select(_ => _.Date).Min(), orderedDtos.Select(_ => _.Date).Max()))
