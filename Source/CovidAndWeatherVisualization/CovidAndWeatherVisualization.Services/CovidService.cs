@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CovidAndWeatherVisualization.Core.Entities;
-using CovidAndWeatherVisualization.Core.Requests;
 using CovidAndWeatherVisualization.Core.Resources;
 using CovidAndWeatherVisualization.DataAccess;
 using CovidAndWeatherVisualization.Interfaces;

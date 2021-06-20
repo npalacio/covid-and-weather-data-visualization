@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using CovidAndWeatherVisualization.Core.Requests;
-using CovidAndWeatherVisualization.Core.Resources;
+using CovidAndWeatherVisualization.Core.Entities;
 using CovidAndWeatherVisualization.Interfaces;
+using CovidAndWeatherVisualization.Core.Resources;
 
 namespace CovidAndWeatherVisualization.Controllers
 {

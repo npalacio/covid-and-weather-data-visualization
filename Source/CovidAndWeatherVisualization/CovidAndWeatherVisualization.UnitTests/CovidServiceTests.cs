@@ -1,6 +1,5 @@
 using System;
 using AutoMapper;
-using CovidAndWeatherVisualization.Core.Requests;
 using CovidAndWeatherVisualization.Core.Profiles;
 using CovidAndWeatherVisualization.DataAccess;
 using CovidAndWeatherVisualization.Services;
@@ -10,7 +9,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CovidAndWeatherVisualization.Core.Entities;
-using CovidAndWeatherVisualization.Core.Resources;
 
 namespace CovidAndWeatherVisualization.UnitTests
 {

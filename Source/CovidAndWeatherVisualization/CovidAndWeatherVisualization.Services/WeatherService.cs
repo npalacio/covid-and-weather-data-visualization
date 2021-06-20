@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using CovidAndWeatherVisualization.Core.Requests;
+using CovidAndWeatherVisualization.Core.Entities;
 using CovidAndWeatherVisualization.Core.Resources;
 using CovidAndWeatherVisualization.Interfaces;
 
@@ -27,7 +27,7 @@ namespace CovidAndWeatherVisualization.Services
             var returnList = new List<TemperatureData>();
             while (currentEndDate > currentStartDate)
             {
-                var tempDataEntities = await _weatherSourceServiceAgent.GetTemperatureData(new WeatherDataRequest
+                var tempDataEntities = await _weatherSourceServiceAgent.GetTemperatureData(new WeatherDataRequestEntity
                 {
                     StartDate = currentStartDate,
                     EndDate = currentEndDate,

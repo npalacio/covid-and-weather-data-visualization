@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CovidAndWeatherVisualization.Core.Entities;
-using CovidAndWeatherVisualization.Core.Requests;
-using CovidAndWeatherVisualization.Core.Resources;
 using Microsoft.EntityFrameworkCore;
 
 namespace CovidAndWeatherVisualization.DataAccess

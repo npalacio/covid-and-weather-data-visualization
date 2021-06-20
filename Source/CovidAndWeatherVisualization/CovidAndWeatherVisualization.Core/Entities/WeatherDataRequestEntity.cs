@@ -1,7 +1,6 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
-namespace CovidAndWeatherVisualization.Core.Requests
+namespace CovidAndWeatherVisualization.Core.Entities
 {
     public class WeatherDataRequestEntity
     {

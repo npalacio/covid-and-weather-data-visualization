@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CovidAndWeatherVisualization.Core.Requests;
+using CovidAndWeatherVisualization.Core.Entities;
 using CovidAndWeatherVisualization.Core.Resources;
 
 namespace CovidAndWeatherVisualization.Core.Profiles
