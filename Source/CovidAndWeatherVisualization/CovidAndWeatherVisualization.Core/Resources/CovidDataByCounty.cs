@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CovidAndWeatherVisualization.Core.Models
+namespace CovidAndWeatherVisualization.Core.Resources
 {
     public class CovidDataByCounty
     {

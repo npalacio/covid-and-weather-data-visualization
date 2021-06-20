@@ -1,6 +1,6 @@
 using System;
 using AutoMapper;
-using CovidAndWeatherVisualization.Core.Models;
+using CovidAndWeatherVisualization.Core.Requests;
 using CovidAndWeatherVisualization.Core.Profiles;
 using CovidAndWeatherVisualization.DataAccess;
 using CovidAndWeatherVisualization.Services;
@@ -9,6 +9,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CovidAndWeatherVisualization.Core.Entities;
 
 namespace CovidAndWeatherVisualization.UnitTests
 {
@@ -18,13 +19,13 @@ namespace CovidAndWeatherVisualization.UnitTests
         public async Task GetCovidDataByCounty_WithGapsInDateRange_ReturnsWithNoGaps()
         {
             // Arrange
-            var dataWithGaps = new List<CovidDataByCountyDto>
+            var dataWithGaps = new List<CovidDataByCountyEntity>
             {
-                new CovidDataByCountyDto
+                new CovidDataByCountyEntity
                 {
                     Date = DateTime.Today.AddDays(-1).Date
                 },
-                new CovidDataByCountyDto
+                new CovidDataByCountyEntity
                 {
                     Date = DateTime.Today.AddDays(1).Date
                 }
@@ -45,13 +46,13 @@ namespace CovidAndWeatherVisualization.UnitTests
         public async Task GetCovidDataByCounty_WithSingleGapInDateRange_ReturnsWithGapFilledCorrectly()
         {
             // Arrange
-            var dataWithGaps = new List<CovidDataByCountyDto>
+            var dataWithGaps = new List<CovidDataByCountyEntity>
             {
-                new CovidDataByCountyDto
+                new CovidDataByCountyEntity
                 {
                     Date = DateTime.Today.AddDays(-1).Date
                 },
-                new CovidDataByCountyDto
+                new CovidDataByCountyEntity
                 {
                     Date = DateTime.Today.AddDays(1).Date
                 }
@@ -72,14 +73,14 @@ namespace CovidAndWeatherVisualization.UnitTests
         {
             // Arrange
             var unchangedCaseCount = 2;
-            var dataWithGaps = new List<CovidDataByCountyDto>
+            var dataWithGaps = new List<CovidDataByCountyEntity>
             {
-                new CovidDataByCountyDto
+                new CovidDataByCountyEntity
                 {
                     Date = DateTime.Today.AddDays(-5).Date,
                     CasesCumulative = unchangedCaseCount
                 },
-                new CovidDataByCountyDto
+                new CovidDataByCountyEntity
                 {
                     Date = DateTime.Today.AddDays(3).Date,
                     CasesCumulative = unchangedCaseCount
@@ -102,7 +103,7 @@ namespace CovidAndWeatherVisualization.UnitTests
         {
             // Arrange
             var fakeContext = A.Fake<CapstoneDbContext>();
-            A.CallTo(() => fakeContext.GetCovidDataByCountyOrdered(A<CovidDataRequest>.Ignored)).Returns(new List<CovidDataByCountyDto>());
+            A.CallTo(() => fakeContext.GetCovidDataByCountyOrdered(A<CovidDataRequest>.Ignored)).Returns(new List<CovidDataByCountyEntity>());
             var covidService = setupCovidService(fakeContext);
 
             // Assert
@@ -121,14 +122,14 @@ namespace CovidAndWeatherVisualization.UnitTests
             var caseCount = 1;
             var today = DateTime.Today.Date;
             var fakeContext = A.Fake<CapstoneDbContext>();
-            A.CallTo(() => fakeContext.GetCovidDataByCountyOrdered(A<CovidDataRequest>.Ignored)).Returns(new List<CovidDataByCountyDto>
+            A.CallTo(() => fakeContext.GetCovidDataByCountyOrdered(A<CovidDataRequest>.Ignored)).Returns(new List<CovidDataByCountyEntity>
             {
-                new CovidDataByCountyDto
+                new CovidDataByCountyEntity
                 {
                     Date = today.AddDays(-1).Date,
                     CasesCumulative = caseCount
                 },
-                new CovidDataByCountyDto
+                new CovidDataByCountyEntity
                 {
                     Date = today,
                     CasesCumulative = caseCount + caseCountIncrease

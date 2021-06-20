@@ -4,7 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CovidAndWeatherVisualization.Core.Models;
+using CovidAndWeatherVisualization.Core.Requests;
+using CovidAndWeatherVisualization.Core.Resources;
 using CovidAndWeatherVisualization.Interfaces;
 
 namespace CovidAndWeatherVisualization.Controllers

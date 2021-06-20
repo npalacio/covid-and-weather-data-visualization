@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using CovidAndWeatherVisualization.Core.Models;
+using CovidAndWeatherVisualization.Core.Requests;
+using CovidAndWeatherVisualization.Core.Resources;
 
 namespace CovidAndWeatherVisualization.Interfaces
 {

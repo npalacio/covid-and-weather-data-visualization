@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using CovidAndWeatherVisualization.Core.Models;
+using CovidAndWeatherVisualization.Core.Entities;
+using CovidAndWeatherVisualization.Core.Requests;
+using CovidAndWeatherVisualization.Core.Resources;
 using CovidAndWeatherVisualization.DataAccess;
 using CovidAndWeatherVisualization.Interfaces;
 
@@ -30,7 +32,7 @@ namespace CovidAndWeatherVisualization.Services
                 return new List<CovidDataByCounty>();
             }
             var returnList = new List<CovidDataByCounty>();
-            CovidDataByCountyDto lastFoundDay = covidDataOrdered.First();
+            CovidDataByCountyEntity lastFoundDay = covidDataOrdered.First();
             foreach (var currentDay in EachDay(covidDataOrdered.First().Date.AddDays(1), covidDataOrdered.Last().Date))
             {
                 int newCases;
