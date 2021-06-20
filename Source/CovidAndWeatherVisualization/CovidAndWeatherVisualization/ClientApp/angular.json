@@ -42,7 +42,7 @@
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
             ],
             "scripts": [],
-            "allowedCommonJsDependencies": ["moment","@codewithdan/observable-store"]
+            "allowedCommonJsDependencies": ["moment","@codewithdan/observable-store","chart.js"]
           },
           "configurations": {
             "production": {
