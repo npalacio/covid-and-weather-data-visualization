@@ -18,6 +18,8 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
       super({});
       const initialState: WeatherState = {
       temperatureData: [],
+      dates: [],
+      temperaturesAverage: [],
       isLoading: false
     };
     this.setState(initialState, 'INIT_STATE');
@@ -42,9 +44,13 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
         latitude: this.latitude,
         longitude: this.longitude
       });
+      const dates = temperatureData.map(_ => _.date);
+      const temperaturesAverage = temperatureData.map(_ => _.temperatureAverage);
       this.setState({
         isLoading: false,
-        temperatureData
+        temperatureData,
+        dates,
+        temperaturesAverage
       }, `${action}_LOADING_COMPLETE`);
     }
   }

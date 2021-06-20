@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Label } from 'ng2-charts';
 import { CovidStateService } from 'src/app/state';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { chartConfigs } from '../charts-config';
 
 @Component({
