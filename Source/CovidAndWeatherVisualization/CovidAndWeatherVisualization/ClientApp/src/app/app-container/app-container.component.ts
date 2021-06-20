@@ -13,8 +13,8 @@ export class AppContainerComponent implements OnInit {
   private areDatesInitialized = false;
 
   constructor(private route: ActivatedRoute
-    , private chartSettingsStateService: ChartSettingsStateService
-    , private countyStateService: CountyStateService) { }
+            , private chartSettingsStateService: ChartSettingsStateService
+            , private countyStateService: CountyStateService) { }
 
   ngOnInit(): void {
     this.countyStateService.stateChanged.subscribe((countyState: CountyState) => {
