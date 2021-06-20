@@ -7,6 +7,6 @@ namespace CovidAndWeatherVisualization.Interfaces
 {
     public interface ICovidService
     {
-        Task<List<CovidDataByCounty>> GetCovidDataByCounty(CovidDataRequest request);
+        Task<List<CovidDataByCounty>> GetCovidDataByCounty(CovidDataRequestEntity request);
     }
 }

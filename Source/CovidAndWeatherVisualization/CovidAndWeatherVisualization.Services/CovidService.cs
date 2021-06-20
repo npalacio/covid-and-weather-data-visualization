@@ -22,10 +22,10 @@ namespace CovidAndWeatherVisualization.Services
             _mapper = mapper;
         }
 
-        public async Task<List<CovidDataByCounty>> GetCovidDataByCounty(CovidDataRequest request)
+        public async Task<List<CovidDataByCounty>> GetCovidDataByCounty(CovidDataRequestEntity request)
         {
             // In order to calculate new cases for the first day they passed in we need to fetch data for one day before
-            request.StartDate = request.StartDate.Value.AddDays(-1);
+            request.StartDate = request.StartDate.AddDays(-1);
             var covidDataOrdered = await _dbContext.GetCovidDataByCountyOrdered(request);
             if (covidDataOrdered.Count < 2)
             {

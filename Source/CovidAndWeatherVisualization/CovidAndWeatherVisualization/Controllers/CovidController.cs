@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CovidAndWeatherVisualization.Core.Requests;
 using CovidAndWeatherVisualization.Core.Resources;
 using CovidAndWeatherVisualization.Interfaces;
@@ -15,16 +16,18 @@ namespace CovidAndWeatherVisualization.Controllers
     public class CovidController : ControllerBase
     {
         private readonly ICovidService _covidService;
+        private readonly IMapper _mapper;
 
-        public CovidController(ICovidService covidService)
+        public CovidController(ICovidService covidService, IMapper mapper)
         {
             _covidService = covidService;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<List<CovidDataByCounty>> Get([FromQuery]CovidDataRequest request)
         {
-            return await _covidService.GetCovidDataByCounty(request);
+            return await _covidService.GetCovidDataByCounty(_mapper.Map<CovidDataRequestEntity>(request));
         }
     }
 }
