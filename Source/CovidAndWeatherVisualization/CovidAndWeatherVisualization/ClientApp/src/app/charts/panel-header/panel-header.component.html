@@ -1,8 +1,8 @@
-<div class="border border-dark rounded">
+<div class="d-flex flex-column justify-content-center h-100">
   <div *ngIf="selectedCounty" class="text-center pt-2">
     <strong>{{selectedCounty.name}} County, {{selectedCounty.state}}</strong>
   </div>
-  <div class="text-center py-2">
+  <div *ngIf="startDate && endDate" class="text-center py-2">
     {{startDate | date : dateFormat }} - {{endDate | date : dateFormat }}
   </div>
 </div>

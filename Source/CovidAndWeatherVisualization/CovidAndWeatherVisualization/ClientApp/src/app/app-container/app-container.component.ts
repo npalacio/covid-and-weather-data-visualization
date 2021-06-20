@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CountyState } from '../state/county/county-state.model';
-import { CountyStateService } from '../state/county/county-state.service';
+import { ChartSettingsStateService, CountyState, CountyStateService } from 'src/app/state';
 
 @Component({
   selector: 'app-app-container',
@@ -11,14 +10,26 @@ import { CountyStateService } from '../state/county/county-state.service';
 export class AppContainerComponent implements OnInit {
   isPanelVisible = false;
   areChartsVisible = false;
+  private areDatesInitialized = false;
 
-  constructor(private countyStateService: CountyStateService) { }
+  constructor(private route: ActivatedRoute
+            , private chartSettingsStateService: ChartSettingsStateService
+            , private countyStateService: CountyStateService) { }
 
   ngOnInit(): void {
     this.countyStateService.stateChanged.subscribe((countyState: CountyState) => {
       if (countyState.selectedCounty) {
         this.isPanelVisible = true;
         this.areChartsVisible = true;
+      }
+    });
+    this.route.paramMap.subscribe(params => {
+      if (params.get('fips') && !this.areDatesInitialized) {
+        this.chartSettingsStateService.syncDatesInUrl(
+          this.route.snapshot.queryParamMap.get('startDate') ?? '',
+          this.route.snapshot.queryParamMap.get('endDate') ?? ''
+        );
+        this.areDatesInitialized = true;
       }
     });
   }
