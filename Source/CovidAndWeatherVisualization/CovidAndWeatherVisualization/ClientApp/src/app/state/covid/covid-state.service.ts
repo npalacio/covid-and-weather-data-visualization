@@ -21,7 +21,7 @@ export class CovidStateService extends ObservableStore<CovidState> {
       isLoading: false,
       dataByCounty: [],
       dates: [],
-      cases: []
+      casesNew: []
     };
     this.setState(initialState, 'INIT_STATE');
     this.chartSettingsStateService.stateChanged.subscribe(async state => {
@@ -45,11 +45,11 @@ export class CovidStateService extends ObservableStore<CovidState> {
       });
       this.setState({isLoading: false}, `${action}_LOADING_COMPLETE`);
       const dates = dataByCounty.map(_ => _.date);
-      const cases = dataByCounty.map(_ => _.cases);
+      const casesNew = dataByCounty.map(_ => _.casesNew);
       this.setState({
         dataByCounty,
         dates,
-        cases
+        casesNew
       }, action);
     }
   }

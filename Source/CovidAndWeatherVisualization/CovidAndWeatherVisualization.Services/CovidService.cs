@@ -22,18 +22,34 @@ namespace CovidAndWeatherVisualization.Services
 
         public async Task<List<CovidDataByCounty>> GetCovidDataByCounty(CovidDataRequest request)
         {
-            var orderedDtos = await _dbContext.GetCovidDataByCounty(request);
-            if (!orderedDtos.Any())
+            // In order to calculate new cases for the first day they passed in we need to fetch data for one day before
+            request.StartDate = request.StartDate.Value.AddDays(-1);
+            var covidDataOrdered = await _dbContext.GetCovidDataByCountyOrdered(request);
+            if (covidDataOrdered.Count < 2)
             {
                 return new List<CovidDataByCounty>();
             }
             var returnList = new List<CovidDataByCounty>();
-            CovidDataByCountyDto latestDto = null;
-            foreach (var currentDay in EachDay(orderedDtos.Select(_ => _.Date).Min(), orderedDtos.Select(_ => _.Date).Max()))
+            CovidDataByCountyDto lastFoundDay = covidDataOrdered.First();
+            foreach (var currentDay in EachDay(covidDataOrdered.First().Date.AddDays(1), covidDataOrdered.Last().Date))
             {
-                latestDto = orderedDtos.FirstOrDefault(dto => dto.Date == currentDay) ?? latestDto;
-                var currentDayData = _mapper.Map<CovidDataByCounty>(latestDto);
+                int newCases;
+                var today = covidDataOrdered.FirstOrDefault(dto => dto.Date == currentDay);
+
+                //If no data for today, new cases assumed to be 0
+                if (today == null)
+                {
+                    newCases = 0;
+                }
+                else
+                {
+                    newCases = today.CasesCumulative - lastFoundDay.CasesCumulative;
+                    lastFoundDay = today;
+                }
+
+                var currentDayData = _mapper.Map<CovidDataByCounty>(lastFoundDay);
                 currentDayData.Date = currentDay;
+                currentDayData.CasesNew = newCases;
                 returnList.Add(currentDayData);
             }
             return returnList;

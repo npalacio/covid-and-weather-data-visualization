@@ -24,7 +24,7 @@ export class ChartCovidComponent implements OnInit {
       if (this.isLoading) {
         this.spinner.show();
       } else {
-        this.chartConfig.data.data = state.cases;
+        this.chartConfig.data.data = state.casesNew;
         this.labels = state.dates.map(date => this.datePipe.transform(date, 'MM/dd') ?? 'unknown');
         this.spinner.hide();
       }

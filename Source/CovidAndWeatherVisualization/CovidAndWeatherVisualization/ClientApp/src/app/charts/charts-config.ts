@@ -11,7 +11,7 @@ export const chartConfigs = {
       maintainAspectRatio: false,
       title: {
         display: true,
-        text: 'COVID Infections'
+        text: 'Daily COVID Infections'
       },
       scales: {
         yAxes: [{
@@ -22,7 +22,7 @@ export const chartConfigs = {
           },
           scaleLabel: {
             display: true,
-            labelString: 'Confirmed Infections',
+            labelString: 'New Infections',
             fontSize: 16,
             fontStyle: 'bold'
           }

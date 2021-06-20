@@ -11,6 +11,6 @@ namespace CovidAndWeatherVisualization.Core.Models
         public string County { get; set; }
         public string State { get; set; }
         public int? Fips { get; set; }
-        public int Cases { get; set; }
+        public int CasesCumulative { get; set; }
     }
 }
