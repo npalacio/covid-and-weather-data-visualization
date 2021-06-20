@@ -17,7 +17,7 @@ export class ChartCovidComponent implements OnInit {
   constructor(private datePipe: DatePipe, private covidStateService: CovidStateService) { }
 
   async ngOnInit(): Promise<void> {
-    this.chartConfig = chartConfigs.covid;
+    this.chartConfig = {...chartConfigs.covid};
     this.covidStateService.stateChanged.subscribe(state => {
       this.isLoading = state.isLoading;
       if (!this.isLoading) {
