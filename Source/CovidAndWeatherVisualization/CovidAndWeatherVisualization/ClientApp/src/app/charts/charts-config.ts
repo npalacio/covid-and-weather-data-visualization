@@ -22,7 +22,7 @@ export const chartConfigs = {
           },
           scaleLabel: {
             display: true,
-            labelString: 'Confirmed Infections',
+            labelString: 'New Infections',
             fontSize: 16,
             fontStyle: 'bold'
           }
