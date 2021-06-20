@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace CovidAndWeatherVisualization.Core.Models
+namespace CovidAndWeatherVisualization.Core.Entities
 {
-    public class CovidDataByCountyDto
+    public class CovidDataByCountyEntity
     {
         [Key]
         public int DataByCountyID { get; set; }

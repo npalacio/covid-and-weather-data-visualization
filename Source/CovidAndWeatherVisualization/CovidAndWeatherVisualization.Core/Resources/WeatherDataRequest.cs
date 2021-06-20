@@ -1,15 +1,17 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace CovidAndWeatherVisualization.Core.Models
+namespace CovidAndWeatherVisualization.Core.Resources
 {
-    public class CovidDataRequest
+    public class WeatherDataRequest
     {
         [Required]
         public DateTime? StartDate { get; set; }
         [Required]
         public DateTime? EndDate { get; set; }
         [Required]
-        public int? Fips { get; set; }
+        public double? Latitude { get; set; }
+        [Required]
+        public double? Longitude { get; set; }
     }
 }

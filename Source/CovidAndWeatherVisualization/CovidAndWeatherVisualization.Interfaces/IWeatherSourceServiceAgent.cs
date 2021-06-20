@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using CovidAndWeatherVisualization.Core.Entities;
-using CovidAndWeatherVisualization.Core.Resources;
 
 namespace CovidAndWeatherVisualization.Interfaces
 {
-    public interface ICovidService
+    public interface IWeatherSourceServiceAgent
     {
-        Task<List<CovidDataByCounty>> GetCovidDataByCounty(CovidDataRequestEntity request);
+        Task<List<TemperatureDataEntity>> GetTemperatureData(WeatherDataRequestEntity request);
     }
 }

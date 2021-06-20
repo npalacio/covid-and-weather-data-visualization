@@ -5,8 +5,8 @@ using CovidAndWeatherVisualization.Core.Resources;
 
 namespace CovidAndWeatherVisualization.Interfaces
 {
-    public interface ICovidService
+    public interface IWeatherService
     {
-        Task<List<CovidDataByCounty>> GetCovidDataByCounty(CovidDataRequestEntity request);
+        Task<List<TemperatureData>> GetTemperatureData(WeatherDataRequestEntity request);
     }
 }

@@ -13,21 +13,21 @@ namespace CovidAndWeatherVisualization.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CovidController : ControllerBase
+    public class WeatherController : ControllerBase
     {
-        private readonly ICovidService _covidService;
+        private readonly IWeatherService _weatherService;
         private readonly IMapper _mapper;
 
-        public CovidController(ICovidService covidService, IMapper mapper)
+        public WeatherController(IWeatherService weatherService, IMapper mapper)
         {
-            _covidService = covidService;
+            _weatherService = weatherService;
             _mapper = mapper;
         }
 
-        [HttpGet]
-        public async Task<List<CovidDataByCounty>> Get([FromQuery]CovidDataRequest request)
+        [HttpGet("temperature")]
+        public async Task<List<TemperatureData>> Get([FromQuery]WeatherDataRequest request)
         {
-            return await _covidService.GetCovidDataByCounty(_mapper.Map<CovidDataRequestEntity>(request));
+            return await _weatherService.GetTemperatureData(_mapper.Map<WeatherDataRequestEntity>(request));
         }
     }
 }

@@ -1,5 +1,7 @@
 using System;
 using System.IO;
+using CovidAndWeatherVisualization.Core;
+using CovidAndWeatherVisualization.Core.Enums;
 using CovidAndWeatherVisualization.DataAccess;
 using CovidAndWeatherVisualization.Interfaces;
 using CovidAndWeatherVisualization.Services;
@@ -26,6 +28,7 @@ namespace CovidAndWeatherVisualization
         {
             var secretConfig = GetSecretConfig();
             var capstoneDbConnectionString = secretConfig.GetValue<string>("connection-string-db-capstone") ?? Environment.GetEnvironmentVariable("connection-string-db-capstone");
+            var weatherSourceApiKey = secretConfig.GetValue<string>("weather-source-api-key") ?? Environment.GetEnvironmentVariable("weather-source-api-key");
 
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
@@ -35,11 +38,17 @@ namespace CovidAndWeatherVisualization
             });
             services.AddApplicationInsightsTelemetry();
             services.AddTransient<ICovidService, CovidService>();
+            services.AddTransient<IWeatherService, WeatherService>();
+            services.AddTransient<IWeatherSourceServiceAgent, WeatherSourceServiceAgent>();
             services.AddDbContext<CapstoneDbContext>(options => options.UseSqlServer(capstoneDbConnectionString, o =>
             {
                 o.EnableRetryOnFailure();
             }));
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddHttpClient(HttpClientEnum.WeatherSource.ToString(), c =>
+            {
+                c.BaseAddress = new Uri($"https://api.weathersource.com/v1/{weatherSourceApiKey}/");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
