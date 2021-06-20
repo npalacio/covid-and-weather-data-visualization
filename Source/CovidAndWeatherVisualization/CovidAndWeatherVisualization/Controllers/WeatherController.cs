@@ -13,15 +13,17 @@ namespace CovidAndWeatherVisualization.Controllers
     [Route("[controller]")]
     public class WeatherController : ControllerBase
     {
+        private readonly IWeatherService _weatherService;
 
-        public WeatherController()
+        public WeatherController(IWeatherService weatherService)
         {
+            _weatherService = weatherService;
         }
 
         [HttpGet("temperature")]
         public async Task<List<TemperatureData>> Get([FromQuery]WeatherDataRequest request)
         {
-            return new List<TemperatureData>();
+            return await _weatherService.GetTemperatureData(request);
         }
     }
 }
