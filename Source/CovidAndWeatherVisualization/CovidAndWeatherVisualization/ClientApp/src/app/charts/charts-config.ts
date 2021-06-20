@@ -18,7 +18,7 @@ const defaultOptions = {
 
 export const chartConfigs = {
   covid: {
-    data: defaultData,
+    data: {...defaultData},
     options: {
       ...defaultOptions,
       title: {

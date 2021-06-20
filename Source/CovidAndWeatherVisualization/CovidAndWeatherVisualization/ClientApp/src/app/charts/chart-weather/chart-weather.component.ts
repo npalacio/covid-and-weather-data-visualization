@@ -17,7 +17,7 @@ export class ChartWeatherComponent implements OnInit {
   constructor(private datePipe: DatePipe, private weatherStateService: WeatherStateService) { }
 
   async ngOnInit(): Promise<void> {
-    this.chartConfig = chartConfigs.temperature;
+    this.chartConfig = {...chartConfigs.temperature};
     this.weatherStateService.stateChanged.subscribe(state => {
       this.isLoading = state.isLoading;
       if (!this.isLoading) {
