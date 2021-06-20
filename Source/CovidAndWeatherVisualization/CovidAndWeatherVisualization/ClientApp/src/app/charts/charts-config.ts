@@ -11,7 +11,7 @@ export const chartConfigs = {
       maintainAspectRatio: false,
       title: {
         display: true,
-        text: 'COVID Infections'
+        text: 'Daily COVID Infections'
       },
       scales: {
         yAxes: [{
