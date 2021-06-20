@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -28,6 +29,9 @@ namespace CovidAndWeatherVisualization.DataAccess
                 var requestUrl =
                     $"points/{request.Latitude},{request.Longitude}/history.json?timestamp_between={request.StartDate.Value.ToString("s", System.Globalization.CultureInfo.InvariantCulture)},{request.EndDate.Value.ToString("s", System.Globalization.CultureInfo.InvariantCulture)}&fields=tempAvg";
                 var response = await weatherSourceClient.GetAsync(requestUrl);
+
+                if(response.StatusCode == HttpStatusCode.NotFound) return new List<TemperatureDataEntity>();
+
                 response.EnsureSuccessStatusCode();
                 return JsonConvert.DeserializeObject<List<TemperatureDataEntity>>(await response.Content.ReadAsStringAsync());
             }
