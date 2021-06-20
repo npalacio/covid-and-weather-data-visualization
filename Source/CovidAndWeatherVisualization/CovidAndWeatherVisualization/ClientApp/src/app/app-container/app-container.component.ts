@@ -10,6 +10,7 @@ import { ChartSettingsStateService, CountyState, CountyStateService } from 'src/
 export class AppContainerComponent implements OnInit {
   isPanelVisible = false;
   areChartsVisible = false;
+  private areDatesInitialized = false;
 
   constructor(private route: ActivatedRoute
     , private chartSettingsStateService: ChartSettingsStateService
@@ -22,12 +23,15 @@ export class AppContainerComponent implements OnInit {
         this.areChartsVisible = true;
       }
     });
-    // TODO: Only need to do this if county in URL
-    console.log('container created');
-    this.chartSettingsStateService.syncDatesInUrl(
-      this.route.snapshot.queryParamMap.get('startDate') ?? '',
-      this.route.snapshot.queryParamMap.get('endDate') ?? ''
-    );
+    this.route.paramMap.subscribe(params => {
+      if (params.get('fips') && !this.areDatesInitialized) {
+        this.chartSettingsStateService.syncDatesInUrl(
+          this.route.snapshot.queryParamMap.get('startDate') ?? '',
+          this.route.snapshot.queryParamMap.get('endDate') ?? ''
+        );
+        this.areDatesInitialized = true;
+      }
+    });
   }
 
   hideCharts(): void {
