@@ -23,17 +23,31 @@ namespace CovidAndWeatherVisualization.Services
         public async Task<List<CovidDataByCounty>> GetCovidDataByCounty(CovidDataRequest request)
         {
             var orderedDtos = await _dbContext.GetCovidDataByCounty(request);
-            if (!orderedDtos.Any())
+            if (orderedDtos.Count < 2)
             {
                 return new List<CovidDataByCounty>();
             }
             var returnList = new List<CovidDataByCounty>();
-            CovidDataByCountyDto latestDto = null;
-            foreach (var currentDay in EachDay(orderedDtos.Select(_ => _.Date).Min(), orderedDtos.Select(_ => _.Date).Max()))
+            CovidDataByCountyDto lastFoundDay = orderedDtos.First();
+            foreach (var currentDay in EachDay(orderedDtos.First().Date.AddDays(1), orderedDtos.Last().Date))
             {
-                latestDto = orderedDtos.FirstOrDefault(dto => dto.Date == currentDay) ?? latestDto;
-                var currentDayData = _mapper.Map<CovidDataByCounty>(latestDto);
+                int newCases;
+                var today = orderedDtos.FirstOrDefault(dto => dto.Date == currentDay);
+
+                //If no data for today, new cases assumed to be 0
+                if (today == null)
+                {
+                    newCases = 0;
+                }
+                else
+                {
+                    newCases = today.Cases - lastFoundDay.Cases;
+                    lastFoundDay = today;
+                }
+
+                var currentDayData = _mapper.Map<CovidDataByCounty>(lastFoundDay);
                 currentDayData.Date = currentDay;
+                currentDayData.Cases = newCases;
                 returnList.Add(currentDayData);
             }
             return returnList;

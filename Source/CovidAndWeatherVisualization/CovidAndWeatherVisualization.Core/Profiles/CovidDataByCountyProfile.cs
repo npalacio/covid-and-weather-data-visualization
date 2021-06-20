@@ -8,7 +8,8 @@ namespace CovidAndWeatherVisualization.Core.Profiles
         public CovidDataByCountyProfile()
         {
             CreateMap<CovidDataByCountyDto, CovidDataByCounty>()
-                .ForMember(fac => fac.Date, opt => opt.Ignore());
+                .ForMember(dest => dest.Date, opt => opt.Ignore())
+                .ForMember(dest => dest.Cases, opt => opt.Ignore());
         }
     }
 }
