@@ -26,12 +26,27 @@ namespace CovidAndWeatherVisualization.UnitTests
             var startDate = DateTime.Today;
 
             // Assert
-            await service.GetTemperatureData(new WeatherDataRequestEntity { StartDate = startDate, EndDate = startDate.AddDays(dayRange)});
+            await service.GetTemperatureData(new WeatherDataRequestEntity { StartDate = startDate, EndDate = startDate.AddDays(dayRange) });
 
             // Act
             A.CallTo(() => fakeServiceAgent.GetTemperatureData(A<WeatherDataRequestEntity>.Ignored)).MustHaveHappenedOnceExactly();
         }
-        private WeatherService setupWeatherService(IWeatherSourceServiceAgent fakeWeatherSourceServiceAgent)
+
+        [Test]
+        public async Task GetTemperatureData_WithStartDateAfterEndDate_ReturnsEmptyList()
+        {
+            // Arrange
+            var service = setupWeatherService();
+            var startDate = DateTime.Today;
+
+            // Assert
+            var result = await service.GetTemperatureData(new WeatherDataRequestEntity { StartDate = startDate.AddDays(1), EndDate = startDate});
+
+            // Act
+            CollectionAssert.IsEmpty(result);
+        }
+
+        private WeatherService setupWeatherService(IWeatherSourceServiceAgent fakeWeatherSourceServiceAgent = null)
         {
             fakeWeatherSourceServiceAgent ??= fakeWeatherSourceServiceAgent ?? A.Fake<IWeatherSourceServiceAgent>();
             return new WeatherService(A.Fake<IMapper>(),fakeWeatherSourceServiceAgent);
