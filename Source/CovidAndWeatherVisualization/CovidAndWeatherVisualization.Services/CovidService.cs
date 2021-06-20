@@ -22,18 +22,19 @@ namespace CovidAndWeatherVisualization.Services
 
         public async Task<List<CovidDataByCounty>> GetCovidDataByCounty(CovidDataRequest request)
         {
+            // In order to calculate new cases for the first day they passed in we need to fetch data for one day before
             request.StartDate = request.StartDate.Value.AddDays(-1);
-            var orderedDtos = await _dbContext.GetCovidDataByCountyOrdered(request);
-            if (orderedDtos.Count < 2)
+            var covidDataOrdered = await _dbContext.GetCovidDataByCountyOrdered(request);
+            if (covidDataOrdered.Count < 2)
             {
                 return new List<CovidDataByCounty>();
             }
             var returnList = new List<CovidDataByCounty>();
-            CovidDataByCountyDto lastFoundDay = orderedDtos.First();
-            foreach (var currentDay in EachDay(orderedDtos.First().Date.AddDays(1), orderedDtos.Last().Date))
+            CovidDataByCountyDto lastFoundDay = covidDataOrdered.First();
+            foreach (var currentDay in EachDay(covidDataOrdered.First().Date.AddDays(1), covidDataOrdered.Last().Date))
             {
                 int newCases;
-                var today = orderedDtos.FirstOrDefault(dto => dto.Date == currentDay);
+                var today = covidDataOrdered.FirstOrDefault(dto => dto.Date == currentDay);
 
                 //If no data for today, new cases assumed to be 0
                 if (today == null)

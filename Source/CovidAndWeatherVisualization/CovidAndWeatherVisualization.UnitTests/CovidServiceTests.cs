@@ -119,17 +119,18 @@ namespace CovidAndWeatherVisualization.UnitTests
         {
             // Arrange
             var caseCount = 1;
+            var today = DateTime.Today.Date;
             var fakeContext = A.Fake<CapstoneDbContext>();
             A.CallTo(() => fakeContext.GetCovidDataByCountyOrdered(A<CovidDataRequest>.Ignored)).Returns(new List<CovidDataByCountyDto>
             {
                 new CovidDataByCountyDto
                 {
-                    Date = DateTime.Today.AddDays(-1).Date,
+                    Date = today.AddDays(-1).Date,
                     CasesCumulative = caseCount
                 },
                 new CovidDataByCountyDto
                 {
-                    Date = DateTime.Today.Date,
+                    Date = today,
                     CasesCumulative = caseCount + caseCountIncrease
                 }
             });
@@ -139,11 +140,11 @@ namespace CovidAndWeatherVisualization.UnitTests
             var result = await covidService.GetCovidDataByCounty(new CovidDataRequest {StartDate = DateTime.Today});
 
             // Act
-            Assert.AreEqual(caseCountIncrease, result.First(_ => _.Date == DateTime.Today.Date).CasesNew);
+            Assert.AreEqual(caseCountIncrease, result.First(_ => _.Date == today).CasesNew);
         }
 
         [Test]
-        public async Task GetCovidDataByCounty_WithStartDatePassedIn_CallsDbWithStartDateMinus1()
+        public async Task GetCovidDataByCounty_WithStartDatePassedIn_CallsDbWithOneDayBefore()
         {
             // Arrange
             var startDate = DateTime.Today;
