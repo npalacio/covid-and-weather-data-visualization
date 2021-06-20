@@ -48,7 +48,7 @@ namespace CovidAndWeatherVisualization.Services
 
                 var currentDayData = _mapper.Map<CovidDataByCounty>(lastFoundDay);
                 currentDayData.Date = currentDay;
-                currentDayData.Cases = newCases;
+                currentDayData.CasesNew = newCases;
                 returnList.Add(currentDayData);
             }
             return returnList;

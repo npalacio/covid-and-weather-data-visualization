@@ -64,7 +64,7 @@ namespace CovidAndWeatherVisualization.UnitTests
             var result = await covidService.GetCovidDataByCounty(new CovidDataRequest {StartDate = DateTime.Today});
 
             // Act
-            Assert.AreEqual(0, result.First(_ => _.Date == DateTime.Today).Cases);
+            Assert.AreEqual(0, result.First(_ => _.Date == DateTime.Today).CasesNew);
         }
 
         [Test]
@@ -93,7 +93,7 @@ namespace CovidAndWeatherVisualization.UnitTests
             var result = await covidService.GetCovidDataByCounty(new CovidDataRequest {StartDate = DateTime.Today});
 
             // Act
-            Assert.IsTrue(result.All(_ => _.Cases == 0));
+            Assert.IsTrue(result.All(_ => _.CasesNew == 0));
         }
 
 
@@ -139,7 +139,7 @@ namespace CovidAndWeatherVisualization.UnitTests
             var result = await covidService.GetCovidDataByCounty(new CovidDataRequest {StartDate = DateTime.Today});
 
             // Act
-            Assert.AreEqual(caseCountIncrease, result.First(_ => _.Date == DateTime.Today.Date).Cases);
+            Assert.AreEqual(caseCountIncrease, result.First(_ => _.Date == DateTime.Today.Date).CasesNew);
         }
 
         [Test]

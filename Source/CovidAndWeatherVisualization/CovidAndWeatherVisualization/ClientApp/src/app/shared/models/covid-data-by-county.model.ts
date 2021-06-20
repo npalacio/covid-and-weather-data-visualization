@@ -3,5 +3,5 @@ export interface CovidDataByCounty {
   county: string;
   state: string;
   fips: number;
-  cases: number;
+  casesNew: number;
 }

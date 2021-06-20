@@ -4,5 +4,5 @@ export interface CovidState {
   isLoading: boolean;
   dataByCounty: CovidDataByCounty[];
   dates: Date[];
-  cases: number[];
+  casesNew: number[];
 }
