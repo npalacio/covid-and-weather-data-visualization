@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using CovidAndWeatherVisualization.Core;
+using CovidAndWeatherVisualization.Core.Enums;
 using CovidAndWeatherVisualization.DataAccess;
 using CovidAndWeatherVisualization.Interfaces;
 using CovidAndWeatherVisualization.Services;
@@ -38,12 +39,13 @@ namespace CovidAndWeatherVisualization
             services.AddApplicationInsightsTelemetry();
             services.AddTransient<ICovidService, CovidService>();
             services.AddTransient<IWeatherService, WeatherService>();
+            services.AddTransient<IWeatherSourceServiceAgent, WeatherSourceServiceAgent>();
             services.AddDbContext<CapstoneDbContext>(options => options.UseSqlServer(capstoneDbConnectionString, o =>
             {
                 o.EnableRetryOnFailure();
             }));
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddHttpClient(Enums.HttpClients.WeatherSource.ToString(), c =>
+            services.AddHttpClient(HttpClientEnum.WeatherSource.ToString(), c =>
             {
                 c.BaseAddress = new Uri($"https://api.weathersource.com/v1/{weatherSourceApiKey}/");
             });

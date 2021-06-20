@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace CovidAndWeatherVisualization.Core.Requests
+namespace CovidAndWeatherVisualization.Core.Resources
 {
     public class WeatherDataRequest
     {

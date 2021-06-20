@@ -1,46 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
 using AutoMapper;
-using CovidAndWeatherVisualization.Core;
-using CovidAndWeatherVisualization.Core.Entities;
 using CovidAndWeatherVisualization.Core.Requests;
 using CovidAndWeatherVisualization.Core.Resources;
 using CovidAndWeatherVisualization.Interfaces;
-using Newtonsoft.Json;
 
 namespace CovidAndWeatherVisualization.Services
 {
     public class WeatherService : IWeatherService
     {
-        private readonly IHttpClientFactory _httpClientFactory;
         private readonly IMapper _mapper;
+        private readonly IWeatherSourceServiceAgent _weatherSourceServiceAgent;
 
-        public WeatherService(IHttpClientFactory httpClientFactory, IMapper mapper)
+        public WeatherService(IMapper mapper, IWeatherSourceServiceAgent weatherSourceServiceAgent)
         {
-            _httpClientFactory = httpClientFactory;
             _mapper = mapper;
+            _weatherSourceServiceAgent = weatherSourceServiceAgent;
         }
 
-        public async Task<List<TemperatureData>> GetTemperatureData(WeatherDataRequest request)
+        public async Task<List<TemperatureData>> GetTemperatureData(WeatherDataRequestEntity request)
         {
             // WeatherSource API has a limit of 1 year for the date range
-            var weatherSourceClient = _httpClientFactory.CreateClient(Enums.HttpClients.WeatherSource.ToString());
-            var currentStartDate = request.StartDate.Value;
-            var currentEndDate = GetCurrentEndDate(currentStartDate, request.EndDate.Value);
+            var currentStartDate = request.StartDate;
+            var currentEndDate = GetCurrentEndDate(currentStartDate, request.EndDate);
             var returnList = new List<TemperatureData>();
             while (currentEndDate > currentStartDate)
             {
-                returnList.AddRange(await GetTemperatureDataFromWeatherSource(new WeatherDataRequest
+                var tempDataEntities = await _weatherSourceServiceAgent.GetTemperatureData(new WeatherDataRequest
                 {
                     StartDate = currentStartDate,
                     EndDate = currentEndDate,
                     Latitude = request.Latitude,
                     Longitude = request.Longitude
-                }, weatherSourceClient));
+                });
+                returnList.AddRange(_mapper.Map<List<TemperatureData>>(tempDataEntities));
                 currentStartDate = currentEndDate.AddDays(1);
-                currentEndDate = GetCurrentEndDate(currentStartDate, request.EndDate.Value);
+                currentEndDate = GetCurrentEndDate(currentStartDate, request.EndDate);
             }
 
             return returnList;
@@ -59,14 +55,5 @@ namespace CovidAndWeatherVisualization.Services
             }
         }
 
-        private async Task<List<TemperatureData>> GetTemperatureDataFromWeatherSource(WeatherDataRequest request, HttpClient weatherSourceClient)
-        {
-            var requestUrl =
-                $"points/{request.Latitude},{request.Longitude}/history.json?timestamp_between={request.StartDate.Value.ToString("s", System.Globalization.CultureInfo.InvariantCulture)},{request.EndDate.Value.ToString("s", System.Globalization.CultureInfo.InvariantCulture)}&fields=tempAvg";
-            var response = await weatherSourceClient.GetAsync(requestUrl);
-            response.EnsureSuccessStatusCode();
-            var result = JsonConvert.DeserializeObject<List<TemperatureDataEntity>>(await response.Content.ReadAsStringAsync());
-            return _mapper.Map<List<TemperatureData>>(result);
-        }
     }
 }
