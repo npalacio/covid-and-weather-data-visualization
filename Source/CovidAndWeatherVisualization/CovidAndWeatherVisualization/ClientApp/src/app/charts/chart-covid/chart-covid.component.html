@@ -1,13 +1,10 @@
-<div class="covid-chart-container py-3">
-  <ngx-spinner [fullScreen]="false" type="ball-atom" size="medium">
-    <p class="loading">Loading Covid data...</p>
-  </ngx-spinner>
-  <canvas *ngIf="!isLoading" baseChart
-    [datasets]="[chartConfig.data]"
+  <app-chart
+    [isLoading]="isLoading"
+    [loadingText]="'Loading Covid data'"
+    [data]="chartConfig.data"
     [labels]="labels"
     [options]="chartConfig.options"
     [colors]="chartConfig.colors"
     [legend]="chartConfig.legend"
-    [chartType]="chartConfig.type">
-  </canvas>
-</div>
+    [type]="chartConfig.type">
+</app-chart>
