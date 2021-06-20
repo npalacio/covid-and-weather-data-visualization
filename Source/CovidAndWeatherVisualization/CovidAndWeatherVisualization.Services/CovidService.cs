@@ -42,7 +42,7 @@ namespace CovidAndWeatherVisualization.Services
                 }
                 else
                 {
-                    newCases = today.Cases - lastFoundDay.Cases;
+                    newCases = today.CasesCumulative - lastFoundDay.CasesCumulative;
                     lastFoundDay = today;
                 }
 

@@ -77,12 +77,12 @@ namespace CovidAndWeatherVisualization.UnitTests
                 new CovidDataByCountyDto
                 {
                     Date = DateTime.Today.AddDays(-5).Date,
-                    Cases = unchangedCaseCount
+                    CasesCumulative = unchangedCaseCount
                 },
                 new CovidDataByCountyDto
                 {
                     Date = DateTime.Today.AddDays(3).Date,
-                    Cases = unchangedCaseCount
+                    CasesCumulative = unchangedCaseCount
                 }
             };
             var fakeContext = A.Fake<CapstoneDbContext>();
@@ -125,12 +125,12 @@ namespace CovidAndWeatherVisualization.UnitTests
                 new CovidDataByCountyDto
                 {
                     Date = DateTime.Today.AddDays(-1).Date,
-                    Cases = caseCount
+                    CasesCumulative = caseCount
                 },
                 new CovidDataByCountyDto
                 {
                     Date = DateTime.Today.Date,
-                    Cases = caseCount + caseCountIncrease
+                    CasesCumulative = caseCount + caseCountIncrease
                 }
             });
             var covidService = setupCovidService(fakeContext);

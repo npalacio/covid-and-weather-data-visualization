@@ -1,4 +1,4 @@
-CREATE PROCEDURE [Covid].[DataByCounty_S]
+ALTER PROCEDURE [Covid].[DataByCounty_S]
 	@StartDate DATE
   , @EndDate DATE
   , @Fips INT
@@ -8,7 +8,7 @@ AS
 		 , County
 		 , State
 		 , FIPS
-		 , Cases
+		 , Cases AS CasesCumulative
 	FROM Covid.DataByCounty
 	WHERE
 		Date >= @StartDate
@@ -17,5 +17,4 @@ AS
 	ORDER BY
 		Date ASC ;
 GO
-
 
