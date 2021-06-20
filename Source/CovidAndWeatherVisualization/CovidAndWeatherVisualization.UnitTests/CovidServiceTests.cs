@@ -34,7 +34,7 @@ namespace CovidAndWeatherVisualization.UnitTests
             var covidService = setupCovidService(fakeContext);
 
             // Assert
-            var result = await covidService.GetCovidDataByCounty(new CovidDataRequest());
+            var result = await covidService.GetCovidDataByCounty(new CovidDataRequest {StartDate = DateTime.Today});
 
             // Act
             Assert.AreEqual(2, result.Count);
@@ -61,7 +61,7 @@ namespace CovidAndWeatherVisualization.UnitTests
             var covidService = setupCovidService(fakeContext);
 
             // Assert
-            var result = await covidService.GetCovidDataByCounty(new CovidDataRequest());
+            var result = await covidService.GetCovidDataByCounty(new CovidDataRequest {StartDate = DateTime.Today});
 
             // Act
             Assert.AreEqual(0, result.First(_ => _.Date == DateTime.Today).Cases);
@@ -90,7 +90,7 @@ namespace CovidAndWeatherVisualization.UnitTests
             var covidService = setupCovidService(fakeContext);
 
             // Assert
-            var result = await covidService.GetCovidDataByCounty(new CovidDataRequest());
+            var result = await covidService.GetCovidDataByCounty(new CovidDataRequest {StartDate = DateTime.Today});
 
             // Act
             Assert.IsTrue(result.All(_ => _.Cases == 0));
@@ -106,18 +106,19 @@ namespace CovidAndWeatherVisualization.UnitTests
             var covidService = setupCovidService(fakeContext);
 
             // Assert
-            var result = await covidService.GetCovidDataByCounty(new CovidDataRequest());
+            var result = await covidService.GetCovidDataByCounty(new CovidDataRequest {StartDate = DateTime.Today});
 
             // Act
             CollectionAssert.IsEmpty(result);
         }
 
-        [Test]
-        public async Task GetCovidDataByCounty_WithCumulativeCasesByDayFromDb_ReturnsNewCasesByDay()
+        [TestCase(0)]
+        [TestCase(1)]
+        [TestCase(5)]
+        public async Task GetCovidDataByCounty_WithCumulativeCasesByDayFromDb_ReturnsNewCasesByDay(int caseCountIncrease)
         {
             // Arrange
             var caseCount = 1;
-            var caseCountIncrease = 2;
             var fakeContext = A.Fake<CapstoneDbContext>();
             A.CallTo(() => fakeContext.GetCovidDataByCounty(A<CovidDataRequest>.Ignored)).Returns(new List<CovidDataByCountyDto>
             {
@@ -135,10 +136,25 @@ namespace CovidAndWeatherVisualization.UnitTests
             var covidService = setupCovidService(fakeContext);
 
             // Assert
-            var result = await covidService.GetCovidDataByCounty(new CovidDataRequest());
+            var result = await covidService.GetCovidDataByCounty(new CovidDataRequest {StartDate = DateTime.Today});
 
             // Act
             Assert.AreEqual(caseCountIncrease, result.First(_ => _.Date == DateTime.Today.Date).Cases);
+        }
+
+        [Test]
+        public async Task GetCovidDataByCounty_WithStartDatePassedIn_CallsDbWithStartDateMinus1()
+        {
+            // Arrange
+            var startDate = DateTime.Today;
+            var fakeContext = A.Fake<CapstoneDbContext>();
+            var covidService = setupCovidService(fakeContext);
+
+            // Assert
+            var result = await covidService.GetCovidDataByCounty(new CovidDataRequest {StartDate = startDate});
+
+            // Act
+            A.CallTo(() => fakeContext.GetCovidDataByCounty(A<CovidDataRequest>.That.Matches(_ => _.StartDate == startDate.AddDays(-1)))).MustHaveHappenedOnceExactly();
         }
 
         private CovidService setupCovidService(CapstoneDbContext fakeContext)

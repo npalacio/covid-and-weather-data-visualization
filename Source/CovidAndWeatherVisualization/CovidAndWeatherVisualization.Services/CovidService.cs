@@ -22,6 +22,7 @@ namespace CovidAndWeatherVisualization.Services
 
         public async Task<List<CovidDataByCounty>> GetCovidDataByCounty(CovidDataRequest request)
         {
+            request.StartDate = request.StartDate.Value.AddDays(-1);
             var orderedDtos = await _dbContext.GetCovidDataByCounty(request);
             if (orderedDtos.Count < 2)
             {
