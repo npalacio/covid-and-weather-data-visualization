@@ -8,13 +8,15 @@ import { ChartsComponent } from './charts/charts.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ChartCovidComponent } from './chart-covid/chart-covid.component';
 import { SharedModule } from '../shared/shared.module';
+import { ChartWeatherComponent } from './chart-weather/chart-weather.component';
 
 @NgModule({
   declarations: [
     PanelComponent,
     PanelHeaderComponent,
     ChartsComponent,
-    ChartCovidComponent
+    ChartCovidComponent,
+    ChartWeatherComponent
   ],
   imports: [
     CommonModule,

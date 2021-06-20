@@ -43,14 +43,14 @@ export class CovidStateService extends ObservableStore<CovidState> {
         startDate: this.startDate,
         endDate: this.endDate
       });
-      this.setState({isLoading: false}, `${action}_LOADING_COMPLETE`);
       const dates = dataByCounty.map(_ => _.date);
       const casesNew = dataByCounty.map(_ => _.casesNew);
       this.setState({
+        isLoading: false,
         dataByCounty,
         dates,
         casesNew
-      }, action);
+      }, `${action}_LOADING_COMPLETE`);
     }
   }
 }
