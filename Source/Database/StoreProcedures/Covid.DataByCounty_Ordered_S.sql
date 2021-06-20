@@ -1,4 +1,4 @@
-ALTER PROCEDURE [Covid].[DataByCounty_S]
+CREATE PROCEDURE [Covid].[DataByCounty_Ordered_S]
 	@StartDate DATE
   , @EndDate DATE
   , @Fips INT

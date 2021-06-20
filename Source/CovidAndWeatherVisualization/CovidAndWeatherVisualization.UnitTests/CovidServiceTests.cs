@@ -30,7 +30,7 @@ namespace CovidAndWeatherVisualization.UnitTests
                 }
             };
             var fakeContext = A.Fake<CapstoneDbContext>();
-            A.CallTo(() => fakeContext.GetCovidDataByCounty(A<CovidDataRequest>.Ignored)).Returns(dataWithGaps);
+            A.CallTo(() => fakeContext.GetCovidDataByCountyOrdered(A<CovidDataRequest>.Ignored)).Returns(dataWithGaps);
             var covidService = setupCovidService(fakeContext);
 
             // Assert
@@ -57,7 +57,7 @@ namespace CovidAndWeatherVisualization.UnitTests
                 }
             };
             var fakeContext = A.Fake<CapstoneDbContext>();
-            A.CallTo(() => fakeContext.GetCovidDataByCounty(A<CovidDataRequest>.Ignored)).Returns(dataWithGaps);
+            A.CallTo(() => fakeContext.GetCovidDataByCountyOrdered(A<CovidDataRequest>.Ignored)).Returns(dataWithGaps);
             var covidService = setupCovidService(fakeContext);
 
             // Assert
@@ -86,7 +86,7 @@ namespace CovidAndWeatherVisualization.UnitTests
                 }
             };
             var fakeContext = A.Fake<CapstoneDbContext>();
-            A.CallTo(() => fakeContext.GetCovidDataByCounty(A<CovidDataRequest>.Ignored)).Returns(dataWithGaps);
+            A.CallTo(() => fakeContext.GetCovidDataByCountyOrdered(A<CovidDataRequest>.Ignored)).Returns(dataWithGaps);
             var covidService = setupCovidService(fakeContext);
 
             // Assert
@@ -102,7 +102,7 @@ namespace CovidAndWeatherVisualization.UnitTests
         {
             // Arrange
             var fakeContext = A.Fake<CapstoneDbContext>();
-            A.CallTo(() => fakeContext.GetCovidDataByCounty(A<CovidDataRequest>.Ignored)).Returns(new List<CovidDataByCountyDto>());
+            A.CallTo(() => fakeContext.GetCovidDataByCountyOrdered(A<CovidDataRequest>.Ignored)).Returns(new List<CovidDataByCountyDto>());
             var covidService = setupCovidService(fakeContext);
 
             // Assert
@@ -120,7 +120,7 @@ namespace CovidAndWeatherVisualization.UnitTests
             // Arrange
             var caseCount = 1;
             var fakeContext = A.Fake<CapstoneDbContext>();
-            A.CallTo(() => fakeContext.GetCovidDataByCounty(A<CovidDataRequest>.Ignored)).Returns(new List<CovidDataByCountyDto>
+            A.CallTo(() => fakeContext.GetCovidDataByCountyOrdered(A<CovidDataRequest>.Ignored)).Returns(new List<CovidDataByCountyDto>
             {
                 new CovidDataByCountyDto
                 {
@@ -154,7 +154,7 @@ namespace CovidAndWeatherVisualization.UnitTests
             var result = await covidService.GetCovidDataByCounty(new CovidDataRequest {StartDate = startDate});
 
             // Act
-            A.CallTo(() => fakeContext.GetCovidDataByCounty(A<CovidDataRequest>.That.Matches(_ => _.StartDate == startDate.AddDays(-1)))).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeContext.GetCovidDataByCountyOrdered(A<CovidDataRequest>.That.Matches(_ => _.StartDate == startDate.AddDays(-1)))).MustHaveHappenedOnceExactly();
         }
 
         private CovidService setupCovidService(CapstoneDbContext fakeContext)
