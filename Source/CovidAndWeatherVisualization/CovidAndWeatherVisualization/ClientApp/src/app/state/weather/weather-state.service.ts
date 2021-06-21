@@ -22,13 +22,13 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
       temperaturesAverage: [],
       isLoading: false
     };
-    this.setState(initialState, 'INIT_STATE');
-    this.chartSettingsStateService.stateChanged.subscribe(async state => {
+      this.setState(initialState, 'INIT_STATE');
+      this.chartSettingsStateService.stateChanged.subscribe(async state => {
       this.startDate = state.startDate;
       this.endDate = state.endDate;
       await this.updateState('DATE_RANGE_UPDATE');
     });
-    this.countyStateService.stateChanged.subscribe(async state => {
+      this.countyStateService.stateChanged.subscribe(async state => {
       this.latitude = state.selectedCounty?.center?.latitdue;
       this.longitude = state.selectedCounty?.center?.longitude;
       await this.updateState('LAT_LONG_UPDATE');

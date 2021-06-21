@@ -9,19 +9,19 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./chart.component.scss']
 })
 export class ChartComponent implements OnChanges {
-  @Input() isLoading: boolean = false;
-  @Input() loadingText: string = 'Loading...';
+  @Input() isLoading = false;
+  @Input() loadingText = 'Loading...';
   @Input() data: ChartDataSets = {};
   @Input() labels: Label[] = [];
   @Input() options: ChartOptions = {};
   @Input() colors: Color[] = [];
-  @Input() legend: boolean = false;
+  @Input() legend = false;
   @Input() type: ChartType = 'line';
 
   constructor(private spinner: NgxSpinnerService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(this.isLoading) {
+    if (this.isLoading) {
       this.spinner.show();
     } else {
       this.spinner.hide();
