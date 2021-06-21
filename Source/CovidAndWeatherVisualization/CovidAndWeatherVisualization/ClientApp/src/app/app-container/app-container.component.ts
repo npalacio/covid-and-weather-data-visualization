@@ -10,7 +10,7 @@ import { ChartSettingsStateService, CountyState, CountyStateService } from 'src/
 export class AppContainerComponent implements OnInit {
   isPanelVisible = false;
   areChartsVisible = false;
-  private areDatesInitialized = false;
+  private isUrlDataInitialized = false;
 
   constructor(private route: ActivatedRoute
             , private chartSettingsStateService: ChartSettingsStateService
@@ -24,12 +24,13 @@ export class AppContainerComponent implements OnInit {
       }
     });
     this.route.paramMap.subscribe(params => {
-      if (params.get('fips') && !this.areDatesInitialized) {
-        this.chartSettingsStateService.syncDatesInUrl(
+      if (params.get('fips') && !this.isUrlDataInitialized) {
+        this.chartSettingsStateService.syncDataInUrl(
           this.route.snapshot.queryParamMap.get('startDate') ?? '',
-          this.route.snapshot.queryParamMap.get('endDate') ?? ''
+          this.route.snapshot.queryParamMap.get('endDate') ?? '',
+          this.route.snapshot.queryParamMap.get('weatherChart')
         );
-        this.areDatesInitialized = true;
+        this.isUrlDataInitialized = true;
       }
     });
   }
