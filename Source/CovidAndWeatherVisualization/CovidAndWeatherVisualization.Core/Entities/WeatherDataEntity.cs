@@ -6,5 +6,6 @@ namespace CovidAndWeatherVisualization.Core.Entities
     {
         public DateTime Timestamp { get; set; }
         public decimal TempAvg { get; set; }
+        public decimal RelHumAvg { get; set; }
     }
 }
