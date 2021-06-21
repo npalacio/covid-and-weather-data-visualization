@@ -8,9 +8,10 @@ namespace CovidAndWeatherVisualization.Core.Profiles
     {
         public TemperatureDataProfile()
         {
-            CreateMap<TemperatureDataEntity, TemperatureData>()
+            CreateMap<WeatherDataEntity, WeatherData>()
                 .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Timestamp))
-                .ForMember(dest => dest.TemperatureAverage, opt => opt.MapFrom(src => src.TempAvg));
+                .ForMember(dest => dest.TemperatureAverage, opt => opt.MapFrom(src => src.TempAvg))
+                .ForMember(dest => dest.HumidityRelativeAverage, opt => opt.MapFrom(src => src.RelHumAvg));
         }
     }
 }

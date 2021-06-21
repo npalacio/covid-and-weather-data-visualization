@@ -19,24 +19,24 @@ namespace CovidAndWeatherVisualization.Services
             _weatherSourceServiceAgent = weatherSourceServiceAgent;
         }
 
-        public async Task<List<TemperatureData>> GetTemperatureData(WeatherDataRequestEntity request)
+        public async Task<List<WeatherData>> GetWeatherData(WeatherDataRequestEntity request)
         {
-            if(request.StartDate > request.EndDate) return new List<TemperatureData>();
+            if(request.StartDate > request.EndDate) return new List<WeatherData>();
 
             // WeatherSource API has a limit of 1 year for the date range
             var currentStartDate = request.StartDate;
             var currentEndDate = GetCurrentEndDate(currentStartDate, request.EndDate);
-            var returnList = new List<TemperatureData>();
+            var returnList = new List<WeatherData>();
             do
             {
-                var tempDataEntities = await _weatherSourceServiceAgent.GetTemperatureData(new WeatherDataRequestEntity
+                var weatherDataEntities = await _weatherSourceServiceAgent.GetWeatherData(new WeatherDataRequestEntity
                 {
                     StartDate = currentStartDate,
                     EndDate = currentEndDate,
                     Latitude = request.Latitude,
                     Longitude = request.Longitude
                 });
-                returnList.AddRange(_mapper.Map<List<TemperatureData>>(tempDataEntities));
+                returnList.AddRange(_mapper.Map<List<WeatherData>>(weatherDataEntities));
                 currentStartDate = currentEndDate.AddDays(1);
                 currentEndDate = GetCurrentEndDate(currentStartDate, request.EndDate);
             } while (currentEndDate > currentStartDate);
