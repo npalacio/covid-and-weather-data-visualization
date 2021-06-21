@@ -1,4 +1,5 @@
-export interface TemperatureData {
+export interface WeatherData {
   date: Date;
   temperatureAverage: number;
+  humidityRelativeAverage: number;
 }
