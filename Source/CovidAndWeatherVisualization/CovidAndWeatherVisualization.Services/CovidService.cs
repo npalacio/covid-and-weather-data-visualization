@@ -39,19 +39,23 @@ namespace CovidAndWeatherVisualization.Services
             CovidDataByCountyEntity lastFoundDay = covidDataOrdered.FirstOrDefault(_ => _.Date == request.StartDate.Date);
             foreach (var currentDayData in EachDay(request.StartDate, request.EndDate, covidDataOrdered.First()))
             {
-                int? newCases;
+                int? newCases = null;
                 var today = covidDataOrdered.FirstOrDefault(dto => dto.Date == currentDayData.Date);
 
-                if (lastFoundDay == null)
+                if (today == null)
                 {
-                    // Need at least 2 days worth of data to calculate newCases
-                    newCases = null;
+                    if (lastFoundDay != null)
+                    {
+                        // No data for this day
+                        // We have found data before this day, this is a gap
+                        newCases = 0;
+                    }
                 }
-                else if (today == null)
+                else if (lastFoundDay == null)
                 {
-                    // No data for this day
-                    // We have found data before this day, this is a gap
-                    newCases = 0;
+                    // We have data today but it is our first data point found
+                    // Need at least 2 days worth of data to calculate newCases
+                    lastFoundDay = today;
                 }
                 else
                 {

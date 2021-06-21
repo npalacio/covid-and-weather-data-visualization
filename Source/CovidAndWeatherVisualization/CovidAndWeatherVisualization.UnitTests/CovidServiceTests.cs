@@ -190,11 +190,41 @@ namespace CovidAndWeatherVisualization.UnitTests
             var covidService = setupCovidService(fakeContext);
 
             // Assert
-            var result = await covidService.GetCovidDataByCounty(new CovidDataRequestEntity { StartDate = startDate, EndDate = endDate});
+            var result = await covidService.GetCovidDataByCounty(new CovidDataRequestEntity { StartDate = startDate, EndDate = endDate });
 
             // Act
             Assert.AreEqual(3, result.Count);
             Assert.IsTrue(result.Any(_ => _.Date == startDate));
+        }
+
+        [Test]
+        public async Task GetCovidDataByCounty_WithDataMissingForStartDate_StartsPopulatingOnceItGetsData()
+        {
+            // Arrange
+            var startDate = DateTime.Today.Date;
+            var endDate = startDate.AddDays(2).Date;
+            var dataWithoutStartDate = new List<CovidDataByCountyEntity>
+            {
+                new CovidDataByCountyEntity
+                {
+                    Date = startDate.AddDays(1),
+                    CasesCumulative = 1
+                },
+                new CovidDataByCountyEntity
+                {
+                    Date = endDate,
+                    CasesCumulative = 2
+                }
+            };
+            var fakeContext = A.Fake<CapstoneDbContext>();
+            A.CallTo(() => fakeContext.GetCovidDataByCountyOrdered(A<CovidDataRequestEntity>.Ignored)).Returns(dataWithoutStartDate);
+            var covidService = setupCovidService(fakeContext);
+
+            // Assert
+            var result = await covidService.GetCovidDataByCounty(new CovidDataRequestEntity { StartDate = startDate, EndDate = endDate});
+
+            // Act
+            Assert.AreEqual(1, result.First(_ => _.Date == endDate).CasesNew);
         }
 
         private CovidService setupCovidService(CapstoneDbContext fakeContext)
