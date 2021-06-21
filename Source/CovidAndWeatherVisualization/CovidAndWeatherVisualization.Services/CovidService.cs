@@ -34,6 +34,7 @@ namespace CovidAndWeatherVisualization.Services
             {
                 return new List<CovidDataByCounty>();
             }
+
             var returnList = new List<CovidDataByCounty>();
             CovidDataByCountyEntity lastFoundDay = covidDataOrdered.FirstOrDefault(_ => _.Date == request.StartDate.Date);
             foreach (var currentDayData in EachDay(request.StartDate, request.EndDate, covidDataOrdered.First()))
@@ -41,38 +42,28 @@ namespace CovidAndWeatherVisualization.Services
                 int? newCases;
                 var today = covidDataOrdered.FirstOrDefault(dto => dto.Date == currentDayData.Date);
 
-                if (today == null)
+                if (lastFoundDay == null)
+                {
+                    // Need at least 2 days worth of data to calculate newCases
+                    newCases = null;
+                }
+                else if (today == null)
                 {
                     // No data for this day
-                    if (lastFoundDay == null)
-                    {
-                        // We have not found any data yet
-                        newCases = null;
-                    }
-                    else
-                    {
-                        // We have found data before this day, this is a gap
-                        newCases = 0;
-                    }
+                    // We have found data before this day, this is a gap
+                    newCases = 0;
                 }
                 else
                 {
-                    // Data for this day
-                    if (lastFoundDay == null)
-                    {
-                        // This is the first record I have found
-                        newCases = null;
-                    }
-                    else
-                    {
-                        newCases = today.CasesCumulative - lastFoundDay.CasesCumulative;
-                    }
+                    // We have found at least 2 days worth of data
+                    newCases = today.CasesCumulative - lastFoundDay.CasesCumulative;
                     lastFoundDay = today;
                 }
 
                 currentDayData.CasesNew = newCases;
                 returnList.Add(currentDayData);
             }
+
             return returnList;
         }
 
