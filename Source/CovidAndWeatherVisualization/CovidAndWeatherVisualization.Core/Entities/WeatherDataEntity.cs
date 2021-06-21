@@ -2,7 +2,7 @@
 
 namespace CovidAndWeatherVisualization.Core.Entities
 {
-    public class TemperatureDataEntity
+    public class WeatherDataEntity
     {
         public DateTime Timestamp { get; set; }
         public decimal TempAvg { get; set; }

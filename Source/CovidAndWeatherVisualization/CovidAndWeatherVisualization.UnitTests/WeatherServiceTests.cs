@@ -22,10 +22,10 @@ namespace CovidAndWeatherVisualization.UnitTests
             var startDate = DateTime.Today;
 
             // Assert
-            await service.GetTemperatureData(new WeatherDataRequestEntity { StartDate = startDate, EndDate = startDate.AddDays(dayRange) });
+            await service.GetWeatherData(new WeatherDataRequestEntity { StartDate = startDate, EndDate = startDate.AddDays(dayRange) });
 
             // Act
-            A.CallTo(() => fakeServiceAgent.GetTemperatureData(A<WeatherDataRequestEntity>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeServiceAgent.GetWeatherData(A<WeatherDataRequestEntity>.Ignored)).MustHaveHappenedOnceExactly();
         }
 
         [TestCase(1)]
@@ -39,10 +39,10 @@ namespace CovidAndWeatherVisualization.UnitTests
             var startDate = DateTime.Today;
 
             // Assert
-            await service.GetTemperatureData(new WeatherDataRequestEntity { StartDate = startDate, EndDate = startDate.AddDays(365 * years) });
+            await service.GetWeatherData(new WeatherDataRequestEntity { StartDate = startDate, EndDate = startDate.AddDays(365 * years) });
 
             // Act
-            A.CallTo(() => fakeServiceAgent.GetTemperatureData(A<WeatherDataRequestEntity>.Ignored)).MustHaveHappened(years, Times.Exactly);
+            A.CallTo(() => fakeServiceAgent.GetWeatherData(A<WeatherDataRequestEntity>.Ignored)).MustHaveHappened(years, Times.Exactly);
         }
 
         [Test]
@@ -53,7 +53,7 @@ namespace CovidAndWeatherVisualization.UnitTests
             var startDate = DateTime.Today;
 
             // Assert
-            var result = await service.GetTemperatureData(new WeatherDataRequestEntity { StartDate = startDate.AddDays(1), EndDate = startDate});
+            var result = await service.GetWeatherData(new WeatherDataRequestEntity { StartDate = startDate.AddDays(1), EndDate = startDate});
 
             // Act
             CollectionAssert.IsEmpty(result);

@@ -6,6 +6,6 @@ namespace CovidAndWeatherVisualization.Interfaces
 {
     public interface IWeatherSourceServiceAgent
     {
-        Task<List<TemperatureDataEntity>> GetTemperatureData(WeatherDataRequestEntity request);
+        Task<List<WeatherDataEntity>> GetWeatherData(WeatherDataRequestEntity request);
     }
 }

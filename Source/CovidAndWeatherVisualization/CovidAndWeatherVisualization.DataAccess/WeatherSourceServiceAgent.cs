@@ -18,7 +18,7 @@ namespace CovidAndWeatherVisualization.DataAccess
             _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<List<TemperatureDataEntity>> GetTemperatureData(WeatherDataRequestEntity request)
+        public async Task<List<WeatherDataEntity>> GetWeatherData(WeatherDataRequestEntity request)
         {
             using (var weatherSourceClient = _httpClientFactory.CreateClient(HttpClientEnum.WeatherSource.ToString()))
             {
@@ -26,10 +26,10 @@ namespace CovidAndWeatherVisualization.DataAccess
                     $"points/{request.Latitude},{request.Longitude}/history.json?timestamp_between={request.StartDate.ToString("s", System.Globalization.CultureInfo.InvariantCulture)},{request.EndDate.ToString("s", System.Globalization.CultureInfo.InvariantCulture)}&fields=tempAvg";
                 var response = await weatherSourceClient.GetAsync(requestUrl);
 
-                if(response.StatusCode == HttpStatusCode.NotFound) return new List<TemperatureDataEntity>();
+                if(response.StatusCode == HttpStatusCode.NotFound) return new List<WeatherDataEntity>();
 
                 response.EnsureSuccessStatusCode();
-                return JsonConvert.DeserializeObject<List<TemperatureDataEntity>>(await response.Content.ReadAsStringAsync());
+                return JsonConvert.DeserializeObject<List<WeatherDataEntity>>(await response.Content.ReadAsStringAsync());
             }
         }
     }

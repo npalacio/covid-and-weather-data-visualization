@@ -15,7 +15,7 @@ export class WeatherDataService {
   }
 
   getTemperatureData(query: TemperatureDataQuery): Promise<TemperatureData[]> {
-    return this.httpClient.get<TemperatureData[]>(BASE_URL + `Weather/temperature?startDate=${this.datePipe.transform(query.startDate, this.dateFormatQueryString)}&endDate=${this.datePipe.transform(query.endDate, this.dateFormatQueryString)}&latitude=${query.latitude}&longitude=${query.longitude}`).toPromise();
+    return this.httpClient.get<TemperatureData[]>(BASE_URL + `Weather?startDate=${this.datePipe.transform(query.startDate, this.dateFormatQueryString)}&endDate=${this.datePipe.transform(query.endDate, this.dateFormatQueryString)}&latitude=${query.latitude}&longitude=${query.longitude}`).toPromise();
   }
 }
 

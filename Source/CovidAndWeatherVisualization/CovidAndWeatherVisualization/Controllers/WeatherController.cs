@@ -24,10 +24,10 @@ namespace CovidAndWeatherVisualization.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("temperature")]
-        public async Task<List<TemperatureData>> Get([FromQuery]WeatherDataRequest request)
+        [HttpGet]
+        public async Task<List<WeatherData>> Get([FromQuery]WeatherDataRequest request)
         {
-            return await _weatherService.GetTemperatureData(_mapper.Map<WeatherDataRequestEntity>(request));
+            return await _weatherService.GetWeatherData(_mapper.Map<WeatherDataRequestEntity>(request));
         }
     }
 }
