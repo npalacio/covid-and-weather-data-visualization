@@ -18,7 +18,8 @@ export class ChartSettingsStateService extends ObservableStore<ChartState> {
     super({});
     const initialState: ChartState = {
       startDate: undefined,
-      endDate: undefined
+      endDate: undefined,
+      weatherChart: undefined
     };
     this.setState(initialState, 'INIT_STATE');
   }
@@ -57,6 +58,10 @@ export class ChartSettingsStateService extends ObservableStore<ChartState> {
       },
       queryParamsHandling: 'merge'
     });
-    this.setState({startDate, endDate}, 'SYNC_DATES_WITH_URL');
+    this.setState({
+      startDate,
+      endDate,
+      weatherChart: weatherChartType
+    }, 'SYNC_DATA_WITH_URL');
   }
 }
