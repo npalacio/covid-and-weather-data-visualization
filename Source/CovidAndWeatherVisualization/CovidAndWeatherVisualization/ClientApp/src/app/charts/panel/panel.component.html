@@ -3,6 +3,9 @@
     <app-panel-header></app-panel-header>
   </div>
   <div class="charts-container">
+    <ngx-spinner [fullScreen]="false" type="ball-atom" size="medium">
+      <p class="loading">Loading...</p>
+    </ngx-spinner>
     <app-charts></app-charts>
   </div>
 </div>

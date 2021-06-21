@@ -1,6 +1,13 @@
 .panel-header-container {
   height: 10%;
 }
+
 .charts-container {
   height: 60%;
+  position: relative;
+}
+
+.loading{
+  color: white;
+  padding-top: 7rem;
 }

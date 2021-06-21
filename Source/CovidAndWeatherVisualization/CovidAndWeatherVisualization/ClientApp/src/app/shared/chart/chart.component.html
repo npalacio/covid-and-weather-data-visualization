@@ -1,7 +1,4 @@
 <div class="chart-container py-3">
-  <ngx-spinner [fullScreen]="false" [showSpinner]="isLoading" type="ball-atom" size="medium">
-    <p class="loading">{{loadingText}}</p>
-  </ngx-spinner>
   <canvas *ngIf="!isLoading" baseChart
     [datasets]="[data]"
     [labels]="labels"

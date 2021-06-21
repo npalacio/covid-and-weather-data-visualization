@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ChartCovidComponent } from './chart-covid/chart-covid.component';
 import { SharedModule } from '../shared/shared.module';
 import { ChartWeatherComponent } from './chart-weather/chart-weather.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { ChartWeatherComponent } from './chart-weather/chart-weather.component';
     RouterModule,
     ChartsRoutingModule,
     HttpClientModule,
+    NgxSpinnerModule,
     SharedModule
   ],
   exports: [
