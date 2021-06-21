@@ -5,25 +5,25 @@ import { RouterModule } from '@angular/router';
 import { PanelHeaderComponent } from './panel-header/panel-header.component';
 import { ChartsRoutingModule } from './charts-routing.module';
 import { ChartsComponent } from './charts/charts.component';
-import { ChartsModule as Ng2ChartsModule } from 'ng2-charts';
 import { HttpClientModule } from '@angular/common/http';
-import { NgxSpinnerModule } from 'ngx-spinner';
 import { ChartCovidComponent } from './chart-covid/chart-covid.component';
+import { SharedModule } from '../shared/shared.module';
+import { ChartWeatherComponent } from './chart-weather/chart-weather.component';
 
 @NgModule({
   declarations: [
     PanelComponent,
     PanelHeaderComponent,
     ChartsComponent,
-    ChartCovidComponent
+    ChartCovidComponent,
+    ChartWeatherComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     ChartsRoutingModule,
-    Ng2ChartsModule,
     HttpClientModule,
-    NgxSpinnerModule
+    SharedModule
   ],
   exports: [
     PanelComponent

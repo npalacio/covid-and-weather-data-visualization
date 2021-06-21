@@ -1,14 +1,26 @@
+const defaultData = {
+  data: [],
+  fill: false,
+  pointRadius: 0,
+  pointHitRadius: 5
+};
+
+const defaultColors = [
+  {
+    borderColor: 'black'
+  }
+];
+
+const defaultOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+};
+
 export const chartConfigs = {
   covid: {
-    data: {
-      data: [],
-      fill: false,
-      pointRadius: 0,
-      pointHitRadius: 5
-    },
+    data: {...defaultData},
     options: {
-      responsive: true,
-      maintainAspectRatio: false,
+      ...defaultOptions,
       title: {
         display: true,
         text: 'Daily COVID Infections'
@@ -36,11 +48,38 @@ export const chartConfigs = {
         }]
       }
     },
-    colors: [
-      {
-        borderColor: 'black'
+    colors: defaultColors,
+    legend: false,
+    type: 'line'
+  },
+  temperature: {
+    data: defaultData,
+    options: {
+      ...defaultOptions,
+      title: {
+        display: true,
+        text: 'Daily Average Temperature'
+      },
+      scales: {
+        yAxes: [{
+          display: true,
+          scaleLabel: {
+            display: true,
+            labelString: 'Average Temperature (F)',
+            fontSize: 16,
+            fontStyle: 'bold'
+          }
+        }],
+        xAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Date',
+            fontSize: 18
+          }
+        }]
       }
-    ],
+    },
+    colors: defaultColors,
     legend: false,
     type: 'line'
   }

@@ -51,10 +51,11 @@ export class MapService {
   }
 
   private showPopup(countyModel: County, countyGeometry: __esri.Geometry): void {
+    const countyCenter = (countyGeometry as __esri.Polygon).centroid;
     this.mapView?.popup.close();
     this.mapView?.popup.open({
       title: `${countyModel.name} County, ${countyModel.state}`,
-      location: (countyGeometry as __esri.Polygon).centroid,
+      location: countyCenter,
       content: `<div>FIPS: ${countyModel.fips}</div>
       <div>Population: ${countyModel.population}</div>`
     });
@@ -120,12 +121,17 @@ export class MapService {
   }
 
   getCountyModelFromGraphic(countyGraphic: __esri.Graphic): County {
+    const geometry = (countyGraphic.geometry as __esri.Polygon);
     return {
       objectId: countyGraphic.attributes.FID,
       name: countyGraphic.attributes.NAME,
       state: countyGraphic.attributes.STATE_NAME,
       fips: countyGraphic.attributes.FIPS,
-      population: countyGraphic.attributes.POPULATION
+      population: countyGraphic.attributes.POPULATION,
+      center: {
+        latitdue: geometry.centroid.latitude,
+        longitude: geometry.centroid.longitude
+      }
     };
 }
 
