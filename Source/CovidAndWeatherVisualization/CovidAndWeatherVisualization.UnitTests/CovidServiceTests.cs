@@ -89,7 +89,7 @@ namespace CovidAndWeatherVisualization.UnitTests
                 },
                 new CovidDataByCountyEntity
                 {
-                    Date = startDate,
+                    Date = endDate,
                     CasesCumulative = unchangedCaseCount
                 }
             };
