@@ -11,8 +11,9 @@ import { WeatherStateService } from 'src/app/state/weather/weather-state.service
 export class PanelComponent implements OnInit {
   isCovidDataLoading = false;
   isWeatherDataLoading = false;
-  isSpinnerShowing = false;
-  constructor(private spinner: NgxSpinnerService, private weatherStateService: WeatherStateService, private covidStateService: CovidStateService) { }
+  constructor(private spinner: NgxSpinnerService
+            , private weatherStateService: WeatherStateService
+            , private covidStateService: CovidStateService) { }
 
   ngOnInit(): void {
     this.covidStateService.stateChanged.subscribe(state => {
@@ -26,16 +27,14 @@ export class PanelComponent implements OnInit {
   }
 
   private checkSpinner(): void {
-    if(this.shouldShowSpinner) {
+    if (this.shouldShowSpinner) {
       this.spinner.show();
-      this.isSpinnerShowing = true;
     } else {
       this.spinner.hide();
-      this.isSpinnerShowing = false;
     }
   }
 
   private get shouldShowSpinner(): boolean {
-    return (this.isCovidDataLoading || this.isWeatherDataLoading);
+    return this.isCovidDataLoading || this.isWeatherDataLoading;
   }
 }
