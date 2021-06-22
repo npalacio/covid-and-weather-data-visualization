@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ObservableStore } from '@codewithdan/observable-store';
 import { ChartState } from './chart-settings-state.model';
 import { WEATHER_CHART_TYPES } from '../../shared/models/constants.model';
+import { WeatherChart } from 'src/app/shared/models';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ import { WEATHER_CHART_TYPES } from '../../shared/models/constants.model';
 export class ChartSettingsStateService extends ObservableStore<ChartState> {
   private startDateDefault: Date = new Date(2020, 0, 1);
   private endDateDefault: Date = new Date(2021, 0, 1);
-  private weatherChartTypeDefault: number = 0;
+  private weatherChartTypeDefault: WeatherChart = WeatherChart.Temperature;
   private dateFormatUrl = 'MM-dd-yyyy';
 
   constructor(private datePipe: DatePipe, private router: Router) {
@@ -19,7 +20,7 @@ export class ChartSettingsStateService extends ObservableStore<ChartState> {
     const initialState: ChartState = {
       startDate: undefined,
       endDate: undefined,
-      weatherChart: undefined
+      weatherChart: WeatherChart.Temperature
     };
     this.setState(initialState, 'INIT_STATE');
   }
@@ -44,7 +45,7 @@ export class ChartSettingsStateService extends ObservableStore<ChartState> {
 
     if(!isNaN(+weatherChartTypeUrlParam)) {
       const weatherChartTypeUrlParamNum = +weatherChartTypeUrlParam;
-      if(weatherChartTypeUrlParamNum >= 0 && weatherChartTypeUrlParamNum < WEATHER_CHART_TYPES.length) {
+      if(weatherChartTypeUrlParamNum in WeatherChart) {
         // Valid chart type in URL
         weatherChartType = weatherChartTypeUrlParamNum;
       }
