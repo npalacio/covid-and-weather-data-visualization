@@ -10,7 +10,7 @@ import { WeatherChart } from 'src/app/shared/models';
   providedIn: 'root'
 })
 export class ChartSettingsStateService extends ObservableStore<ChartState> {
-  private startDateDefault: Date = new Date(2020, 0, 1);
+  private startDateDefault: Date = new Date(2020, 2, 1);
   private endDateDefault: Date = new Date(2021, 0, 1);
   private weatherChartTypeDefault: WeatherChart = WeatherChart.Temperature;
   private dateFormatUrl = 'MM-dd-yyyy';
