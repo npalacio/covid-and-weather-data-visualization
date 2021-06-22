@@ -11,6 +11,7 @@ import { SharedModule } from '../shared/shared.module';
 import { ChartWeatherComponent } from './chart-weather/chart-weather.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { ChartSettingsComponent } from './chart-settings/chart-settings.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
     PanelHeaderComponent,
     ChartsComponent,
     ChartCovidComponent,
-    ChartWeatherComponent
+    ChartWeatherComponent,
+    ChartSettingsComponent
   ],
   imports: [
     CommonModule,
