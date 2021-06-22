@@ -10,6 +10,7 @@ import { ChartCovidComponent } from './chart-covid/chart-covid.component';
 import { SharedModule } from '../shared/shared.module';
 import { ChartWeatherComponent } from './chart-weather/chart-weather.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     ChartsRoutingModule,
     HttpClientModule,
     NgxSpinnerModule,
+    NgbModalModule,
     SharedModule
   ],
   exports: [
