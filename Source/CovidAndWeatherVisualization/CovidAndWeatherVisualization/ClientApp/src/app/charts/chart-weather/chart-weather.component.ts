@@ -40,9 +40,11 @@ export class ChartWeatherComponent implements OnInit {
     if (!this.isLoading && this.weatherChart) {
       switch (this.weatherChart) {
         case WeatherChart.Temperature:
+          this.chartConfig = {...chartConfigs.temperature};
           this.chartConfig.data.data = this.temperaturesAverage;
           break;
         case WeatherChart.Humidity:
+          this.chartConfig = {...chartConfigs.humidityRelative};
           this.chartConfig.data.data = this.humiditiesRelativeAverage;
           break;
       }
