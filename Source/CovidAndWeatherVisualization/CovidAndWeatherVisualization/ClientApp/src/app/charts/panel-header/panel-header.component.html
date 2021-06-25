@@ -1,8 +1,11 @@
-<div class="d-flex flex-column justify-content-center h-100">
-  <div *ngIf="selectedCounty" class="text-center pt-2">
-    <strong>{{selectedCounty.name}} County, {{selectedCounty.state}}</strong>
+<div class="h-100">
+  <div class="d-flex flex-column justify-content-center">
+    <div *ngIf="selectedCounty" class="text-center pt-2">
+      <strong>{{selectedCounty.name}} County, {{selectedCounty.state}}</strong>
+    </div>
+    <div *ngIf="startDate && endDate" class="text-center py-2">
+      {{startDate | date : dateFormat }} - {{endDate | date : dateFormat }}
+    </div>
   </div>
-  <div *ngIf="startDate && endDate" class="text-center py-2">
-    {{startDate | date : dateFormat }} - {{endDate | date : dateFormat }}
-  </div>
+  <div class="btn-primary rounded position-relative settings-button d-inline-block">Chart Settings</div>
 </div>
