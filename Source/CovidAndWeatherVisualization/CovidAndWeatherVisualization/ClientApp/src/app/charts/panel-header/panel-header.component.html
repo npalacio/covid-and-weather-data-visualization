@@ -1,5 +1,5 @@
-<div class="h-100 d-flex flex-column justify-content-between">
-  <div class="d-flex flex-column justify-content-center">
+<div class="h-100 d-flex flex-column">
+  <div class="d-flex flex-column justify-content-center top-container">
     <div *ngIf="selectedCounty" class="text-center pt-2">
       <strong>{{selectedCounty.name}} County, {{selectedCounty.state}}</strong>
     </div>
@@ -7,7 +7,7 @@
       {{startDate | date : dateFormat }} - {{endDate | date : dateFormat }}
     </div>
   </div>
-  <div class="pl-1 pb-1">
-    <button class="btn-primary rounded settings-button">Chart Settings</button>
+  <div class="ml-1 mb-1 position-relative bottom-container">
+    <button class="btn-primary rounded position-absolute p-1 settings-button" (click)="openChartSettings()">Chart Settings</button>
   </div>
 </div>

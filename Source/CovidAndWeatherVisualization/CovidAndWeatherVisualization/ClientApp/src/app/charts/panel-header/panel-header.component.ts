@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { County } from 'src/app/shared/models';
 import { CountyState, CountyStateService, ChartSettingsStateService } from 'src/app/state';
+import { ChartSettingsComponent } from '../chart-settings/chart-settings.component';
 
 @Component({
   selector: 'app-panel-header',
@@ -13,7 +15,7 @@ export class PanelHeaderComponent implements OnInit {
   startDate?: Date;
   endDate?: Date;
 
-  constructor(private countyStateService: CountyStateService, private chartSettingsStateService: ChartSettingsStateService) { }
+  constructor(private countyStateService: CountyStateService, private chartSettingsStateService: ChartSettingsStateService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.countyStateService.stateChanged.subscribe((countyState: CountyState) => {
@@ -24,4 +26,9 @@ export class PanelHeaderComponent implements OnInit {
       this.endDate = state.endDate;
     });
   }
+
+  openChartSettings(): void {
+    this.modalService.open(ChartSettingsComponent);
+  }
+
 }

@@ -1,6 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ChartSettingsComponent } from '../chart-settings/chart-settings.component';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-charts',
@@ -9,11 +7,8 @@ import { ChartSettingsComponent } from '../chart-settings/chart-settings.compone
 })
 export class ChartsComponent implements OnInit {
 
-  constructor(private modalService: NgbModal) {
+  constructor() {
   }
   ngOnInit(): void {
-  }
-  openChartSettings(): void {
-    this.modalService.open(ChartSettingsComponent);
   }
 }
