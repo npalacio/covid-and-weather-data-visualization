@@ -13,8 +13,8 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
   private longitude?: number;
 
   constructor(private chartSettingsStateService: ChartSettingsStateService
-    , private weatherDataService: WeatherDataService
-    , private countyStateService: CountyStateService) {
+            , private weatherDataService: WeatherDataService
+            , private countyStateService: CountyStateService) {
     super({});
     const initialState: WeatherState = {
       temperatureData: [],

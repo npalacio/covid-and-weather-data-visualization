@@ -26,11 +26,11 @@ export class ChartSettingsStateService extends ObservableStore<ChartState> {
     };
     this.setState(initialState, 'INIT_STATE');
     this.dateRangeUpdates$ = this.stateWithPropertyChanges.pipe(filter(stateWithChanges => {
-      if(stateWithChanges.stateChanges.endDate || stateWithChanges.stateChanges.startDate) {
+      if (stateWithChanges.stateChanges.endDate || stateWithChanges.stateChanges.startDate) {
         return true;
       }
       return false;
-    }),map(stateWithChanges => stateWithChanges.state));
+    }), map(stateWithChanges => stateWithChanges.state));
   }
 
   syncDataInUrl(startDateUrlParam: string, endDateUrlParam: string, weatherChartTypeUrlParam: string | null): void {
@@ -51,9 +51,9 @@ export class ChartSettingsStateService extends ObservableStore<ChartState> {
       endDate = endDateFromUrl;
     }
 
-    if(!isNaN(+weatherChartTypeUrlParam)) {
+    if (!isNaN(+weatherChartTypeUrlParam)) {
       const weatherChartTypeUrlParamNum = +weatherChartTypeUrlParam;
-      if(weatherChartTypeUrlParamNum in WeatherChart) {
+      if (weatherChartTypeUrlParamNum in WeatherChart) {
         // Valid chart type in URL
         weatherChartType = weatherChartTypeUrlParamNum;
       }
@@ -74,7 +74,7 @@ export class ChartSettingsStateService extends ObservableStore<ChartState> {
     }, 'SYNC_DATA_WITH_URL');
   }
 
-  updateWeatherChartType(weatherChart: WeatherChart) {
+  updateWeatherChartType(weatherChart: WeatherChart): void {
     this.setState({
       weatherChart
     });

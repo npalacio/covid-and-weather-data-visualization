@@ -1,4 +1,4 @@
-import { WeatherChart } from "src/app/shared/models";
+import { WeatherChart } from 'src/app/shared/models';
 
 export interface ChartState {
   startDate?: Date;

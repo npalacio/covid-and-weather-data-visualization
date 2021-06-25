@@ -17,7 +17,9 @@ export class ChartWeatherComponent implements OnInit {
   chartConfig: any;
   weatherChart?: WeatherChart;
 
-  constructor(private datePipe: DatePipe, private weatherStateService: WeatherStateService, private chartSettingsStateService: ChartSettingsStateService) { }
+  constructor(private datePipe: DatePipe
+            , private weatherStateService: WeatherStateService
+            , private chartSettingsStateService: ChartSettingsStateService) { }
 
   async ngOnInit(): Promise<void> {
     this.chartConfig = { ...chartConfigs.temperature };

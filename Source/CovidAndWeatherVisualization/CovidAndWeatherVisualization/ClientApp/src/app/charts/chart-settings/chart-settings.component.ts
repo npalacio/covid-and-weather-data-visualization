@@ -17,7 +17,9 @@ export class ChartSettingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedWeatherChart = this.chartSettingsStateService.getSelectedWeatherChart();
-    this.weatherChartTypes = Object.keys(WeatherChart).map((key: any) => WeatherChart[key]).filter(value => typeof value === 'number').map(key => {
+    this.weatherChartTypes = Object.keys(WeatherChart).map((key: any) => {
+      return WeatherChart[key];
+    }).filter(value => typeof value === 'number').map(key => {
       return {
         name: WeatherChart[+key],
         value: +key
@@ -30,7 +32,7 @@ export class ChartSettingsComponent implements OnInit {
     this.dismissModal();
   }
 
-  dismissModal() {
+  dismissModal(): void {
     this.activeModal.dismiss();
   }
 }
