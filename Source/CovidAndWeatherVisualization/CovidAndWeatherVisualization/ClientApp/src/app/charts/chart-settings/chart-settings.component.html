@@ -9,7 +9,7 @@
   <div>
     <ul class="list-group">
           <li class="list-group-item"  *ngFor="let chartType of weatherChartTypes">
-            <input type="radio" [(ngModel)]="radioSelected" name="list_name" [value]="chartType.value"/>
+            <input type="radio" [(ngModel)]="selectedWeatherChart" name="list_name" [value]="chartType.value"/>
             {{chartType.name}}
           </li>
     </ul>

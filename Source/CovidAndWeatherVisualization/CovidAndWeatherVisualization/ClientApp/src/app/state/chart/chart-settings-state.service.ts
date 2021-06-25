@@ -76,4 +76,8 @@ export class ChartSettingsStateService extends ObservableStore<ChartState> {
       queryParamsHandling: 'merge'
     });
   }
+
+  getSelectedWeatherChart(): WeatherChart {
+    return this.getState().weatherChart;
+  }
 }
