@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ObservableStore } from '@codewithdan/observable-store';
 import { ChartState } from './chart-settings-state.model';
-import { WEATHER_CHART_TYPES } from '../../shared/models/constants.model';
 import { WeatherChart } from 'src/app/shared/models';
 
 @Injectable({
