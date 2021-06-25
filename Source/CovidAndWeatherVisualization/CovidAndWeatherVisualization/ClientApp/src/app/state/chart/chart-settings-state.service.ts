@@ -65,4 +65,16 @@ export class ChartSettingsStateService extends ObservableStore<ChartState> {
       weatherChart: weatherChartType
     }, 'SYNC_DATA_WITH_URL');
   }
+
+  updateWeatherChartType(weatherChart: WeatherChart) {
+    this.setState({
+      weatherChart
+    });
+    this.router.navigate([], {
+      queryParams: {
+        weatherChart
+      },
+      queryParamsHandling: 'merge'
+    });
+  }
 }
