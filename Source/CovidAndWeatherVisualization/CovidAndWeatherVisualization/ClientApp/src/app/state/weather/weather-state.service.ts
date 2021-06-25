@@ -21,6 +21,7 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
       dates: [],
       temperaturesAverage: [],
       humiditiesRelativeAverage: [],
+      humiditiesSpecificAverage: [],
       isLoading: false
     };
     this.setState(initialState, 'INIT_STATE');
@@ -48,13 +49,27 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
       const dates = temperatureData.map(_ => _.date);
       const temperaturesAverage = temperatureData.map(_ => _.temperatureAverage);
       const humiditiesRelativeAverage = temperatureData.map(_ => _.humidityRelativeAverage);
+      const humiditiesSpecificAverage = temperatureData.map(_ => _.humiditySpecificAverage);
       this.setState({
         isLoading: false,
         temperatureData,
         dates,
         temperaturesAverage,
-        humiditiesRelativeAverage
+        humiditiesRelativeAverage,
+        humiditiesSpecificAverage
       }, `${action}_LOADING_COMPLETE`);
     }
+  }
+
+  getTemperaturesAverage(): number[] {
+    return this.getState().temperaturesAverage;
+  }
+
+  getHumiditiesRelativeAverage(): number[] {
+    return this.getState().humiditiesRelativeAverage;
+  }
+
+  getHumiditiesSpecificAverage(): number[] {
+    return this.getState().humiditiesSpecificAverage;
   }
 }

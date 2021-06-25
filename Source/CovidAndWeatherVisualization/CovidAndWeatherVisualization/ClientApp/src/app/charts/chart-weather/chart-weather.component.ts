@@ -16,21 +16,17 @@ export class ChartWeatherComponent implements OnInit {
   isLoading = false;
   chartConfig: any;
   weatherChart?: WeatherChart;
-  temperaturesAverage?: number[];
-  humiditiesRelativeAverage?: number[];
 
   constructor(private datePipe: DatePipe, private weatherStateService: WeatherStateService, private chartSettingsStateService: ChartSettingsStateService) { }
 
   async ngOnInit(): Promise<void> {
-    this.chartConfig = {...chartConfigs.temperature};
+    this.chartConfig = { ...chartConfigs.temperature };
     this.chartSettingsStateService.stateChanged.subscribe(state => {
       this.weatherChart = state.weatherChart;
       this.updateChartData();
     });
     this.weatherStateService.stateChanged.subscribe(state => {
       this.isLoading = state.isLoading;
-      this.temperaturesAverage = state.temperaturesAverage;
-      this.humiditiesRelativeAverage = state.humiditiesRelativeAverage;
       this.labels = state.dates.map(date => this.datePipe.transform(date, 'MM/dd') ?? 'unknown');
       this.updateChartData();
     });
@@ -40,15 +36,19 @@ export class ChartWeatherComponent implements OnInit {
     if (!this.isLoading && this.weatherChart) {
       switch (this.weatherChart) {
         case WeatherChart.Temperature:
-          this.chartConfig = {...chartConfigs.temperature};
-          this.chartConfig.data.data = this.temperaturesAverage;
+          this.chartConfig = { ...chartConfigs.temperature };
+          this.chartConfig.data.data = this.weatherStateService.getTemperaturesAverage();
           break;
-        case WeatherChart.Humidity:
-          this.chartConfig = {...chartConfigs.humidityRelative};
-          this.chartConfig.data.data = this.humiditiesRelativeAverage;
+        case WeatherChart.HumidityRelative:
+          this.chartConfig = { ...chartConfigs.humidityRelative };
+          this.chartConfig.data.data = this.weatherStateService.getHumiditiesRelativeAverage();
+          break;
+        case WeatherChart.HumiditySpecific:
+          this.chartConfig = { ...chartConfigs.humiditySpecific };
+          this.chartConfig.data.data = this.weatherStateService.getHumiditiesSpecificAverage();
           break;
       }
     }
-}
+  }
 
 }

@@ -103,6 +103,31 @@ export const chartConfigs = {
     colors: defaultColors,
     legend: false,
     type: 'line'
+  },
+  humiditySpecific: {
+    data: defaultData,
+    options: {
+      ...defaultOptions,
+      title: {
+        display: true,
+        text: 'Daily Average Specific Humidity'
+      },
+      scales: {
+        yAxes: [{
+          display: true,
+          scaleLabel: {
+            display: true,
+            labelString: 'Average Spec Hum (g/kg)',
+            fontSize: 16,
+            fontStyle: 'bold'
+          }
+        }],
+        xAxes: [defaultXAxis]
+      }
+    },
+    colors: defaultColors,
+    legend: false,
+    type: 'line'
   }
 
 };

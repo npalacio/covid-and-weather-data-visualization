@@ -5,5 +5,6 @@ export interface WeatherState {
   dates: Date[];
   temperaturesAverage: number[];
   humiditiesRelativeAverage: number[];
+  humiditiesSpecificAverage: number[];
   isLoading: boolean;
 }
