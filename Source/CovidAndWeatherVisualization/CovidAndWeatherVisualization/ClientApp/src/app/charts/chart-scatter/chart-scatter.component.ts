@@ -1,17 +1,17 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Label } from 'ng2-charts';
-import { WeatherStateService } from '../../state/weather/weather-state.service';
-import { chartConfigs } from '../charts-config';
-import { ChartSettingsStateService } from '../../state/chart/chart-settings-state.service';
 import { WeatherChart } from 'src/app/shared/models';
+import { ChartSettingsStateService } from 'src/app/state';
+import { WeatherStateService } from 'src/app/state/weather/weather-state.service';
+import { chartConfigs } from '../charts-config';
 
 @Component({
-  selector: 'app-chart-weather',
-  templateUrl: './chart-weather.component.html',
-  styleUrls: ['./chart-weather.component.scss']
+  selector: 'app-chart-scatter',
+  templateUrl: './chart-scatter.component.html',
+  styleUrls: ['./chart-scatter.component.scss']
 })
-export class ChartWeatherComponent implements OnInit {
+export class ChartScatterComponent implements OnInit {
   labels: Label[] = [];
   isLoading = false;
   chartConfig: any;
