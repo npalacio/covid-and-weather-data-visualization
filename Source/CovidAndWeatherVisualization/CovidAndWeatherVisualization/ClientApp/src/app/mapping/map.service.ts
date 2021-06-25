@@ -27,7 +27,7 @@ export class MapService {
     const countyGraphic = await this.getCountyGraphic(countyFips);
     if (countyGraphic) {
       const countyModel = this.getCountyModelFromGraphic(countyGraphic);
-      this.zoomToCounty(countyGraphic);
+      this.highlightCounty(countyGraphic);
       this.showPopup(countyModel, countyGraphic.geometry);
       this.countyStateService.setSelectedCounty(countyModel);
     } else {
@@ -36,18 +36,11 @@ export class MapService {
     }
   }
 
-  private async zoomToCounty(countyGraphic: __esri.Graphic): Promise<void> {
+  private async highlightCounty(countyGraphic: __esri.Graphic): Promise<void> {
     if (this.highlightedCounty) {
       this.highlightedCounty.remove();
     }
     this.highlightedCounty = this.countyLayerView?.highlight(countyGraphic.attributes[this.countyLayerObjectIdField]);
-    await this.mapView?.goTo({
-      target: countyGraphic
-    }, {
-      animate: true,
-      duration: 800,
-      easing: 'ease'
-    });
   }
 
   private showPopup(countyModel: County, countyGeometry: __esri.Geometry): void {

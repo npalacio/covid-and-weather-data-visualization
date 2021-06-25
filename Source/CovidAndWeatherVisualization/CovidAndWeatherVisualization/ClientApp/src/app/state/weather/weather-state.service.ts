@@ -15,20 +15,22 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
   constructor(private chartSettingsStateService: ChartSettingsStateService
             , private weatherDataService: WeatherDataService
             , private countyStateService: CountyStateService) {
-      super({});
-      const initialState: WeatherState = {
+    super({});
+    const initialState: WeatherState = {
       temperatureData: [],
       dates: [],
       temperaturesAverage: [],
+      humiditiesRelativeAverage: [],
+      humiditiesSpecificAverage: [],
       isLoading: false
     };
-      this.setState(initialState, 'INIT_STATE');
-      this.chartSettingsStateService.stateChanged.subscribe(async state => {
+    this.setState(initialState, 'INIT_STATE');
+    this.chartSettingsStateService.stateChanged.subscribe(async state => {
       this.startDate = state.startDate;
       this.endDate = state.endDate;
       await this.updateState('DATE_RANGE_UPDATE');
     });
-      this.countyStateService.stateChanged.subscribe(async state => {
+    this.countyStateService.stateChanged.subscribe(async state => {
       this.latitude = state.selectedCounty?.center?.latitdue;
       this.longitude = state.selectedCounty?.center?.longitude;
       await this.updateState('LAT_LONG_UPDATE');
@@ -37,7 +39,7 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
 
   private async updateState(action: string): Promise<void> {
     if (this.latitude && this.longitude && this.startDate && this.endDate) {
-      this.setState({isLoading: true}, `${action}_LOADING`);
+      this.setState({ isLoading: true }, `${action}_LOADING`);
       const temperatureData = await this.weatherDataService.getTemperatureData({
         startDate: this.startDate,
         endDate: this.endDate,
@@ -46,12 +48,28 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
       });
       const dates = temperatureData.map(_ => _.date);
       const temperaturesAverage = temperatureData.map(_ => _.temperatureAverage);
+      const humiditiesRelativeAverage = temperatureData.map(_ => _.humidityRelativeAverage);
+      const humiditiesSpecificAverage = temperatureData.map(_ => _.humiditySpecificAverage);
       this.setState({
         isLoading: false,
         temperatureData,
         dates,
-        temperaturesAverage
+        temperaturesAverage,
+        humiditiesRelativeAverage,
+        humiditiesSpecificAverage
       }, `${action}_LOADING_COMPLETE`);
     }
+  }
+
+  getTemperaturesAverage(): number[] {
+    return this.getState().temperaturesAverage;
+  }
+
+  getHumiditiesRelativeAverage(): number[] {
+    return this.getState().humiditiesRelativeAverage;
+  }
+
+  getHumiditiesSpecificAverage(): number[] {
+    return this.getState().humiditiesSpecificAverage;
   }
 }

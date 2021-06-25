@@ -16,6 +16,14 @@ const defaultOptions = {
   maintainAspectRatio: false,
 };
 
+const defaultXAxis = {
+  scaleLabel: {
+    display: true,
+    labelString: 'Date',
+    fontSize: 18
+  }
+};
+
 export const chartConfigs = {
   covid: {
     data: {...defaultData},
@@ -39,13 +47,7 @@ export const chartConfigs = {
             fontStyle: 'bold'
           }
         }],
-        xAxes: [{
-          scaleLabel: {
-            display: true,
-            labelString: 'Date',
-            fontSize: 18
-          }
-        }]
+        xAxes: [defaultXAxis]
       }
     },
     colors: defaultColors,
@@ -70,19 +72,64 @@ export const chartConfigs = {
             fontStyle: 'bold'
           }
         }],
-        xAxes: [{
+        xAxes: [defaultXAxis]
+      }
+    },
+    colors: defaultColors,
+    legend: false,
+    type: 'line'
+  },
+  humidityRelative: {
+    data: defaultData,
+    options: {
+      ...defaultOptions,
+      title: {
+        display: true,
+        text: 'Daily Average Relative Humidity'
+      },
+      scales: {
+        yAxes: [{
+          display: true,
           scaleLabel: {
             display: true,
-            labelString: 'Date',
-            fontSize: 18
+            labelString: 'Average Rel Hum (%)',
+            fontSize: 16,
+            fontStyle: 'bold'
           }
-        }]
+        }],
+        xAxes: [defaultXAxis]
+      }
+    },
+    colors: defaultColors,
+    legend: false,
+    type: 'line'
+  },
+  humiditySpecific: {
+    data: defaultData,
+    options: {
+      ...defaultOptions,
+      title: {
+        display: true,
+        text: 'Daily Average Specific Humidity'
+      },
+      scales: {
+        yAxes: [{
+          display: true,
+          scaleLabel: {
+            display: true,
+            labelString: 'Average Spec Hum (g/kg)',
+            fontSize: 16,
+            fontStyle: 'bold'
+          }
+        }],
+        xAxes: [defaultXAxis]
       }
     },
     colors: defaultColors,
     legend: false,
     type: 'line'
   }
+
 };
 
 function tickFormatter(value: number): number | string {

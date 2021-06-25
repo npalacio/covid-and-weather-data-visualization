@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BASE_URL } from 'src/app/shared/models/constants.model';
 import { CovidDataByCounty } from 'src/app/shared/models/covid-data-by-county.model';
-import { TemperatureData } from '../../shared/models/temperature-data';
+import { WeatherData } from '../../shared/models/temperature-data';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +14,8 @@ export class WeatherDataService {
   constructor(private httpClient: HttpClient, private datePipe: DatePipe) {
   }
 
-  getTemperatureData(query: TemperatureDataQuery): Promise<TemperatureData[]> {
-    return this.httpClient.get<TemperatureData[]>(BASE_URL + `Weather?startDate=${this.datePipe.transform(query.startDate, this.dateFormatQueryString)}&endDate=${this.datePipe.transform(query.endDate, this.dateFormatQueryString)}&latitude=${query.latitude}&longitude=${query.longitude}`).toPromise();
+  getTemperatureData(query: TemperatureDataQuery): Promise<WeatherData[]> {
+    return this.httpClient.get<WeatherData[]>(BASE_URL + `Weather?startDate=${this.datePipe.transform(query.startDate, this.dateFormatQueryString)}&endDate=${this.datePipe.transform(query.endDate, this.dateFormatQueryString)}&latitude=${query.latitude}&longitude=${query.longitude}`).toPromise();
   }
 }
 

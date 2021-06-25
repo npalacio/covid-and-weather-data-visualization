@@ -10,6 +10,9 @@ import { ChartCovidComponent } from './chart-covid/chart-covid.component';
 import { SharedModule } from '../shared/shared.module';
 import { ChartWeatherComponent } from './chart-weather/chart-weather.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { ChartSettingsComponent } from './chart-settings/chart-settings.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,14 +20,17 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     PanelHeaderComponent,
     ChartsComponent,
     ChartCovidComponent,
-    ChartWeatherComponent
+    ChartWeatherComponent,
+    ChartSettingsComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
+    FormsModule,
     ChartsRoutingModule,
     HttpClientModule,
     NgxSpinnerModule,
+    NgbModalModule,
     SharedModule
   ],
   exports: [

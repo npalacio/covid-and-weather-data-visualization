@@ -23,7 +23,7 @@ namespace CovidAndWeatherVisualization.DataAccess
             using (var weatherSourceClient = _httpClientFactory.CreateClient(HttpClientEnum.WeatherSource.ToString()))
             {
                 var requestUrl =
-                    $"points/{request.Latitude},{request.Longitude}/history.json?timestamp_between={request.StartDate.ToString("s", System.Globalization.CultureInfo.InvariantCulture)},{request.EndDate.ToString("s", System.Globalization.CultureInfo.InvariantCulture)}&fields=tempAvg,relHumAvg";
+                    $"points/{request.Latitude},{request.Longitude}/history.json?timestamp_between={request.StartDate.ToString("s", System.Globalization.CultureInfo.InvariantCulture)},{request.EndDate.ToString("s", System.Globalization.CultureInfo.InvariantCulture)}&fields=tempAvg,relHumAvg,spcHumAvg";
                 var response = await weatherSourceClient.GetAsync(requestUrl);
 
                 if(response.StatusCode == HttpStatusCode.NotFound) return new List<WeatherDataEntity>();
