@@ -12,25 +12,24 @@ export class ChartSettingsComponent implements OnInit {
   weatherChartTypes: any[] = [
     {
       name: 'Temperature',
-      value: WeatherChart[0]
+      value: WeatherChart.Temperature
     },
     {
       name: 'Humidity',
-      value: WeatherChart[1]
+      value: WeatherChart.Humidity
     }
   ];
 
-  radioSelected?:string;
-  radioSelectedString?:string;
+  radioSelected: WeatherChart = WeatherChart.Temperature;
 
   constructor(private activeModal: NgbActiveModal, private chartSettingsStateService: ChartSettingsStateService) { }
 
   ngOnInit(): void {
-    this.radioSelected = this.weatherChartTypes[1].value;
   }
 
   update(): void {
-    this.chartSettingsStateService.updateWeatherChartType(this.weatherChartTypes.find(_ => _.value === this.radioSelected));
+    console.log(this.radioSelected);
+    this.chartSettingsStateService.updateWeatherChartType(this.radioSelected);
     this.dismissModal();
   }
 
