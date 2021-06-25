@@ -8,16 +8,12 @@ import { ChartSettingsComponent } from '../chart-settings/chart-settings.compone
   styleUrls: ['./charts.component.scss']
 })
 export class ChartsComponent implements OnInit {
-  @ViewChild('chartsArea', { static: true })
-  private chartsArea?: ElementRef;
 
   constructor(private modalService: NgbModal) {
   }
   ngOnInit(): void {
   }
   openChartSettings(): void {
-
-    // this.modalService.open(ChartSettingsComponent, { container: this.chartsArea?.nativeElement });
-    this.modalService.open(ChartSettingsComponent, { container: "#chartsArea" });
+    this.modalService.open(ChartSettingsComponent);
   }
 }

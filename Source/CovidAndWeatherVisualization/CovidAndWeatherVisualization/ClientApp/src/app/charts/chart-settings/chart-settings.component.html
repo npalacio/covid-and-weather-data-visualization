@@ -1,1 +1,19 @@
-<p>chart-settings works!</p>
+<div class="modal-header">
+  <div class="modal-title font-weight-bold" id="modal-basic-title">Chart Settings</div>
+  <button type="button" class="close" aria-label="Close" (click)="dismissModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <label class="font-weight-bold">Weather Chart</label>
+  <div>
+    <ul class="list-group">
+          <li class="list-group-item"  *ngFor="let chartType of weatherChartTypes">
+            <input type="radio" [(ngModel)]="radioSelected" name="list_name" value="{{chartType.value}}"/>
+            {{chartType.name}}
+          </li>
+    </ul>
+  </div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" (click)="dismissModal()">Cancel</button>
+</div>
