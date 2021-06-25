@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { ObservableStore } from '@codewithdan/observable-store';
 import { ChartState } from './chart-settings-state.model';
 import { WeatherChart } from 'src/app/shared/models';
+import { filter, map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +15,7 @@ export class ChartSettingsStateService extends ObservableStore<ChartState> {
   private endDateDefault: Date = new Date(2021, 0, 1);
   private weatherChartTypeDefault: WeatherChart = WeatherChart.Temperature;
   private dateFormatUrl = 'MM-dd-yyyy';
+  dateRangeUpdates$: Observable<ChartState> = of();
 
   constructor(private datePipe: DatePipe, private router: Router) {
     super({});
@@ -22,6 +25,12 @@ export class ChartSettingsStateService extends ObservableStore<ChartState> {
       weatherChart: WeatherChart.Temperature
     };
     this.setState(initialState, 'INIT_STATE');
+    this.dateRangeUpdates$ = this.stateWithPropertyChanges.pipe(filter(stateWithChanges => {
+      if(stateWithChanges.stateChanges.endDate || stateWithChanges.stateChanges.startDate) {
+        return true;
+      }
+      return false;
+    }),map(stateWithChanges => stateWithChanges.state));
   }
 
   syncDataInUrl(startDateUrlParam: string, endDateUrlParam: string, weatherChartTypeUrlParam: string | null): void {

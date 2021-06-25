@@ -24,7 +24,7 @@ export class CovidStateService extends ObservableStore<CovidState> {
       casesNew: []
     };
     this.setState(initialState, 'INIT_STATE');
-    this.chartSettingsStateService.stateChanged.subscribe(async state => {
+    this.chartSettingsStateService.dateRangeUpdates$.subscribe(async state => {
       this.startDate = state.startDate;
       this.endDate = state.endDate;
       await this.updateState('DATE_RANGE_UPDATE');
