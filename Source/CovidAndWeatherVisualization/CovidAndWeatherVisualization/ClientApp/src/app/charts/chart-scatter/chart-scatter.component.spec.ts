@@ -3,7 +3,7 @@ import { ChartScatterComponent } from "./chart-scatter.component";
 describe('ChartScatterComponent', () => {
     let component: ChartScatterComponent;
     beforeEach(() => {
-        component = new ChartScatterComponent(<any>{}, <any>{}, <any>{}, <any>{});
+        component = new ChartScatterComponent(<any>{}, <any>{}, <any>{});
     });
     describe('updateChartData', () => {
         it('with no covid data should set chart data to empty array', () => {
@@ -40,6 +40,7 @@ describe('ChartScatterComponent', () => {
             const date1 = new Date("2021-01-01");
             const date2 = new Date("2021-01-02");
             const date3 = new Date("2021-01-03");
+            component.weatherDataPointIndex = 'temperatureAverage';
             component.covidDataCasesNew = <any[]>[{
                 date: date1,
                 casesNew: 1

@@ -12,15 +12,14 @@ import { chartConfigs } from '../charts-config';
   styleUrls: ['./chart-scatter.component.scss']
 })
 export class ChartScatterComponent implements OnInit {
-  labels: Label[] = [];
-  isLoading = false;
+  isWeatherLoading = false;
+  isCovidLoading = false;
   chartConfig: any;
-  weatherChart?: WeatherChart;
+  weatherDataPointIndex: 'temperatureAverage' | 'humidityRelativeAverage' | 'humiditySpecificAverage' = 'temperatureAverage';
   covidDataCasesNew: CovidDataByCounty[] = [];
   weatherData: WeatherData[] = [];
 
-  constructor(private datePipe: DatePipe
-    , private weatherStateService: WeatherStateService
+  constructor(private weatherStateService: WeatherStateService
     , private chartSettingsStateService: ChartSettingsStateService
     , private covidStateService: CovidStateService) {
     this.chartConfig = { ...chartConfigs.scatter };
@@ -28,14 +27,24 @@ export class ChartScatterComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.chartSettingsStateService.stateChanged.subscribe(state => {
-      this.weatherChart = state.weatherChart;
+      switch (state.weatherChart) {
+        case WeatherChart.Temperature:
+          this.weatherDataPointIndex = 'temperatureAverage';
+          break;
+        case WeatherChart.HumidityRelative:
+          this.weatherDataPointIndex = 'humidityRelativeAverage';
+          break;
+        case WeatherChart.HumiditySpecific:
+          this.weatherDataPointIndex = 'humiditySpecificAverage';
+          break;
+      }
     });
     this.weatherStateService.stateChanged.subscribe(state => {
-      this.isLoading = state.isLoading;
-      this.labels = state.dates.map(date => this.datePipe.transform(date, 'MM/dd') ?? 'unknown');
+      this.isWeatherLoading = state.isLoading;
       this.weatherData = state.weatherData;
     });
     this.covidStateService.stateChanged.subscribe(state => {
+      this.isCovidLoading = state.isLoading;
       this.covidDataCasesNew = state.dataByCounty;
     });
   }
@@ -47,7 +56,7 @@ export class ChartScatterComponent implements OnInit {
     });
     this.chartConfig.data.data = this.weatherData.filter(w => covidDateMap[w.date.toLocaleDateString('en-US')]).map(w => {
       return {
-        x: w.temperatureAverage,
+        x: w[this.weatherDataPointIndex],
         y: covidDateMap[w.date.toLocaleDateString('en-US')]
       };
     });

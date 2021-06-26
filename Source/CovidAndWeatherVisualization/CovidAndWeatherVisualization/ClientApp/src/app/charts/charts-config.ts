@@ -74,6 +74,10 @@ export const chartConfigs = {
             fontStyle: 'bold'
           }
         }],
+        x: {
+          type: 'linear',
+          position: 'bottom'
+        },
         xAxes: [{
           scaleLabel: {
             ...defaultXAxisScaleLabel.scaleLabel,
