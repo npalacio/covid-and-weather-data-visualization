@@ -81,14 +81,14 @@ export const chartConfigs = {
         xAxes: [{
           scaleLabel: {
             ...defaultXAxisScaleLabel.scaleLabel,
-            labelString: 'WeatherDataPoint'
+            labelString: ''
           }
         }]
       }
     },
     colors: defaultColors,
     legend: false,
-    type: 'line'
+    type: 'scatter'
   },
   temperature: {
     data: defaultData,
