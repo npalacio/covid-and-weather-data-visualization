@@ -13,14 +13,8 @@ import { chartConfigs } from '../charts-config';
   styleUrls: ['./chart-scatter.component.scss']
 })
 export class ChartScatterComponent implements OnInit {
-  isWeatherLoading = false;
-  isCovidLoading = false;
   chartConfig: any;
   weatherDataPointIndex: 'temperatureAverage' | 'humidityRelativeAverage' | 'humiditySpecificAverage' = 'temperatureAverage';
-  xAxisLabel: 'Average Temperature' | 'Average Relative Humidity' | 'Average Specific Humidity' = 'Average Temperature';
-  chartTitle: 'Covid Infections vs Temperature' | 'Covid Infections vs Relative Humidity' | 'Covid Infections vs Specific Humidity' = 'Covid Infections vs Temperature';
-  covidDataCasesNew: CovidDataByCounty[] = [];
-  weatherData: WeatherData[] = [];
   isLoading: boolean = false;
 
   constructor(private weatherStateService: WeatherStateService
@@ -30,45 +24,43 @@ export class ChartScatterComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    // TODO: Combine these observables so we dont have to hold onto so much state
-    combineLatest(this.chartSettingsStateService.stateChanged, this.weatherStateService.stateChanged, this.covidStateService.stateChanged).subscribe(
+    combineLatest([this.chartSettingsStateService.stateChanged, this.weatherStateService.stateChanged, this.covidStateService.stateChanged]).subscribe(
       ([chartState, weatherState, covidState]) => {
         switch (chartState.weatherChart) {
           case WeatherChart.Temperature:
             this.weatherDataPointIndex = 'temperatureAverage';
-            this.xAxisLabel = 'Average Temperature';
-            this.chartTitle = 'Covid Infections vs Temperature';
+            this.chartConfig.options.scales.xAxes[0].scaleLabel.labelString = 'Average Temperature';
+            this.chartConfig.options.title.text = 'Covid Infections vs Temperature';
             break;
           case WeatherChart.HumidityRelative:
             this.weatherDataPointIndex = 'humidityRelativeAverage';
-            this.xAxisLabel = 'Average Relative Humidity';
-            this.chartTitle = 'Covid Infections vs Relative Humidity';
+            this.chartConfig.options.scales.xAxes[0].scaleLabel.labelString = 'Average Relative Humidity';
+            this.chartConfig.options.title.text = 'Covid Infections vs Relative Humidity';
             break;
           case WeatherChart.HumiditySpecific:
             this.weatherDataPointIndex = 'humiditySpecificAverage';
-            this.xAxisLabel = 'Average Specific Humidity';
-            this.chartTitle = 'Covid Infections vs Specific Humidity';
+            this.chartConfig.options.scales.xAxes[0].scaleLabel.labelString = 'Average Specific Humidity';
+            this.chartConfig.options.title.text = 'Covid Infections vs Specific Humidity';
             break;
         }
-        this.weatherData = weatherState.weatherData;
-        this.covidDataCasesNew = covidState.dataByCounty;
         this.isLoading = covidState.isLoading || weatherState.isLoading;
         if (!this.isLoading) {
-          const covidDateMap: any = {};
-          this.covidDataCasesNew.forEach(c => {
-            covidDateMap[new Date(c.date).toLocaleDateString('en-US')] = c.casesNew;
-          });
-          this.chartConfig.options.scales.xAxes[0].scaleLabel.labelString = this.xAxisLabel;
-          this.chartConfig.options.title.text = this.chartTitle;
-          const chartData = this.weatherData.filter(w => covidDateMap[new Date(w.date).toLocaleDateString('en-US')]).map(w => {
-            return {
-              x: w[this.weatherDataPointIndex],
-              y: covidDateMap[new Date(w.date).toLocaleDateString('en-US')]
-            };
-          });
-          this.chartConfig.data.data = chartData;
+          this.chartConfig.data.data = this.getChartData(covidState.dataByCounty, weatherState.weatherData);
         }
       }
     );
   }
+
+  getChartData(covidDataByCounty: CovidDataByCounty[], weatherData: WeatherData[]): any[] {
+    const covidDateMap: any = {};
+    covidDataByCounty.forEach(c => {
+      covidDateMap[new Date(c.date).toLocaleDateString('en-US')] = c.casesNew;
+    });
+    return weatherData.filter(w => covidDateMap[new Date(w.date).toLocaleDateString('en-US')]).map(w => {
+      return {
+        x: w[this.weatherDataPointIndex],
+        y: covidDateMap[new Date(w.date).toLocaleDateString('en-US')]
+      };
+    });
+}
 }
