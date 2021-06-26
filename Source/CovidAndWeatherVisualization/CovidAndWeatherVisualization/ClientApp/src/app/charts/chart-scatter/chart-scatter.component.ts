@@ -62,5 +62,5 @@ export class ChartScatterComponent implements OnInit {
         y: covidDateMap[new Date(w.date).toLocaleDateString('en-US')]
       };
     });
-}
+  }
 }
