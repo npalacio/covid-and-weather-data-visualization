@@ -17,7 +17,7 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
             , private countyStateService: CountyStateService) {
     super({});
     const initialState: WeatherState = {
-      temperatureData: [],
+      weatherData: [],
       dates: [],
       temperaturesAverage: [],
       humiditiesRelativeAverage: [],
@@ -40,19 +40,19 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
   private async updateState(action: string): Promise<void> {
     if (this.latitude && this.longitude && this.startDate && this.endDate) {
       this.setState({ isLoading: true }, `${action}_LOADING`);
-      const temperatureData = await this.weatherDataService.getTemperatureData({
+      const weatherData = await this.weatherDataService.getTemperatureData({
         startDate: this.startDate,
         endDate: this.endDate,
         latitude: this.latitude,
         longitude: this.longitude
       });
-      const dates = temperatureData.map(_ => _.date);
-      const temperaturesAverage = temperatureData.map(_ => _.temperatureAverage);
-      const humiditiesRelativeAverage = temperatureData.map(_ => _.humidityRelativeAverage);
-      const humiditiesSpecificAverage = temperatureData.map(_ => _.humiditySpecificAverage);
+      const dates = weatherData.map(_ => _.date);
+      const temperaturesAverage = weatherData.map(_ => _.temperatureAverage);
+      const humiditiesRelativeAverage = weatherData.map(_ => _.humidityRelativeAverage);
+      const humiditiesSpecificAverage = weatherData.map(_ => _.humiditySpecificAverage);
       this.setState({
         isLoading: false,
-        temperatureData,
+        weatherData,
         dates,
         temperaturesAverage,
         humiditiesRelativeAverage,

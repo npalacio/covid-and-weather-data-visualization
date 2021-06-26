@@ -13,6 +13,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { ChartSettingsComponent } from './chart-settings/chart-settings.component';
 import { FormsModule } from '@angular/forms';
+import { ChartScatterComponent } from './chart-scatter/chart-scatter.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { FormsModule } from '@angular/forms';
     ChartsComponent,
     ChartCovidComponent,
     ChartWeatherComponent,
-    ChartSettingsComponent
+    ChartSettingsComponent,
+    ChartScatterComponent
   ],
   imports: [
     CommonModule,

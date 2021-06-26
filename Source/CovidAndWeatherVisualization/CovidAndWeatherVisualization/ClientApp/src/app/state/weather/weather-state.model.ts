@@ -1,7 +1,7 @@
 import { WeatherData } from 'src/app/shared/models';
 
 export interface WeatherState {
-  temperatureData: WeatherData[];
+  weatherData: WeatherData[];
   dates: Date[];
   temperaturesAverage: number[];
   humiditiesRelativeAverage: number[];

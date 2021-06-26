@@ -52,5 +52,4 @@ export class ChartWeatherComponent implements OnInit {
       }
     }
   }
-
 }

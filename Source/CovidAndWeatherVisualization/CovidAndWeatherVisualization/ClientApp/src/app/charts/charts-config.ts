@@ -1,3 +1,5 @@
+const axisLabelFontSize = 16;
+
 const defaultData = {
   data: [],
   fill: false,
@@ -16,7 +18,12 @@ const defaultOptions = {
   maintainAspectRatio: false,
 };
 
-const defaultXAxis = {
+const defaultTitleOptions = {
+  display: true,
+  fontSize: axisLabelFontSize
+};
+
+const defaultXAxisScaleLabel = {
   scaleLabel: {
     display: true,
     labelString: 'Date',
@@ -26,11 +33,11 @@ const defaultXAxis = {
 
 export const chartConfigs = {
   covid: {
-    data: {...defaultData},
+    data: { ...defaultData },
     options: {
       ...defaultOptions,
       title: {
-        display: true,
+        ...defaultTitleOptions,
         text: 'Daily COVID Infections'
       },
       scales: {
@@ -43,23 +50,61 @@ export const chartConfigs = {
           scaleLabel: {
             display: true,
             labelString: 'New Infections',
-            fontSize: 16,
+            fontSize: axisLabelFontSize,
             fontStyle: 'bold'
           }
         }],
-        xAxes: [defaultXAxis]
+        xAxes: [defaultXAxisScaleLabel]
       }
     },
     colors: defaultColors,
     legend: false,
     type: 'line'
   },
+  scatter: {
+    data: {
+      ...defaultData,
+      label: 'scatter label',
+      pointRadius: 3
+    },
+    options: {
+      ...defaultOptions,
+      title: {
+        ...defaultTitleOptions,
+        text: 'Covid Infections vs {WeatherDataPoint}'
+      },
+      scales: {
+        yAxes: [{
+          display: true,
+          scaleLabel: {
+            display: true,
+            labelString: 'Covid Infections',
+            fontSize: axisLabelFontSize,
+            fontStyle: 'bold'
+          }
+        }],
+        x: {
+          type: 'linear',
+          position: 'bottom'
+        },
+        xAxes: [{
+          scaleLabel: {
+            ...defaultXAxisScaleLabel.scaleLabel,
+            labelString: ''
+          }
+        }]
+      }
+    },
+    colors: defaultColors,
+    legend: false,
+    type: 'scatter'
+  },
   temperature: {
     data: defaultData,
     options: {
       ...defaultOptions,
       title: {
-        display: true,
+        ...defaultTitleOptions,
         text: 'Daily Average Temperature'
       },
       scales: {
@@ -68,11 +113,11 @@ export const chartConfigs = {
           scaleLabel: {
             display: true,
             labelString: 'Average Temperature (F)',
-            fontSize: 16,
+            fontSize: axisLabelFontSize,
             fontStyle: 'bold'
           }
         }],
-        xAxes: [defaultXAxis]
+        xAxes: [defaultXAxisScaleLabel]
       }
     },
     colors: defaultColors,
@@ -84,7 +129,7 @@ export const chartConfigs = {
     options: {
       ...defaultOptions,
       title: {
-        display: true,
+        ...defaultTitleOptions,
         text: 'Daily Average Relative Humidity'
       },
       scales: {
@@ -93,11 +138,11 @@ export const chartConfigs = {
           scaleLabel: {
             display: true,
             labelString: 'Average Rel Hum (%)',
-            fontSize: 16,
+            fontSize: axisLabelFontSize,
             fontStyle: 'bold'
           }
         }],
-        xAxes: [defaultXAxis]
+        xAxes: [defaultXAxisScaleLabel]
       }
     },
     colors: defaultColors,
@@ -109,7 +154,7 @@ export const chartConfigs = {
     options: {
       ...defaultOptions,
       title: {
-        display: true,
+        ...defaultTitleOptions,
         text: 'Daily Average Specific Humidity'
       },
       scales: {
@@ -118,11 +163,11 @@ export const chartConfigs = {
           scaleLabel: {
             display: true,
             labelString: 'Average Spec Hum (g/kg)',
-            fontSize: 16,
+            fontSize: axisLabelFontSize,
             fontStyle: 'bold'
           }
         }],
-        xAxes: [defaultXAxis]
+        xAxes: [defaultXAxisScaleLabel]
       }
     },
     colors: defaultColors,

@@ -9,22 +9,22 @@ import { ChartSettingsStateService } from 'src/app/state';
   styleUrls: ['./chart-settings.component.scss']
 })
 export class ChartSettingsComponent implements OnInit {
-  weatherChartTypes: any[] = [];
-
+  weatherChartTypes: any[] = [{
+    name: 'Temperature',
+    value: WeatherChart.Temperature
+  }, {
+    name: 'Specific Humidity',
+    value: WeatherChart.HumiditySpecific
+  }, {
+    name: 'Relative Humidity',
+    value: WeatherChart.HumidityRelative
+  }];
   selectedWeatherChart: WeatherChart = WeatherChart.Temperature;
 
   constructor(private activeModal: NgbActiveModal, private chartSettingsStateService: ChartSettingsStateService) { }
 
   ngOnInit(): void {
     this.selectedWeatherChart = this.chartSettingsStateService.getSelectedWeatherChart();
-    this.weatherChartTypes = Object.keys(WeatherChart).map((key: any) => {
-      return WeatherChart[key];
-    }).filter(value => typeof value === 'number').map(key => {
-      return {
-        name: WeatherChart[+key],
-        value: +key
-      };
-    });
   }
 
   update(): void {
