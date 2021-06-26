@@ -1,8 +1,8 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Label } from 'ng2-charts';
-import { WeatherChart } from 'src/app/shared/models';
-import { ChartSettingsStateService } from 'src/app/state';
+import { CovidDataByCounty, WeatherChart, WeatherData } from 'src/app/shared/models';
+import { ChartSettingsStateService, CovidStateService } from 'src/app/state';
 import { WeatherStateService } from 'src/app/state/weather/weather-state.service';
 import { chartConfigs } from '../charts-config';
 
@@ -16,37 +16,40 @@ export class ChartScatterComponent implements OnInit {
   isLoading = false;
   chartConfig: any;
   weatherChart?: WeatherChart;
+  covidDataCasesNew: CovidDataByCounty[] = [];
+  weatherData: WeatherData[] = [];
 
   constructor(private datePipe: DatePipe
-            , private weatherStateService: WeatherStateService
-            , private chartSettingsStateService: ChartSettingsStateService) { }
+    , private weatherStateService: WeatherStateService
+    , private chartSettingsStateService: ChartSettingsStateService
+    , private covidStateService: CovidStateService) {
+    this.chartConfig = { ...chartConfigs.scatter };
+  }
 
   async ngOnInit(): Promise<void> {
-    this.chartConfig = { ...chartConfigs.scatter };
     this.chartSettingsStateService.stateChanged.subscribe(state => {
       this.weatherChart = state.weatherChart;
-      this.updateChartData();
     });
     this.weatherStateService.stateChanged.subscribe(state => {
       this.isLoading = state.isLoading;
       this.labels = state.dates.map(date => this.datePipe.transform(date, 'MM/dd') ?? 'unknown');
-      this.updateChartData();
+      this.weatherData = state.weatherData;
+    });
+    this.covidStateService.stateChanged.subscribe(state => {
+      this.covidDataCasesNew = state.dataByCounty;
     });
   }
 
-  private updateChartData(): void {
-    if (!this.isLoading && this.weatherChart) {
-      switch (this.weatherChart) {
-        case WeatherChart.Temperature:
-          this.chartConfig.data.data = this.weatherStateService.getTemperaturesAverage();
-          break;
-        case WeatherChart.HumidityRelative:
-          this.chartConfig.data.data = this.weatherStateService.getHumiditiesRelativeAverage();
-          break;
-        case WeatherChart.HumiditySpecific:
-          this.chartConfig.data.data = this.weatherStateService.getHumiditiesSpecificAverage();
-          break;
-      }
-    }
+  updateChartData() {
+    const covidDateMap: any = {};
+    this.covidDataCasesNew.forEach(c => {
+      covidDateMap[c.date.toLocaleDateString('en-US')] = c.casesNew;
+    });
+    this.chartConfig.data.data = this.weatherData.filter(w => covidDateMap[w.date.toLocaleDateString('en-US')]).map(w => {
+      return {
+        x: w.temperatureAverage,
+        y: covidDateMap[w.date.toLocaleDateString('en-US')]
+      };
+    });
   }
 }
