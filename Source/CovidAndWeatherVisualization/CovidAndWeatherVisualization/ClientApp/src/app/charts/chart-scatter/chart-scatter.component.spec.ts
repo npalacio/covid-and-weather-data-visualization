@@ -7,8 +7,8 @@ describe('ChartScatterComponent', () => {
     });
     describe('updateChartData', () => {
         it('with no covid data should set chart data to empty array', () => {
-            component.covidDataCasesNew = [];
-            component.weatherData = <any[]>[{
+            component.weatherDataPointIndex = 'temperatureAverage';
+            const result = component.getChartData([], <any[]>[{
                 date: new Date(),
                 temperatureAverage: 1
             }, {
@@ -17,12 +17,11 @@ describe('ChartScatterComponent', () => {
             }, {
                 date: new Date(),
                 temperatureAverage: 3
-            }];
-            component.updateChartData();
-            expect(component.chartConfig.data.data.length).toBe(0);
+            }]);
+            expect(result.length).toBe(0);
         });
         it('with no weather data should set chart data to empty array', () => {
-            component.covidDataCasesNew = <any[]>[{
+            const result = component.getChartData(<any[]>[{
                 date: new Date(),
                 casesNew: 1
             }, {
@@ -31,17 +30,15 @@ describe('ChartScatterComponent', () => {
             }, {
                 date: new Date(),
                 casesNew: 3
-            }];
-            component.weatherData = [];
-            component.updateChartData();
-            expect(component.chartConfig.data.data.length).toBe(0);
+            }], []);
+            expect(result.length).toBe(0);
         });
         it('with covid and weather data should set chart data correctly', () => {
             const date1 = new Date("2021-01-01");
             const date2 = new Date("2021-01-02");
             const date3 = new Date("2021-01-03");
             component.weatherDataPointIndex = 'temperatureAverage';
-            component.covidDataCasesNew = <any[]>[{
+            const result = component.getChartData(<any[]>[{
                 date: date1,
                 casesNew: 1
             }, {
@@ -50,8 +47,7 @@ describe('ChartScatterComponent', () => {
             }, {
                 date: date3,
                 casesNew: 3
-            }];
-            component.weatherData = <any[]>[{
+            }], <any[]>[{
                 date: date1,
                 temperatureAverage: 4
             }, {
@@ -60,9 +56,8 @@ describe('ChartScatterComponent', () => {
             }, {
                 date: date3,
                 temperatureAverage: 6
-            }];
-            component.updateChartData();
-            expect(component.chartConfig.data.data).toEqual([{
+            }]);
+            expect(result).toEqual([{
                 x: 4,
                 y: 1
             }, {
