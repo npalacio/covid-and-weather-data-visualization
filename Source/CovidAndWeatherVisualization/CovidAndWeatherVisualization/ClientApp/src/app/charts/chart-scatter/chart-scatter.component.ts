@@ -4,6 +4,7 @@ import { CovidDataByCounty, WeatherChart, WeatherData } from 'src/app/shared/mod
 import { ChartSettingsStateService, CovidStateService } from 'src/app/state';
 import { WeatherStateService } from 'src/app/state/weather/weather-state.service';
 import { chartConfigs } from '../charts-config';
+import * as jstat from 'jstat';
 
 @Component({
   selector: 'app-chart-scatter',
@@ -45,7 +46,10 @@ export class ChartScatterComponent implements OnInit {
         }
         this.isLoading = covidState.isLoading || weatherState.isLoading;
         if (!this.isLoading) {
-          this.chartConfig.data.data = this.getChartData(covidState.dataByCounty, weatherState.weatherData);
+          const chartData = this.getChartData(covidState.dataByCounty, weatherState.weatherData);
+          this.chartConfig.data.data = chartData;
+          const corrCoeff = jstat.corrcoeff(chartData.map(_ =>  _.x), chartData.map(_ =>  _.y));
+          console.log('Correlation coefficient: ' + corrCoeff);
         }
       }
     );
