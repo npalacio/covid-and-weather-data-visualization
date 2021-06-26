@@ -17,6 +17,7 @@ export class ChartScatterComponent implements OnInit {
   chartConfig: any;
   weatherDataPointIndex: 'temperatureAverage' | 'humidityRelativeAverage' | 'humiditySpecificAverage' = 'temperatureAverage';
   xAxisLabel: 'Average Temperature' | 'Average Relative Humidity' | 'Average Specific Humidity' = 'Average Temperature';
+  chartTitle: 'Covid Infections vs Temperature' | 'Covid Infections vs Relative Humidity' | 'Covid Infections vs Specific Humidity' = 'Covid Infections vs Temperature';
   covidDataCasesNew: CovidDataByCounty[] = [];
   weatherData: WeatherData[] = [];
 
@@ -33,14 +34,17 @@ export class ChartScatterComponent implements OnInit {
         case WeatherChart.Temperature:
           this.weatherDataPointIndex = 'temperatureAverage';
           this.xAxisLabel = 'Average Temperature';
+          this.chartTitle = 'Covid Infections vs Temperature';
           break;
         case WeatherChart.HumidityRelative:
           this.weatherDataPointIndex = 'humidityRelativeAverage';
           this.xAxisLabel = 'Average Relative Humidity';
+          this.chartTitle = 'Covid Infections vs Relative Humidity';
           break;
         case WeatherChart.HumiditySpecific:
           this.weatherDataPointIndex = 'humiditySpecificAverage';
           this.xAxisLabel = 'Average Specific Humidity';
+          this.chartTitle = 'Covid Infections vs Specific Humidity';
           break;
       }
       this.updateChartData();
@@ -64,6 +68,7 @@ export class ChartScatterComponent implements OnInit {
         covidDateMap[new Date(c.date).toLocaleDateString('en-US')] = c.casesNew;
       });
       this.chartConfig.options.scales.xAxes[0].scaleLabel.labelString = this.xAxisLabel;
+      this.chartConfig.options.title.text = this.chartTitle;
       const chartData = this.weatherData.filter(w => covidDateMap[new Date(w.date).toLocaleDateString('en-US')]).map(w => {
         return {
           x: w[this.weatherDataPointIndex],
