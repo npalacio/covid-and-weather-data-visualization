@@ -57,7 +57,12 @@ export const chartConfigs = {
     type: 'line'
   },
   scatter: {
-    data: defaultData,
+    data: {
+      ...defaultData,
+      label: 'scatter label',
+      fill: true,
+      pointRadius: 3
+    },
     options: {
       ...defaultOptions,
       title: {
