@@ -12,10 +12,10 @@ export class ChartSettingsComponent implements OnInit {
   weatherChartTypes: any[] = [{
     name: 'Temperature',
     value: WeatherChart.Temperature
-  },{
+  }, {
     name: 'Specific Humidity',
     value: WeatherChart.HumiditySpecific
-  },{
+  }, {
     name: 'Relative Humidity',
     value: WeatherChart.HumidityRelative
   }];

@@ -13,16 +13,18 @@ import { chartConfigs } from '../charts-config';
 export class ChartScatterComponent implements OnInit {
   chartConfig: any;
   weatherDataPointIndex: 'temperatureAverage' | 'humidityRelativeAverage' | 'humiditySpecificAverage' = 'temperatureAverage';
-  isLoading: boolean = false;
+  isLoading = false;
 
   constructor(private weatherStateService: WeatherStateService
-    , private chartSettingsStateService: ChartSettingsStateService
-    , private covidStateService: CovidStateService) {
+            , private chartSettingsStateService: ChartSettingsStateService
+            , private covidStateService: CovidStateService) {
     this.chartConfig = { ...chartConfigs.scatter };
   }
 
   async ngOnInit(): Promise<void> {
-    combineLatest([this.chartSettingsStateService.stateChanged, this.weatherStateService.stateChanged, this.covidStateService.stateChanged]).subscribe(
+    combineLatest([this.chartSettingsStateService.stateChanged
+      , this.weatherStateService.stateChanged
+      , this.covidStateService.stateChanged]).subscribe(
       ([chartState, weatherState, covidState]) => {
         switch (chartState.weatherChart) {
           case WeatherChart.Temperature:

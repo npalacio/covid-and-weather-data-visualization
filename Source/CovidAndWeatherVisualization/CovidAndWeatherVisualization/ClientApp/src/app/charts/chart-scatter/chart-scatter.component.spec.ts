@@ -1,14 +1,14 @@
-import { ChartScatterComponent } from "./chart-scatter.component";
+import { ChartScatterComponent } from './chart-scatter.component';
 
 describe('ChartScatterComponent', () => {
     let component: ChartScatterComponent;
     beforeEach(() => {
-        component = new ChartScatterComponent(<any>{}, <any>{}, <any>{});
+        component = new ChartScatterComponent({} as any, {} as any, {} as any);
     });
     describe('updateChartData', () => {
         it('with no covid data should set chart data to empty array', () => {
             component.weatherDataPointIndex = 'temperatureAverage';
-            const result = component.getChartData([], <any[]>[{
+            const result = component.getChartData([], [{
                 date: new Date(),
                 temperatureAverage: 1
             }, {
@@ -17,11 +17,11 @@ describe('ChartScatterComponent', () => {
             }, {
                 date: new Date(),
                 temperatureAverage: 3
-            }]);
+            }] as any[]);
             expect(result.length).toBe(0);
         });
         it('with no weather data should set chart data to empty array', () => {
-            const result = component.getChartData(<any[]>[{
+            const result = component.getChartData([{
                 date: new Date(),
                 casesNew: 1
             }, {
@@ -30,15 +30,15 @@ describe('ChartScatterComponent', () => {
             }, {
                 date: new Date(),
                 casesNew: 3
-            }], []);
+            }] as any[], []);
             expect(result.length).toBe(0);
         });
         it('with covid and weather data should set chart data correctly', () => {
-            const date1 = new Date("2021-01-01");
-            const date2 = new Date("2021-01-02");
-            const date3 = new Date("2021-01-03");
+            const date1 = new Date('2021-01-01');
+            const date2 = new Date('2021-01-02');
+            const date3 = new Date('2021-01-03');
             component.weatherDataPointIndex = 'temperatureAverage';
-            const result = component.getChartData(<any[]>[{
+            const result = component.getChartData([{
                 date: date1,
                 casesNew: 1
             }, {
@@ -47,7 +47,7 @@ describe('ChartScatterComponent', () => {
             }, {
                 date: date3,
                 casesNew: 3
-            }], <any[]>[{
+            }] as any[], [{
                 date: date1,
                 temperatureAverage: 4
             }, {
@@ -56,7 +56,7 @@ describe('ChartScatterComponent', () => {
             }, {
                 date: date3,
                 temperatureAverage: 6
-            }]);
+            }] as any[]);
             expect(result).toEqual([{
                 x: 4,
                 y: 1
@@ -69,17 +69,17 @@ describe('ChartScatterComponent', () => {
             }]);
         });
         it('with covid data missing for a date should leave that data point out', () => {
-            const date1 = new Date("2021-01-01");
-            const date2 = new Date("2021-01-02");
-            const date3 = new Date("2021-01-03");
+            const date1 = new Date('2021-01-01');
+            const date2 = new Date('2021-01-02');
+            const date3 = new Date('2021-01-03');
             component.weatherDataPointIndex = 'temperatureAverage';
-            const result = component.getChartData(<any[]>[{
+            const result = component.getChartData([{
                 date: date2,
                 casesNew: 2
             }, {
                 date: date3,
                 casesNew: 3
-            }], <any[]>[{
+            }] as any[], [{
                 date: date1,
                 temperatureAverage: 4
             }, {
@@ -88,7 +88,7 @@ describe('ChartScatterComponent', () => {
             }, {
                 date: date3,
                 temperatureAverage: 6
-            }]);
+            }] as any[]);
             expect(result).toEqual([{
                 x: 5,
                 y: 2
