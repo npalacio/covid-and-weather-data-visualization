@@ -1,6 +1,4 @@
-import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Label } from 'ng2-charts';
 import { combineLatest } from 'rxjs';
 import { CovidDataByCounty, WeatherChart, WeatherData } from 'src/app/shared/models';
 import { ChartSettingsStateService, CovidStateService } from 'src/app/state';

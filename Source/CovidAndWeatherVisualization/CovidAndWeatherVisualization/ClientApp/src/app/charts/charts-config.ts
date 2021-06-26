@@ -18,6 +18,11 @@ const defaultOptions = {
   maintainAspectRatio: false,
 };
 
+const defaultTitleOptions = {
+  display: true,
+  fontSize: axisLabelFontSize
+};
+
 const defaultXAxisScaleLabel = {
   scaleLabel: {
     display: true,
@@ -32,7 +37,7 @@ export const chartConfigs = {
     options: {
       ...defaultOptions,
       title: {
-        display: true,
+        ...defaultTitleOptions,
         text: 'Daily COVID Infections'
       },
       scales: {
@@ -65,7 +70,7 @@ export const chartConfigs = {
     options: {
       ...defaultOptions,
       title: {
-        display: true,
+        ...defaultTitleOptions,
         text: 'Covid Infections vs {WeatherDataPoint}'
       },
       scales: {
@@ -99,7 +104,7 @@ export const chartConfigs = {
     options: {
       ...defaultOptions,
       title: {
-        display: true,
+        ...defaultTitleOptions,
         text: 'Daily Average Temperature'
       },
       scales: {
@@ -124,7 +129,7 @@ export const chartConfigs = {
     options: {
       ...defaultOptions,
       title: {
-        display: true,
+        ...defaultTitleOptions,
         text: 'Daily Average Relative Humidity'
       },
       scales: {
@@ -149,7 +154,7 @@ export const chartConfigs = {
     options: {
       ...defaultOptions,
       title: {
-        display: true,
+        ...defaultTitleOptions,
         text: 'Daily Average Specific Humidity'
       },
       scales: {
