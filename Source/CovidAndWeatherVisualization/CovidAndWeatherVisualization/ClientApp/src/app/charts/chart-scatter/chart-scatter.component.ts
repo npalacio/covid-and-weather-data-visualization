@@ -22,7 +22,7 @@ export class ChartScatterComponent implements OnInit {
             , private chartSettingsStateService: ChartSettingsStateService) { }
 
   async ngOnInit(): Promise<void> {
-    this.chartConfig = { ...chartConfigs.temperature };
+    this.chartConfig = { ...chartConfigs.scatter };
     this.chartSettingsStateService.stateChanged.subscribe(state => {
       this.weatherChart = state.weatherChart;
       this.updateChartData();
@@ -38,15 +38,12 @@ export class ChartScatterComponent implements OnInit {
     if (!this.isLoading && this.weatherChart) {
       switch (this.weatherChart) {
         case WeatherChart.Temperature:
-          this.chartConfig = { ...chartConfigs.temperature };
           this.chartConfig.data.data = this.weatherStateService.getTemperaturesAverage();
           break;
         case WeatherChart.HumidityRelative:
-          this.chartConfig = { ...chartConfigs.humidityRelative };
           this.chartConfig.data.data = this.weatherStateService.getHumiditiesRelativeAverage();
           break;
         case WeatherChart.HumiditySpecific:
-          this.chartConfig = { ...chartConfigs.humiditySpecific };
           this.chartConfig.data.data = this.weatherStateService.getHumiditiesSpecificAverage();
           break;
       }
