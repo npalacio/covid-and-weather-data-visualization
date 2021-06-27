@@ -4,7 +4,6 @@ import { CovidDataByCounty, WeatherChart, WeatherData } from 'src/app/shared/mod
 import { ChartSettingsStateService, CovidStateService } from 'src/app/state';
 import { WeatherStateService } from 'src/app/state/weather/weather-state.service';
 import { chartConfigs } from '../charts-config';
-import * as jstat from 'jstat';
 
 @Component({
   selector: 'app-chart-scatter',
@@ -27,44 +26,52 @@ export class ChartScatterComponent implements OnInit {
       , this.weatherStateService.stateChanged
       , this.covidStateService.stateChanged]).subscribe(
       ([chartState, weatherState, covidState]) => {
+        const chartTitle: string[] = [];
         switch (chartState.weatherChart) {
           case WeatherChart.Temperature:
             this.weatherDataPointIndex = 'temperatureAverage';
             this.chartConfig.options.scales.xAxes[0].scaleLabel.labelString = 'Average Temperature';
-            this.chartConfig.options.title.text = 'Covid Infections vs Temperature';
+            chartTitle.push('Covid Infections vs Temperature');
             break;
           case WeatherChart.HumidityRelative:
             this.weatherDataPointIndex = 'humidityRelativeAverage';
             this.chartConfig.options.scales.xAxes[0].scaleLabel.labelString = 'Average Relative Humidity';
-            this.chartConfig.options.title.text = 'Covid Infections vs Relative Humidity';
+            chartTitle.push('Covid Infections vs Relative Humidity');
             break;
           case WeatherChart.HumiditySpecific:
             this.weatherDataPointIndex = 'humiditySpecificAverage';
             this.chartConfig.options.scales.xAxes[0].scaleLabel.labelString = 'Average Specific Humidity';
-            this.chartConfig.options.title.text = 'Covid Infections vs Specific Humidity';
+            chartTitle.push('Covid Infections vs Specific Humidity');
             break;
         }
         this.isLoading = covidState.isLoading || weatherState.isLoading;
         if (!this.isLoading) {
-          const chartData = this.getChartData(covidState.dataByCounty, weatherState.weatherData);
-          this.chartConfig.data.data = chartData;
-          const corrCoeff = jstat.corrcoeff(chartData.map(_ =>  _.x), chartData.map(_ =>  _.y));
-          console.log('Correlation coefficient: ' + corrCoeff);
+          const scatterChartData = this.getScatterChartData(covidState.dataByCounty, weatherState.weatherData);
+          this.chartConfig.data.data = scatterChartData.chartData;
+          const corrCoeff: number = jStat.corrcoeff(scatterChartData.xArr, scatterChartData.yArr);
+          chartTitle.push('Correlation coefficient (Pearson): ' + corrCoeff.toFixed(2));
+          this.chartConfig.options.title.text = chartTitle;
         }
       }
     );
   }
 
-  getChartData(covidDataByCounty: CovidDataByCounty[], weatherData: WeatherData[]): any[] {
+  getScatterChartData(covidDataByCounty: CovidDataByCounty[], weatherData: WeatherData[]): {xArr: number[]; yArr: number[]; chartData: {x: number; y: number}[]} {
     const covidDateMap: any = {};
     covidDataByCounty.forEach(c => {
       covidDateMap[new Date(c.date).toLocaleDateString('en-US')] = c.casesNew;
     });
-    return weatherData.filter(w => covidDateMap[new Date(w.date).toLocaleDateString('en-US')]).map(w => {
-      return {
-        x: w[this.weatherDataPointIndex],
-        y: covidDateMap[new Date(w.date).toLocaleDateString('en-US')]
-      };
+    const returnValue: {xArr: number[]; yArr: number[]; chartData: {x: number; y: number}[]} = {xArr: [], yArr: [], chartData: []};
+    weatherData.filter(w => covidDateMap[new Date(w.date).toLocaleDateString('en-US')]).forEach(w => {
+      const x = +w[this.weatherDataPointIndex];
+      const y = +covidDateMap[new Date(w.date).toLocaleDateString('en-US')];
+      returnValue.xArr.push(x);
+      returnValue.yArr.push(y);
+      returnValue.chartData.push({
+        x,
+        y
+      })
     });
+    return returnValue;
   }
 }

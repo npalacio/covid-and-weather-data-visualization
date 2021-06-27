@@ -8,7 +8,7 @@ describe('ChartScatterComponent', () => {
     describe('updateChartData', () => {
         it('with no covid data should set chart data to empty array', () => {
             component.weatherDataPointIndex = 'temperatureAverage';
-            const result = component.getChartData([], [{
+            const result = component.getScatterChartData([], [{
                 date: new Date(),
                 temperatureAverage: 1
             }, {
@@ -21,7 +21,7 @@ describe('ChartScatterComponent', () => {
             expect(result.length).toBe(0);
         });
         it('with no weather data should set chart data to empty array', () => {
-            const result = component.getChartData([{
+            const result = component.getScatterChartData([{
                 date: new Date(),
                 casesNew: 1
             }, {
@@ -38,7 +38,7 @@ describe('ChartScatterComponent', () => {
             const date2 = new Date('2021-01-02');
             const date3 = new Date('2021-01-03');
             component.weatherDataPointIndex = 'temperatureAverage';
-            const result = component.getChartData([{
+            const result = component.getScatterChartData([{
                 date: date1,
                 casesNew: 1
             }, {
@@ -73,7 +73,7 @@ describe('ChartScatterComponent', () => {
             const date2 = new Date('2021-01-02');
             const date3 = new Date('2021-01-03');
             component.weatherDataPointIndex = 'temperatureAverage';
-            const result = component.getChartData([{
+            const result = component.getScatterChartData([{
                 date: date2,
                 casesNew: 2
             }, {
