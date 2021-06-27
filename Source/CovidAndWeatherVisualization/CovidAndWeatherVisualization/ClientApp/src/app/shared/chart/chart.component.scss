@@ -1,4 +1,16 @@
 .chart-container {
-  height:29vh;
-  width:25vw;
+  height: 29vh;
+  width: 75vw;
+}
+
+@media (min-width: 992px) {
+  .chart-container {
+    width: 50vw;
+  }
+}
+
+@media (min-width: 1200px) {
+  .chart-container {
+    width: 25vw;
+  }
 }

@@ -41,7 +41,7 @@
               "node_modules/@arcgis/core/assets/esri/themes/dark/main.css",
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
             ],
-            "scripts": [],
+            "scripts": ["node_modules/jstat/dist/jstat.min.js"],
             "allowedCommonJsDependencies": ["moment","@codewithdan/observable-store","chart.js"]
           },
           "configurations": {

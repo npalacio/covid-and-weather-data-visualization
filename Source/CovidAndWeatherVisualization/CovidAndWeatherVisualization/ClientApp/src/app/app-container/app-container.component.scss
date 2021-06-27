@@ -4,20 +4,20 @@
 }
 
 .map-container {
-  flex: 3;
+  flex: 1;
 }
 
 .panel-container {
-  flex: 1;
+  flex: 3;
   z-index: 1;
 
   .visibility-toggle {
     width: fit-content;
     margin-left: -3.438rem;
     background-color: white;
-    border-radius: .312rem;
+    border-radius: 0.312rem;
     z-index: 1000;
-    border: .125rem solid black;
+    border: 0.125rem solid black;
     cursor: pointer;
     float: left;
 
@@ -30,4 +30,23 @@
 .panel-container-hidden {
   width: 0;
   flex: 0;
+}
+
+@media (min-width: 992px) {
+  .map-container {
+    flex: 1;
+  }
+
+  .panel-container {
+    flex: 1;
+  }
+}
+@media (min-width: 1200px) {
+  .map-container {
+    flex: 3;
+  }
+
+  .panel-container {
+    flex: 1;
+  }
 }
