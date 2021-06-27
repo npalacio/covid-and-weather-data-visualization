@@ -18,7 +18,7 @@ describe('ChartScatterComponent', () => {
                 date: new Date(),
                 temperatureAverage: 3
             }] as any[]);
-            expect(result.length).toBe(0);
+            expect(result.chartData.length).toBe(0);
         });
         it('with no weather data should set chart data to empty array', () => {
             const result = component.getScatterChartData([{
@@ -31,7 +31,7 @@ describe('ChartScatterComponent', () => {
                 date: new Date(),
                 casesNew: 3
             }] as any[], []);
-            expect(result.length).toBe(0);
+            expect(result.chartData.length).toBe(0);
         });
         it('with covid and weather data should set chart data correctly', () => {
             const date1 = new Date('2021-01-01');
@@ -57,7 +57,7 @@ describe('ChartScatterComponent', () => {
                 date: date3,
                 temperatureAverage: 6
             }] as any[]);
-            expect(result).toEqual([{
+            expect(result.chartData).toEqual([{
                 x: 4,
                 y: 1
             }, {
@@ -89,7 +89,7 @@ describe('ChartScatterComponent', () => {
                 date: date3,
                 temperatureAverage: 6
             }] as any[]);
-            expect(result).toEqual([{
+            expect(result.chartData).toEqual([{
                 x: 5,
                 y: 2
             }, {
