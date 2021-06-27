@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { WeatherChart } from 'src/app/shared/models';
 import { ChartSettingsStateService } from 'src/app/state';
 
@@ -20,6 +20,7 @@ export class ChartSettingsComponent implements OnInit {
     value: WeatherChart.HumidityRelative
   }];
   selectedWeatherChart: WeatherChart = WeatherChart.Temperature;
+  startDate?: NgbDateStruct;
 
   constructor(private activeModal: NgbActiveModal, private chartSettingsStateService: ChartSettingsStateService) { }
 
