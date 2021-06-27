@@ -15,9 +15,9 @@
     width: fit-content;
     margin-left: -3.438rem;
     background-color: white;
-    border-radius: .312rem;
+    border-radius: 0.312rem;
     z-index: 1000;
-    border: .125rem solid black;
+    border: 0.125rem solid black;
     cursor: pointer;
     float: left;
 
@@ -30,4 +30,24 @@
 .panel-container-hidden {
   width: 0;
   flex: 0;
+}
+
+@media (max-width: 991.98px) {
+  .map-container {
+    flex: 1;
+  }
+
+  .panel-container {
+    flex: 3;
+  }
+}
+
+@media (max-width: 1199.98px) {
+  .map-container {
+    flex: 1;
+  }
+
+  .panel-container {
+    flex: 1;
+  }
 }
