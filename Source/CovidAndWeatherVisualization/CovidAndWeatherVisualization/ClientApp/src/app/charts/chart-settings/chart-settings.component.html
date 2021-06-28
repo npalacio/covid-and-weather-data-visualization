@@ -6,24 +6,41 @@
 </div>
 <div class="modal-body">
   <label class="font-weight-bold">Weather Chart</label>
-  <div class="form-group">
-    <div class="input-group">
-      <input class="form-control" placeholder="yyyy-mm-dd"
-             name="dp" [(ngModel)]="startDate" ngbDatepicker #d="ngbDatepicker">
+  <div class="d-flex">
+    <div class="input-group date-input-group pr-5">
+      <label for="startDateInput" class="mb-0">Start Date</label>
+    </div>
+    <div class="input-group date-input-group">
+      <label for="endDateInput" class="mb-0">End Date</label>
+    </div>
+  </div>
+  <div class="form-group d-flex">
+    <div class="input-group date-input-group pr-5">
+      <input id="startDateInput" class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="startDate"
+        ngbDatepicker #d="ngbDatepicker">
       <div class="input-group-append">
-        <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class="far fa-calendar"></i></button>
+        <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i
+            class="far fa-calendar"></i></button>
+      </div>
+    </div>
+    <div class="input-group date-input-group">
+      <input id="endDateInput" class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="endDate" ngbDatepicker
+        #d1="ngbDatepicker">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button"><i
+            class="far fa-calendar"></i></button>
       </div>
     </div>
   </div>
   <div>
     <ul class="list-group">
-          <li class="list-group-item"  *ngFor="let chartType of weatherChartTypes">
-            <input type="radio" [(ngModel)]="selectedWeatherChart" name="list_name" [value]="chartType.value"/>
-            {{chartType.name}}
-          </li>
+      <li class="list-group-item" *ngFor="let chartType of weatherChartTypes">
+        <input type="radio" [(ngModel)]="selectedWeatherChart" name="list_name" [value]="chartType.value" />
+        {{chartType.name}}
+      </li>
     </ul>
   </div>
-<div class="modal-footer">
-  <button type="button" class="btn btn-outline-secondary" (click)="dismissModal()">Cancel</button>
-  <button type="button" class="btn btn-primary" (click)="update()">Update</button>
-</div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="dismissModal()">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="update()">Update</button>
+  </div>

@@ -21,6 +21,7 @@ export class ChartSettingsComponent implements OnInit {
   }];
   selectedWeatherChart: WeatherChart = WeatherChart.Temperature;
   startDate?: NgbDateStruct;
+  endDate?: NgbDateStruct;
 
   constructor(private activeModal: NgbActiveModal, private chartSettingsStateService: ChartSettingsStateService) { }
 
