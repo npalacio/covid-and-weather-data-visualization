@@ -86,7 +86,7 @@ export class ChartSettingsStateService extends ObservableStore<ChartState> {
     });
   }
 
-  getSelectedWeatherChart(): WeatherChart {
-    return this.getState().weatherChart;
+  getCurrentState(): ChartState {
+    return this.getState();
   }
 }
