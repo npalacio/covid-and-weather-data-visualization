@@ -20,8 +20,8 @@ export class ChartSettingsComponent implements OnInit {
     value: WeatherChart.HumidityRelative
   }];
   selectedWeatherChart: WeatherChart = WeatherChart.Temperature;
-  startDate?: NgbDateStruct;
-  endDate?: NgbDateStruct;
+  startDate: NgbDateStruct = {year: 2020, month: 3, day: 1};
+  endDate: NgbDateStruct = {year: 2021, month: 1, day: 1};
 
   constructor(private activeModal: NgbActiveModal, private chartSettingsStateService: ChartSettingsStateService) { }
 
@@ -30,7 +30,11 @@ export class ChartSettingsComponent implements OnInit {
   }
 
   update(): void {
-    this.chartSettingsStateService.updateWeatherChartType(this.selectedWeatherChart);
+    this.chartSettingsStateService.updateChartSettings({
+      weatherChart: this.selectedWeatherChart,
+      startDate: new Date(this.startDate.year, this.startDate.month - 1, this.startDate.day),
+      endDate: new Date(this.endDate.year, this.endDate.month - 1, this.endDate.day)
+    });
     this.dismissModal();
   }
 
