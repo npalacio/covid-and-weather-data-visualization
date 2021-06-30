@@ -5,13 +5,12 @@
   </button>
 </div>
 <div class="modal-body">
-  <label class="font-weight-bold">Weather Chart</label>
   <div class="d-flex">
     <div class="input-group date-input-group pr-5">
-      <label for="startDateInput" class="mb-0">Start Date</label>
+      <label for="startDateInput" class="font-weight-bold mb-0">Start Date</label>
     </div>
     <div class="input-group date-input-group">
-      <label for="endDateInput" class="mb-0">End Date</label>
+      <label for="endDateInput" class="font-weight-bold mb-0">End Date</label>
     </div>
   </div>
   <div class="form-group d-flex">
@@ -33,6 +32,7 @@
     </div>
   </div>
   <div>
+    <div class="font-weight-bold">Weather Data Point</div>
     <ul class="list-group">
       <li class="list-group-item" *ngFor="let chartType of weatherChartTypes">
         <input type="radio" [(ngModel)]="selectedWeatherChart" name="list_name" [value]="chartType.value" />
