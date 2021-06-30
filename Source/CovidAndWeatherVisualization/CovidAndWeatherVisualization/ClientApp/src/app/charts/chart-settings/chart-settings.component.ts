@@ -29,8 +29,16 @@ export class ChartSettingsComponent implements OnInit {
     const currentState = this.chartSettingsStateService.getCurrentState();
     this.selectedWeatherChart = currentState.weatherChart;
     if (currentState.startDate && currentState.endDate) {
-      this.startDate = { year: currentState.startDate.getFullYear(), month: currentState.startDate.getMonth() + 1, day: currentState.startDate.getDate() }
-      this.endDate = { year: currentState.endDate.getFullYear(), month: currentState.endDate.getMonth() + 1, day: currentState.endDate.getDate() }
+      this.startDate = {
+        year: currentState.startDate.getFullYear(),
+        month: currentState.startDate.getMonth() + 1,
+        day: currentState.startDate.getDate()
+      };
+      this.endDate = {
+        year: currentState.endDate.getFullYear(),
+        month: currentState.endDate.getMonth() + 1,
+        day: currentState.endDate.getDate()
+      };
     }
   }
 
