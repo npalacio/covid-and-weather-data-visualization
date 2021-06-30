@@ -74,19 +74,19 @@ export class ChartSettingsStateService extends ObservableStore<ChartState> {
     }, 'SYNC_DATA_WITH_URL');
   }
 
-  updateWeatherChartType(weatherChart: WeatherChart): void {
-    this.setState({
-      weatherChart
-    });
+  updateChartSettings(newChartState: ChartState): void {
+    this.setState(newChartState);
     this.router.navigate([], {
       queryParams: {
-        weatherChart
+        startDate: this.datePipe.transform(newChartState.startDate, this.dateFormatUrl),
+        endDate: this.datePipe.transform(newChartState.endDate, this.dateFormatUrl),
+        weatherChart: newChartState.weatherChart
       },
       queryParamsHandling: 'merge'
     });
   }
 
-  getSelectedWeatherChart(): WeatherChart {
-    return this.getState().weatherChart;
+  getCurrentState(): ChartState {
+    return this.getState();
   }
 }

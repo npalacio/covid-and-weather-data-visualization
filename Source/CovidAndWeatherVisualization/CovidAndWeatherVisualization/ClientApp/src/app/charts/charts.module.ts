@@ -10,7 +10,7 @@ import { ChartCovidComponent } from './chart-covid/chart-covid.component';
 import { SharedModule } from '../shared/shared.module';
 import { ChartWeatherComponent } from './chart-weather/chart-weather.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDatepickerModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { ChartSettingsComponent } from './chart-settings/chart-settings.component';
 import { FormsModule } from '@angular/forms';
 import { ChartScatterComponent } from './chart-scatter/chart-scatter.component';
@@ -33,6 +33,7 @@ import { ChartScatterComponent } from './chart-scatter/chart-scatter.component';
     HttpClientModule,
     NgxSpinnerModule,
     NgbModalModule,
+    NgbDatepickerModule,
     SharedModule
   ],
   exports: [
