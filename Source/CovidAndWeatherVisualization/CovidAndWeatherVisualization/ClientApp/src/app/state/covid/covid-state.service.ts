@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ObservableStore } from '@codewithdan/observable-store';
 import { ChartSettingsStateService } from '../chart/chart-settings-state.service';
 import { CountyStateService } from '../county/county-state.service';
-import { CovidDataService } from '../data-services/covid-data.service';
+import { CovidDataService } from '../services/covid-data.service';
 import { CovidState } from './covid-state.model';
 
 @Injectable({

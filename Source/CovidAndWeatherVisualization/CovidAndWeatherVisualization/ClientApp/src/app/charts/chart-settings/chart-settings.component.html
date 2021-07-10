@@ -31,7 +31,7 @@
       </div>
     </div>
   </div>
-  <div>
+  <div class="form-group">
     <div class="font-weight-bold">Weather Data Point</div>
     <ul class="list-group">
       <li class="list-group-item" *ngFor="let chartType of weatherChartTypes">
@@ -40,7 +40,7 @@
       </li>
     </ul>
   </div>
-  <div>
+  <div class="form-group">
     <div class="font-weight-bold">Data Point Aggregation</div>
     <ul class="list-group">
       <li class="list-group-item" *ngFor="let aggregationType of dataPointAggrTypes">
@@ -49,7 +49,8 @@
       </li>
     </ul>
   </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-secondary" (click)="dismissModal()">Cancel</button>
-    <button type="button" class="btn btn-primary" (click)="update()">Update</button>
-  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" (click)="dismissModal()">Cancel</button>
+  <button type="button" class="btn btn-primary" (click)="update()">Update</button>
+</div>

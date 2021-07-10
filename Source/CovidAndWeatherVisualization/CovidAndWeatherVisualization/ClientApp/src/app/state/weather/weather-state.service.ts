@@ -59,7 +59,7 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
     }
   }
 
-  getSelectedWeatherData(weatherData: WeatherData[], selectedWeatherChart?: WeatherChartEnum): SelectedWeatherData[] {
+  private getSelectedWeatherData(weatherData: WeatherData[], selectedWeatherChart?: WeatherChartEnum): SelectedWeatherData[] {
     switch (selectedWeatherChart) {
       case WeatherChartEnum.Temperature:
         return weatherData.map(wd => ({
