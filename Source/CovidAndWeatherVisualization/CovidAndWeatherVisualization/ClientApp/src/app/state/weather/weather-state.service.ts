@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ObservableStore } from '@codewithdan/observable-store';
+import { WeatherChart, WeatherData } from 'src/app/shared/models';
+import { SelectedWeatherData } from 'src/app/shared/models/selected-weather-data';
 import { ChartSettingsStateService, CountyStateService, WeatherDataService } from '..';
 import { WeatherState } from './weather-state.model';
 
@@ -11,6 +13,7 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
   private endDate?: Date;
   private latitude?: number;
   private longitude?: number;
+  private weatherChart?: WeatherChart;
 
   constructor(private chartSettingsStateService: ChartSettingsStateService
             , private weatherDataService: WeatherDataService
@@ -19,15 +22,14 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
     const initialState: WeatherState = {
       weatherData: [],
       dates: [],
-      temperaturesAverage: [],
-      humiditiesRelativeAverage: [],
-      humiditiesSpecificAverage: [],
+      selectedWeatherData: [],
       isLoading: false
     };
     this.setState(initialState, 'INIT_STATE');
     this.chartSettingsStateService.stateChanged.subscribe(async state => {
       this.startDate = state.startDate;
       this.endDate = state.endDate;
+      this.weatherChart = state.weatherChart;
       await this.updateState('DATE_RANGE_UPDATE');
     });
     this.countyStateService.stateChanged.subscribe(async state => {
@@ -47,29 +49,34 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
         longitude: this.longitude
       });
       const dates = weatherData.map(_ => _.date);
-      const temperaturesAverage = weatherData.map(_ => _.temperatureAverage);
-      const humiditiesRelativeAverage = weatherData.map(_ => _.humidityRelativeAverage);
-      const humiditiesSpecificAverage = weatherData.map(_ => _.humiditySpecificAverage);
+      const selectedWeatherData = this.getSelectedWeatherData(weatherData, this.weatherChart)
       this.setState({
         isLoading: false,
         weatherData,
         dates,
-        temperaturesAverage,
-        humiditiesRelativeAverage,
-        humiditiesSpecificAverage
+        selectedWeatherData
       }, `${action}_LOADING_COMPLETE`);
     }
   }
 
-  getTemperaturesAverage(): number[] {
-    return this.getState().temperaturesAverage;
-  }
-
-  getHumiditiesRelativeAverage(): number[] {
-    return this.getState().humiditiesRelativeAverage;
-  }
-
-  getHumiditiesSpecificAverage(): number[] {
-    return this.getState().humiditiesSpecificAverage;
+  getSelectedWeatherData(weatherData: WeatherData[], selectedWeatherChart?: WeatherChart): SelectedWeatherData[] {
+    switch (selectedWeatherChart) {
+      case WeatherChart.Temperature:
+        return weatherData.map(wd => ({
+          date: wd.date,
+          value: wd.temperatureAverage
+        }));
+      case WeatherChart.HumidityRelative:
+        return weatherData.map(wd => ({
+          date: wd.date,
+          value: wd.humidityRelativeAverage
+        }));
+      case WeatherChart.HumiditySpecific:
+        return weatherData.map(wd => ({
+          date: wd.date,
+          value: wd.humiditySpecificAverage
+        }));
+    }
+    return [];
   }
 }

@@ -1,10 +1,9 @@
 import { WeatherData } from 'src/app/shared/models';
+import { SelectedWeatherData } from 'src/app/shared/models/selected-weather-data';
 
 export interface WeatherState {
   weatherData: WeatherData[];
   dates: Date[];
-  temperaturesAverage: number[];
-  humiditiesRelativeAverage: number[];
-  humiditiesSpecificAverage: number[];
+  selectedWeatherData: SelectedWeatherData[];
   isLoading: boolean;
 }

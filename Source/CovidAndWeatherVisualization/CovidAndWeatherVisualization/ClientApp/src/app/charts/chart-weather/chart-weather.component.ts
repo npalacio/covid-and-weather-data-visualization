@@ -25,20 +25,18 @@ export class ChartWeatherComponent implements OnInit {
     this.chartConfig = { ...chartConfigs.temperature };
     combineLatest([this.chartSettingsStateService.stateChanged, this.weatherStateService.stateChanged]).subscribe(([chartSettingsState, weatherState]) => {
       this.isLoading = weatherState.isLoading;
-      this.labels = weatherState.dates.map(date => this.datePipe.transform(date, 'MM/dd') ?? 'unknown');
+      this.labels = weatherState.selectedWeatherData.map(data => this.datePipe.transform(data.date, 'MM/dd') ?? 'unknown');
+      this.chartConfig.data.data = weatherState.selectedWeatherData.map(data => data.value);
       if (!this.isLoading && chartSettingsState.weatherChart) {
         switch (chartSettingsState.weatherChart) {
           case WeatherChart.Temperature:
             this.chartConfig = { ...chartConfigs.temperature };
-            this.chartConfig.data.data = this.weatherStateService.getTemperaturesAverage();
             break;
           case WeatherChart.HumidityRelative:
             this.chartConfig = { ...chartConfigs.humidityRelative };
-            this.chartConfig.data.data = this.weatherStateService.getHumiditiesRelativeAverage();
             break;
           case WeatherChart.HumiditySpecific:
             this.chartConfig = { ...chartConfigs.humiditySpecific };
-            this.chartConfig.data.data = this.weatherStateService.getHumiditiesSpecificAverage();
             break;
         }
       }
