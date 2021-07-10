@@ -35,8 +35,17 @@
     <div class="font-weight-bold">Weather Data Point</div>
     <ul class="list-group">
       <li class="list-group-item" *ngFor="let chartType of weatherChartTypes">
-        <input type="radio" [(ngModel)]="selectedWeatherChart" name="list_name" [value]="chartType.value" />
+        <input type="radio" [(ngModel)]="selectedWeatherChart" name="weather-data-point" [value]="chartType.value" />
         {{chartType.name}}
+      </li>
+    </ul>
+  </div>
+  <div>
+    <div class="font-weight-bold">Data Point Aggregation</div>
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let aggregationType of dataPointAggrTypes">
+        <input type="radio" [(ngModel)]="selectedDataPointAggr" name="data-point-aggr" [value]="aggregationType.value" />
+        {{aggregationType.name}}
       </li>
     </ul>
   </div>

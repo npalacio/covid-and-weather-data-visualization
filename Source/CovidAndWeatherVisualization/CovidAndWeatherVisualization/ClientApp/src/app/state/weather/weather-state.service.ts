@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ObservableStore } from '@codewithdan/observable-store';
-import { WeatherChart, WeatherData } from 'src/app/shared/models';
+import { WeatherChartEnum, WeatherData } from 'src/app/shared/models';
 import { SelectedWeatherData } from 'src/app/shared/models/selected-weather-data';
 import { ChartSettingsStateService, CountyStateService, WeatherDataService } from '..';
 import { WeatherState } from './weather-state.model';
@@ -13,7 +13,7 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
   private endDate?: Date;
   private latitude?: number;
   private longitude?: number;
-  private weatherChart?: WeatherChart;
+  private weatherChart?: WeatherChartEnum;
 
   constructor(private chartSettingsStateService: ChartSettingsStateService
             , private weatherDataService: WeatherDataService
@@ -59,19 +59,19 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
     }
   }
 
-  getSelectedWeatherData(weatherData: WeatherData[], selectedWeatherChart?: WeatherChart): SelectedWeatherData[] {
+  getSelectedWeatherData(weatherData: WeatherData[], selectedWeatherChart?: WeatherChartEnum): SelectedWeatherData[] {
     switch (selectedWeatherChart) {
-      case WeatherChart.Temperature:
+      case WeatherChartEnum.Temperature:
         return weatherData.map(wd => ({
           date: wd.date,
           value: wd.temperatureAverage
         }));
-      case WeatherChart.HumidityRelative:
+      case WeatherChartEnum.HumidityRelative:
         return weatherData.map(wd => ({
           date: wd.date,
           value: wd.humidityRelativeAverage
         }));
-      case WeatherChart.HumiditySpecific:
+      case WeatherChartEnum.HumiditySpecific:
         return weatherData.map(wd => ({
           date: wd.date,
           value: wd.humiditySpecificAverage

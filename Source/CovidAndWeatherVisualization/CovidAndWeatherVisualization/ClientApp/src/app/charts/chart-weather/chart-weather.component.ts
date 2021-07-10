@@ -4,7 +4,7 @@ import { Label } from 'ng2-charts';
 import { WeatherStateService } from '../../state/weather/weather-state.service';
 import { chartConfigs } from '../charts-config';
 import { ChartSettingsStateService } from '../../state/chart/chart-settings-state.service';
-import { WeatherChart } from 'src/app/shared/models';
+import { WeatherChartEnum } from 'src/app/shared/models';
 import { combineLatest } from 'rxjs';
 
 @Component({
@@ -29,13 +29,13 @@ export class ChartWeatherComponent implements OnInit {
       this.chartConfig.data.data = weatherState.selectedWeatherData.map(data => data.value);
       if (!this.isLoading && chartSettingsState.weatherChart) {
         switch (chartSettingsState.weatherChart) {
-          case WeatherChart.Temperature:
+          case WeatherChartEnum.Temperature:
             this.chartConfig = { ...chartConfigs.temperature };
             break;
-          case WeatherChart.HumidityRelative:
+          case WeatherChartEnum.HumidityRelative:
             this.chartConfig = { ...chartConfigs.humidityRelative };
             break;
-          case WeatherChart.HumiditySpecific:
+          case WeatherChartEnum.HumiditySpecific:
             this.chartConfig = { ...chartConfigs.humiditySpecific };
             break;
         }

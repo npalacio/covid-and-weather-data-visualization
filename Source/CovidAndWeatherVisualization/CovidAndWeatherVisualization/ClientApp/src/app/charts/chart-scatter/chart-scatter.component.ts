@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { combineLatest } from 'rxjs';
-import { CovidDataByCounty, WeatherChart, WeatherData } from 'src/app/shared/models';
+import { CovidDataByCounty, WeatherChartEnum, WeatherData } from 'src/app/shared/models';
 import { SelectedWeatherData } from 'src/app/shared/models/selected-weather-data';
 import { ChartSettingsStateService, CovidStateService } from 'src/app/state';
 import { WeatherStateService } from 'src/app/state/weather/weather-state.service';
@@ -28,15 +28,15 @@ export class ChartScatterComponent implements OnInit {
         ([chartState, weatherState, covidState]) => {
           const chartTitle: string[] = [];
           switch (chartState.weatherChart) {
-            case WeatherChart.Temperature:
+            case WeatherChartEnum.Temperature:
               this.chartConfig.options.scales.xAxes[0].scaleLabel.labelString = 'Average Temperature';
               chartTitle.push('Covid Infections vs Temperature');
               break;
-            case WeatherChart.HumidityRelative:
+            case WeatherChartEnum.HumidityRelative:
               this.chartConfig.options.scales.xAxes[0].scaleLabel.labelString = 'Average Relative Humidity';
               chartTitle.push('Covid Infections vs Relative Humidity');
               break;
-            case WeatherChart.HumiditySpecific:
+            case WeatherChartEnum.HumiditySpecific:
               this.chartConfig.options.scales.xAxes[0].scaleLabel.labelString = 'Average Specific Humidity';
               chartTitle.push('Covid Infections vs Specific Humidity');
               break;
@@ -58,7 +58,7 @@ export class ChartScatterComponent implements OnInit {
     yArr: number[];
     chartData: {
       x: number; y: number
-    }[]
+    }[];
   } {
     const covidDateMap: any = {};
     covidDataByCounty.forEach(c => {

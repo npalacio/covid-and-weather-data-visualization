@@ -28,7 +28,8 @@ export class AppContainerComponent implements OnInit {
         this.chartSettingsStateService.syncDataInUrl(
           this.route.snapshot.queryParamMap.get('startDate') ?? '',
           this.route.snapshot.queryParamMap.get('endDate') ?? '',
-          this.route.snapshot.queryParamMap.get('weatherChart')
+          this.route.snapshot.queryParamMap.get('weatherChart'),
+          this.route.snapshot.queryParamMap.get('dataPointAggregation')
         );
         this.isUrlDataInitialized = true;
       }
