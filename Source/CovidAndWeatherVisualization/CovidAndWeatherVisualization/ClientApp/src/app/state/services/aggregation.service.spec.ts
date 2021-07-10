@@ -31,11 +31,22 @@ describe('AggregationService', () => {
         }
       });
       it('should return aggregatedValue for every week', () => {
-        const input: any[] = [1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2].map(value => ({ date: null, value }));
-        const output = service.getWeeklyAverages(input);
-        expect(output.length).toBe(2);
-        expect(output[0].value).toBe(1);
-        expect(output[1].value).toBe(2);
+        for (let numberOfWeeks = 2; numberOfWeeks < 12; numberOfWeeks++) {
+          let input: any[] = [];
+          let expectedAverages = [];
+          // for each week, build array with predictable average
+          for(let i = 0; i < numberOfWeeks; i++) {
+            const randomNum = Math.floor(Math.random() * 10000);
+            const randomOffset = Math.floor(Math.random() * 10000);
+            const dataForWeek = [randomNum - randomOffset, randomNum - randomOffset, randomNum - randomOffset, randomNum, randomNum + randomOffset, randomNum + randomOffset, randomNum + randomOffset].map(value => ({date: null, value}));
+            input = input.concat(dataForWeek);
+            expectedAverages.push(randomNum);
+          }
+          const output = service.getWeeklyAverages(input);
+          for(let i = 0; i < numberOfWeeks; i++) {
+            expect(output[i].value).toBe(expectedAverages[i]);
+          }
+        }
       });
     });
   });
