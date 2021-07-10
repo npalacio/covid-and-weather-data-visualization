@@ -5,18 +5,17 @@ describe('ChartScatterComponent', () => {
     beforeEach(() => {
         component = new ChartScatterComponent({} as any, {} as any, {} as any);
     });
-    describe('updateChartData', () => {
+    describe('getScatterChartData', () => {
         it('with no covid data should set chart data to empty array', () => {
-            component.weatherDataPointIndex = 'temperatureAverage';
             const result = component.getScatterChartData([], [{
                 date: new Date(),
-                temperatureAverage: 1
+                value: 1
             }, {
                 date: new Date(),
-                temperatureAverage: 2
+                value: 2
             }, {
                 date: new Date(),
-                temperatureAverage: 3
+                value: 3
             }] as any[]);
             expect(result.chartData.length).toBe(0);
         });
@@ -37,7 +36,6 @@ describe('ChartScatterComponent', () => {
             const date1 = new Date('2021-01-01');
             const date2 = new Date('2021-01-02');
             const date3 = new Date('2021-01-03');
-            component.weatherDataPointIndex = 'temperatureAverage';
             const result = component.getScatterChartData([{
                 date: date1,
                 casesNew: 1
@@ -72,7 +70,6 @@ describe('ChartScatterComponent', () => {
             const date1 = new Date('2021-01-01');
             const date2 = new Date('2021-01-02');
             const date3 = new Date('2021-01-03');
-            component.weatherDataPointIndex = 'temperatureAverage';
             const result = component.getScatterChartData([{
                 date: date2,
                 casesNew: 2
@@ -81,13 +78,13 @@ describe('ChartScatterComponent', () => {
                 casesNew: 3
             }] as any[], [{
                 date: date1,
-                temperatureAverage: 4
+                value: 4
             }, {
                 date: date2,
-                temperatureAverage: 5
+                value: 5
             }, {
                 date: date3,
-                temperatureAverage: 6
+                value: 6
             }] as any[]);
             expect(result.chartData).toEqual([{
                 x: 5,
