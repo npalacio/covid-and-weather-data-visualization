@@ -29,7 +29,7 @@
 
 .panel-container-hidden {
   width: 0;
-  flex: 0;
+  flex: 0 !important;
 }
 
 @media (min-width: 992px) {
