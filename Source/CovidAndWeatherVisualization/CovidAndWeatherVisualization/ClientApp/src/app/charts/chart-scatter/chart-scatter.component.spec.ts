@@ -47,13 +47,13 @@ describe('ChartScatterComponent', () => {
                 casesNew: 3
             }] as any[], [{
                 date: date1,
-                temperatureAverage: 4
+                value: 4
             }, {
                 date: date2,
-                temperatureAverage: 5
+                value: 5
             }, {
                 date: date3,
-                temperatureAverage: 6
+                value: 6
             }] as any[]);
             expect(result.chartData).toEqual([{
                 x: 4,
