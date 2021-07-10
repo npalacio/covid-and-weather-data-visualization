@@ -12,11 +12,11 @@ export class AggregationService {
     const weeklyAverages: SelectedWeatherData[] = [];
     const numberOfWeeks = Math.floor(data.length/7);
     for (let i = 0; i < numberOfWeeks; i++) {
-      const endIndex = i + 7;
-      const currentWeekValues = data.slice(i, endIndex).filter(d => d.value).map(d => d.value);
+      const endIndex = i + 6;
+      const currentWeekValues = data.slice(i, endIndex + 1).filter(d => d.value).map(d => d.value);
       weeklyAverages.push({
         date: data[endIndex].date,
-        value: currentWeekValues.reduce((a, b) => a + b, 0)
+        value: currentWeekValues.reduce((a, b) => a + b, 0) / 7
       });
     }
     return weeklyAverages;
