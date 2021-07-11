@@ -17,7 +17,7 @@ export class ChartSettingsStateService extends ObservableStore<ChartState> {
   private weatherChartTypeDefault: WeatherChartEnum = WeatherChartEnum.Temperature;
   private dataPointAggrDefault: DataPointAggregationEnum = DataPointAggregationEnum.Daily;
   private dateFormatUrl = 'MM-dd-yyyy';
-  dateRangeUpdates$: Observable<ChartState> = of();
+  covidChartSettingsUpdates$: Observable<ChartState> = of();
 
   constructor(private datePipe: DatePipe, private router: Router) {
     super({});
@@ -28,8 +28,8 @@ export class ChartSettingsStateService extends ObservableStore<ChartState> {
       dataPointAggregation: DataPointAggregationEnum.Daily
     };
     this.setState(initialState, 'INIT_STATE');
-    this.dateRangeUpdates$ = this.stateWithPropertyChanges.pipe(filter(stateWithChanges => {
-      if (stateWithChanges.stateChanges.endDate || stateWithChanges.stateChanges.startDate) {
+    this.covidChartSettingsUpdates$ = this.stateWithPropertyChanges.pipe(filter(stateWithChanges => {
+      if (stateWithChanges.stateChanges.endDate || stateWithChanges.stateChanges.startDate || stateWithChanges.stateChanges.dataPointAggregation) {
         return true;
       }
       return false;

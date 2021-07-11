@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { CovidDataByCounty, WeatherChartEnum, WeatherData } from 'src/app/shared/models';
-import { SelectedWeatherData } from 'src/app/shared/models/selected-weather-data';
+import { SelectedData } from 'src/app/shared/models/selected-weather-data';
 import { ChartSettingsStateService, CovidStateService } from 'src/app/state';
 import { WeatherStateService } from 'src/app/state/weather/weather-state.service';
 import { chartConfigs } from '../charts-config';
@@ -43,7 +43,7 @@ export class ChartScatterComponent implements OnInit {
           }
           this.isLoading = covidState.isLoading || weatherState.isLoading;
           if (!this.isLoading) {
-            const scatterChartData = this.getScatterChartData(covidState.dataByCounty, weatherState.selectedWeatherData);
+            const scatterChartData = this.getScatterChartData(covidState.selectedCovidData, weatherState.selectedWeatherData);
             this.chartConfig.data.data = scatterChartData.chartData;
             const corrCoeff: number = jStat.corrcoeff(scatterChartData.xArr, scatterChartData.yArr);
             chartTitle.push('Correlation coefficient (Pearson): ' + corrCoeff.toFixed(2));
@@ -53,7 +53,7 @@ export class ChartScatterComponent implements OnInit {
       );
   }
 
-  getScatterChartData(covidDataByCounty: CovidDataByCounty[], weatherData: SelectedWeatherData[]): {
+  getScatterChartData(covidData: SelectedData[], weatherData: SelectedData[]): {
     xArr: number[];
     yArr: number[];
     chartData: {
@@ -61,8 +61,8 @@ export class ChartScatterComponent implements OnInit {
     }[];
   } {
     const covidDateMap: any = {};
-    covidDataByCounty.forEach(c => {
-      covidDateMap[new Date(c.date).toLocaleDateString('en-US')] = c.casesNew;
+    covidData.forEach(c => {
+      covidDateMap[new Date(c.date).toLocaleDateString('en-US')] = c.value;
     });
     const returnValue: { xArr: number[]; yArr: number[]; chartData: { x: number; y: number }[] } = { xArr: [], yArr: [], chartData: [] };
     weatherData.filter(w => covidDateMap[new Date(w.date).toLocaleDateString('en-US')]).forEach(w => {

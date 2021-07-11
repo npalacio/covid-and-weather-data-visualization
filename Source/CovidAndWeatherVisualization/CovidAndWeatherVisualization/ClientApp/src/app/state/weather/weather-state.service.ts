@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ObservableStore } from '@codewithdan/observable-store';
 import { WeatherChartEnum, WeatherData } from 'src/app/shared/models';
-import { SelectedWeatherData } from 'src/app/shared/models/selected-weather-data';
+import { DataPointAggregationEnum } from 'src/app/shared/models/data-point-aggregation.enum';
+import { SelectedData } from 'src/app/shared/models/selected-weather-data';
 import { ChartSettingsStateService, CountyStateService, WeatherDataService } from '..';
+import { AggregationService } from '../services/aggregation.service';
 import { WeatherState } from './weather-state.model';
 
 @Injectable({
@@ -14,10 +16,12 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
   private latitude?: number;
   private longitude?: number;
   private weatherChart?: WeatherChartEnum;
+  private dataPointAggregation?: DataPointAggregationEnum;
 
   constructor(private chartSettingsStateService: ChartSettingsStateService
             , private weatherDataService: WeatherDataService
-            , private countyStateService: CountyStateService) {
+            , private countyStateService: CountyStateService
+            , private aggregationService: AggregationService) {
     super({});
     const initialState: WeatherState = {
       weatherData: [],
@@ -30,6 +34,7 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
       this.startDate = state.startDate;
       this.endDate = state.endDate;
       this.weatherChart = state.weatherChart;
+      this.dataPointAggregation = state.dataPointAggregation;
       await this.updateState('DATE_RANGE_UPDATE');
     });
     this.countyStateService.stateChanged.subscribe(async state => {
@@ -49,7 +54,7 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
         longitude: this.longitude
       });
       const dates = weatherData.map(_ => _.date);
-      const selectedWeatherData = this.getSelectedWeatherData(weatherData, this.weatherChart)
+      const selectedWeatherData = this.getSelectedWeatherData(weatherData, this.weatherChart, this.dataPointAggregation)
       this.setState({
         isLoading: false,
         weatherData,
@@ -59,24 +64,33 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
     }
   }
 
-  private getSelectedWeatherData(weatherData: WeatherData[], selectedWeatherChart?: WeatherChartEnum): SelectedWeatherData[] {
+  private getSelectedWeatherData(weatherData: WeatherData[], selectedWeatherChart?: WeatherChartEnum, dataPointAggregation?: DataPointAggregationEnum): SelectedData[] {
+    let selectedWeatherData: SelectedData[] = [];
     switch (selectedWeatherChart) {
       case WeatherChartEnum.Temperature:
-        return weatherData.map(wd => ({
+        selectedWeatherData = weatherData.map(wd => ({
           date: wd.date,
           value: wd.temperatureAverage
         }));
+        break;
       case WeatherChartEnum.HumidityRelative:
-        return weatherData.map(wd => ({
+        selectedWeatherData = weatherData.map(wd => ({
           date: wd.date,
           value: wd.humidityRelativeAverage
         }));
+        break;
       case WeatherChartEnum.HumiditySpecific:
-        return weatherData.map(wd => ({
+        selectedWeatherData = weatherData.map(wd => ({
           date: wd.date,
           value: wd.humiditySpecificAverage
         }));
+        break;
     }
-    return [];
+    switch (dataPointAggregation) {
+      case DataPointAggregationEnum.WeeklyAverage:
+        selectedWeatherData = this.aggregationService.getWeeklyAverages(selectedWeatherData);
+        break;
+    }
+    return selectedWeatherData;
   }
 }

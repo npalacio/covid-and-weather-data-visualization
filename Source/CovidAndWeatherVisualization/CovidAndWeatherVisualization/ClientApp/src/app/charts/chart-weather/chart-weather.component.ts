@@ -6,6 +6,7 @@ import { chartConfigs } from '../charts-config';
 import { ChartSettingsStateService } from '../../state/chart/chart-settings-state.service';
 import { WeatherChartEnum } from 'src/app/shared/models';
 import { combineLatest } from 'rxjs';
+import { DataPointAggregationEnum } from 'src/app/shared/models/data-point-aggregation.enum';
 
 @Component({
   selector: 'app-chart-weather',
@@ -25,8 +26,6 @@ export class ChartWeatherComponent implements OnInit {
     this.chartConfig = { ...chartConfigs.temperature };
     combineLatest([this.chartSettingsStateService.stateChanged, this.weatherStateService.stateChanged]).subscribe(([chartSettingsState, weatherState]) => {
       this.isLoading = weatherState.isLoading;
-      this.labels = weatherState.selectedWeatherData.map(data => this.datePipe.transform(data.date, 'MM/dd') ?? 'unknown');
-      this.chartConfig.data.data = weatherState.selectedWeatherData.map(data => data.value);
       if (!this.isLoading && chartSettingsState.weatherChart) {
         switch (chartSettingsState.weatherChart) {
           case WeatherChartEnum.Temperature:
@@ -39,6 +38,8 @@ export class ChartWeatherComponent implements OnInit {
             this.chartConfig = { ...chartConfigs.humiditySpecific };
             break;
         }
+        this.labels = weatherState.selectedWeatherData.map(data => this.datePipe.transform(data.date, 'MM/dd') ?? 'unknown');
+        this.chartConfig.data.data = weatherState.selectedWeatherData.map(data => data.value);
       }
     });
   }

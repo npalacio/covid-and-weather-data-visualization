@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SelectedWeatherData } from 'src/app/shared/models/selected-weather-data';
+import { SelectedData } from 'src/app/shared/models/selected-weather-data';
 
 @Injectable({
   providedIn: 'root'
@@ -7,9 +7,10 @@ import { SelectedWeatherData } from 'src/app/shared/models/selected-weather-data
 export class AggregationService {
   constructor() {
   }
+
   // Assumptions: data is sorted by date and has no gaps
-  getWeeklyAverages(data: SelectedWeatherData[]): SelectedWeatherData[] {
-    const weeklyAverages: SelectedWeatherData[] = [];
+  getWeeklyAverages(data: SelectedData[]): SelectedData[] {
+    const weeklyAverages: SelectedData[] = [];
     const numberOfWeeks = Math.floor(data.length/7);
     for (let currentWeek = 0; currentWeek < numberOfWeeks; currentWeek++) {
       const startIndex = currentWeek * 7;

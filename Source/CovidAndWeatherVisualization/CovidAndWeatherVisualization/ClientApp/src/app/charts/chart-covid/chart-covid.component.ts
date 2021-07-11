@@ -21,8 +21,8 @@ export class ChartCovidComponent implements OnInit {
     this.covidStateService.stateChanged.subscribe(state => {
       this.isLoading = state.isLoading;
       if (!this.isLoading) {
-        this.chartConfig.data.data = state.casesNew;
-        this.labels = state.dates.map(date => this.datePipe.transform(date, 'MM/dd') ?? 'unknown');
+        this.chartConfig.data.data = state.selectedCovidData.map(_ => _.value);
+        this.labels = state.selectedCovidData.map(_ => _.date).map(date => this.datePipe.transform(date, 'MM/dd') ?? 'unknown');
       }
     });
   }
