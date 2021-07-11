@@ -11,7 +11,7 @@ import { WeatherState } from './weather-state.model';
   providedIn: 'root'
 })
 export class WeatherStateService extends ObservableStore<WeatherState> {
-  private startDate: Date = new Date();
+  private startDate?: Date;
   private endDate?: Date;
   private latitude?: number;
   private longitude?: number;
@@ -30,7 +30,7 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
     };
     this.setState(initialState, 'INIT_STATE');
     this.chartSettingsStateService.stateChanged.subscribe(async state => {
-      this.startDate = state.startDate ?? this.startDate;
+      this.startDate = state.startDate;
       this.endDate = state.endDate;
       this.weatherChart = state.weatherChart;
       this.dataPointAggregation = state.dataPointAggregation;
@@ -52,7 +52,7 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
         latitude: this.latitude,
         longitude: this.longitude
       });
-      const selectedWeatherData = this.getSelectedWeatherData(weatherData, this.weatherChart, this.dataPointAggregation)
+      const selectedWeatherData = this.getSelectedWeatherData(weatherData, this.startDate, this.weatherChart, this.dataPointAggregation)
       this.setState({
         isLoading: false,
         weatherData,
@@ -61,7 +61,7 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
     }
   }
 
-  private getSelectedWeatherData(weatherData: WeatherData[], selectedWeatherChart?: WeatherChartEnum, dataPointAggregation?: DataPointAggregationEnum): SelectedData[] {
+  private getSelectedWeatherData(weatherData: WeatherData[], startDate: Date, selectedWeatherChart?: WeatherChartEnum, dataPointAggregation?: DataPointAggregationEnum): SelectedData[] {
     let selectedWeatherData: SelectedData[] = [];
     switch (selectedWeatherChart) {
       case WeatherChartEnum.Temperature:
@@ -85,7 +85,7 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
     }
     switch (dataPointAggregation) {
       case DataPointAggregationEnum.WeeklyAverage:
-        selectedWeatherData = this.aggregationService.getWeeklyAverages(selectedWeatherData, this.startDate);
+        selectedWeatherData = this.aggregationService.getWeeklyAverages(selectedWeatherData, startDate);
         break;
     }
     return selectedWeatherData;
