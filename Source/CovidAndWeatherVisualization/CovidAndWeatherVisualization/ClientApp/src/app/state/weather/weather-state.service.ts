@@ -25,7 +25,6 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
     super({});
     const initialState: WeatherState = {
       weatherData: [],
-      dates: [],
       selectedWeatherData: [],
       isLoading: false
     };
@@ -53,12 +52,10 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
         latitude: this.latitude,
         longitude: this.longitude
       });
-      const dates = weatherData.map(_ => _.date);
       const selectedWeatherData = this.getSelectedWeatherData(weatherData, this.weatherChart, this.dataPointAggregation)
       this.setState({
         isLoading: false,
         weatherData,
-        dates,
         selectedWeatherData
       }, `${action}_LOADING_COMPLETE`);
     }
@@ -88,7 +85,7 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
     }
     switch (dataPointAggregation) {
       case DataPointAggregationEnum.WeeklyAverage:
-        selectedWeatherData = this.aggregationService.getWeeklyAverages(selectedWeatherData);
+        selectedWeatherData = this.aggregationService.getWeeklyAverages(selectedWeatherData, this.startDate);
         break;
     }
     return selectedWeatherData;

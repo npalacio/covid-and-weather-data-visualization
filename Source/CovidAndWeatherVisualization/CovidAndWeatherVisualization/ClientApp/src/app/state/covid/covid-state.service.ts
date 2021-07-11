@@ -51,7 +51,7 @@ export class CovidStateService extends ObservableStore<CovidState> {
       let selectedCovidData: SelectedData[] = dataByCounty.map(_ => ({date: _.date, value: _.casesNew}));
       switch (this.dataPointAggregation) {
         case DataPointAggregationEnum.WeeklyAverage:
-          selectedCovidData = this.aggregationService.getWeeklyAverages(selectedCovidData);
+          selectedCovidData = this.aggregationService.getWeeklyAverages(selectedCovidData, this.startDate);
           break;
       }
       this.setState({
