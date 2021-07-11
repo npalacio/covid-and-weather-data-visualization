@@ -22,7 +22,7 @@ export class ChartCovidComponent implements OnInit {
       this.isLoading = state.isLoading;
       if (!this.isLoading) {
         this.chartConfig.data.data = state.selectedCovidData.map(_ => _.value);
-        this.labels = state.selectedCovidData.map(_ => _.date).map(date => this.datePipe.transform(date, 'MM/dd') ?? 'unknown');
+        this.labels = state.selectedCovidData.map(_ => _.date).map(date => this.datePipe.transform(date, 'MM/dd', 'UTC') ?? 'unknown');
       }
     });
   }

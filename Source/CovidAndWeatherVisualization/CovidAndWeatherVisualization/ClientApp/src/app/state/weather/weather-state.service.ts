@@ -11,7 +11,7 @@ import { WeatherState } from './weather-state.model';
   providedIn: 'root'
 })
 export class WeatherStateService extends ObservableStore<WeatherState> {
-  private startDate?: Date;
+  private startDate: Date = new Date();
   private endDate?: Date;
   private latitude?: number;
   private longitude?: number;
@@ -30,7 +30,7 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
     };
     this.setState(initialState, 'INIT_STATE');
     this.chartSettingsStateService.stateChanged.subscribe(async state => {
-      this.startDate = state.startDate;
+      this.startDate = state.startDate ?? this.startDate;
       this.endDate = state.endDate;
       this.weatherChart = state.weatherChart;
       this.dataPointAggregation = state.dataPointAggregation;

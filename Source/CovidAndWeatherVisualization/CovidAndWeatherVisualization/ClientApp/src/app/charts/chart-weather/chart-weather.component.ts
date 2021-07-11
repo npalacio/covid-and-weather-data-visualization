@@ -38,7 +38,7 @@ export class ChartWeatherComponent implements OnInit {
             this.chartConfig = { ...chartConfigs.humiditySpecific };
             break;
         }
-        this.labels = weatherState.selectedWeatherData.map(data => this.datePipe.transform(data.date, 'MM/dd') ?? 'unknown');
+        this.labels = weatherState.selectedWeatherData.map(data => this.datePipe.transform(data.date, 'MM/dd', 'UTC') ?? 'unknown');
         this.chartConfig.data.data = weatherState.selectedWeatherData.map(data => data.value);
       }
     });
