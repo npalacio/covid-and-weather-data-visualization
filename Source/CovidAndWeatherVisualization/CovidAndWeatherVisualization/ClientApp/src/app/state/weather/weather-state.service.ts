@@ -19,9 +19,9 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
   private dataPointAggregation?: DataPointAggregationEnum;
 
   constructor(private chartSettingsStateService: ChartSettingsStateService
-            , private weatherDataService: WeatherDataService
-            , private countyStateService: CountyStateService
-            , private aggregationService: AggregationService) {
+    ,         private weatherDataService: WeatherDataService
+    ,         private countyStateService: CountyStateService
+    ,         private aggregationService: AggregationService) {
     super({});
     const initialState: WeatherState = {
       weatherData: [],
@@ -52,7 +52,7 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
         latitude: this.latitude,
         longitude: this.longitude
       });
-      const selectedWeatherData = this.getSelectedWeatherData(weatherData, this.startDate, this.weatherChart, this.dataPointAggregation);
+      const selectedWeatherData = this.getSelectedWeatherData(weatherData, this.weatherChart, this.dataPointAggregation);
       this.setState({
         isLoading: false,
         weatherData,
@@ -61,7 +61,9 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
     }
   }
 
-  private getSelectedWeatherData(weatherData: WeatherData[], startDate: Date, selectedWeatherChart?: WeatherChartEnum, dataPointAggregation?: DataPointAggregationEnum): SelectedData[] {
+  private getSelectedWeatherData(weatherData: WeatherData[]
+    ,                            selectedWeatherChart?: WeatherChartEnum
+    ,                            dataPointAggregation?: DataPointAggregationEnum): SelectedData[] {
     let selectedWeatherData: SelectedData[] = [];
     switch (selectedWeatherChart) {
       case WeatherChartEnum.Temperature:
@@ -85,7 +87,7 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
     }
     switch (dataPointAggregation) {
       case DataPointAggregationEnum.WeeklyAverage:
-        selectedWeatherData = this.aggregationService.getWeeklyAverages(selectedWeatherData, startDate);
+        selectedWeatherData = this.aggregationService.getWeeklyAverages(selectedWeatherData);
         break;
     }
     return selectedWeatherData;

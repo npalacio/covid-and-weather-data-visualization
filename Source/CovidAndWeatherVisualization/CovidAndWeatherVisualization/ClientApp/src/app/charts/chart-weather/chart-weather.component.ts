@@ -24,23 +24,24 @@ export class ChartWeatherComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.chartConfig = { ...chartConfigs.temperature };
-    combineLatest([this.chartSettingsStateService.stateChanged, this.weatherStateService.stateChanged]).subscribe(([chartSettingsState, weatherState]) => {
-      this.isLoading = weatherState.isLoading;
-      if (!this.isLoading && chartSettingsState.weatherChart) {
-        switch (chartSettingsState.weatherChart) {
-          case WeatherChartEnum.Temperature:
-            this.chartConfig = { ...chartConfigs.temperature };
-            break;
-          case WeatherChartEnum.HumidityRelative:
-            this.chartConfig = { ...chartConfigs.humidityRelative };
-            break;
-          case WeatherChartEnum.HumiditySpecific:
-            this.chartConfig = { ...chartConfigs.humiditySpecific };
-            break;
+    combineLatest([this.chartSettingsStateService.stateChanged, this.weatherStateService.stateChanged])
+      .subscribe(([chartSettingsState, weatherState]) => {
+        this.isLoading = weatherState.isLoading;
+        if (!this.isLoading && chartSettingsState.weatherChart) {
+          switch (chartSettingsState.weatherChart) {
+            case WeatherChartEnum.Temperature:
+              this.chartConfig = { ...chartConfigs.temperature };
+              break;
+            case WeatherChartEnum.HumidityRelative:
+              this.chartConfig = { ...chartConfigs.humidityRelative };
+              break;
+            case WeatherChartEnum.HumiditySpecific:
+              this.chartConfig = { ...chartConfigs.humiditySpecific };
+              break;
+          }
+          this.labels = weatherState.selectedWeatherData.map(data => this.datePipe.transform(data.date, 'MM/dd', 'UTC') ?? 'unknown');
+          this.chartConfig.data.data = weatherState.selectedWeatherData.map(data => data.value);
         }
-        this.labels = weatherState.selectedWeatherData.map(data => this.datePipe.transform(data.date, 'MM/dd', 'UTC') ?? 'unknown');
-        this.chartConfig.data.data = weatherState.selectedWeatherData.map(data => data.value);
-      }
-    });
+      });
   }
 }

@@ -9,8 +9,7 @@ export class AggregationService {
   }
 
   // Assumptions: data is sorted by date and has no gaps
-  getWeeklyAverages(data: SelectedData[], startDate: Date): SelectedData[] {
-    startDate = new Date(Date.UTC(startDate.getUTCFullYear(), startDate.getUTCMonth(), startDate.getUTCDay()));
+  getWeeklyAverages(data: SelectedData[]): SelectedData[] {
     const weeklyAverages: SelectedData[] = [];
     const numberOfWeeks = Math.floor(data.length / 7);
     for (let currentWeek = 0; currentWeek < numberOfWeeks; currentWeek++) {

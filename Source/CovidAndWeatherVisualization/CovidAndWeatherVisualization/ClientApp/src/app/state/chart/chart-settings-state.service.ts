@@ -29,14 +29,19 @@ export class ChartSettingsStateService extends ObservableStore<ChartState> {
     };
     this.setState(initialState, 'INIT_STATE');
     this.covidChartSettingsUpdates$ = this.stateWithPropertyChanges.pipe(filter(stateWithChanges => {
-      if (stateWithChanges.stateChanges.endDate || stateWithChanges.stateChanges.startDate || stateWithChanges.stateChanges.dataPointAggregation) {
+      if (stateWithChanges.stateChanges.endDate
+        || stateWithChanges.stateChanges.startDate
+        || stateWithChanges.stateChanges.dataPointAggregation) {
         return true;
       }
       return false;
     }), map(stateWithChanges => stateWithChanges.state));
   }
 
-  syncDataInUrl(startDateUrlParam: string, endDateUrlParam: string, weatherChartTypeUrlParam: string | null, dataPointAggrUrlParam: string | null): void {
+  syncDataInUrl(startDateUrlParam: string
+    ,           endDateUrlParam: string
+    ,           weatherChartTypeUrlParam: string | null
+    ,           dataPointAggrUrlParam: string | null): void {
     weatherChartTypeUrlParam = weatherChartTypeUrlParam ?? 'not a number';
     dataPointAggrUrlParam = dataPointAggrUrlParam ?? 'not a number';
     let startDate = this.startDateDefault;

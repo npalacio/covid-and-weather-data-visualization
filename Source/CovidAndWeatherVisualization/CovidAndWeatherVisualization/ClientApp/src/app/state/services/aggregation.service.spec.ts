@@ -38,7 +38,13 @@ describe('AggregationService', () => {
           for (let i = 0; i < numberOfWeeks; i++) {
             const randomNum = Math.floor(Math.random() * 10000);
             const randomOffset = Math.floor(Math.random() * 10000);
-            const dataForWeek = [randomNum - randomOffset, randomNum - randomOffset, randomNum - randomOffset, randomNum, randomNum + randomOffset, randomNum + randomOffset, randomNum + randomOffset].map(value => ({date: null, value}));
+            const dataForWeek = [randomNum - randomOffset
+              , randomNum - randomOffset
+              , randomNum - randomOffset
+              , randomNum
+              , randomNum + randomOffset
+              , randomNum + randomOffset
+              , randomNum + randomOffset].map(value => ({ date: null, value }));
             input = input.concat(dataForWeek);
             expectedAverages.push(randomNum);
           }
