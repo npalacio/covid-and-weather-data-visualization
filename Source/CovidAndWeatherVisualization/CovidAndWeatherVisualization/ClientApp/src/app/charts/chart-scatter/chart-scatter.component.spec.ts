@@ -22,13 +22,13 @@ describe('ChartScatterComponent', () => {
         it('with no weather data should set chart data to empty array', () => {
             const result = component.getScatterChartData([{
                 date: new Date(),
-                casesNew: 1
+                value: 1
             }, {
                 date: new Date(),
-                casesNew: 2
+                value: 2
             }, {
                 date: new Date(),
-                casesNew: 3
+                value: 3
             }] as any[], []);
             expect(result.chartData.length).toBe(0);
         });
@@ -38,13 +38,13 @@ describe('ChartScatterComponent', () => {
             const date3 = new Date('2021-01-03');
             const result = component.getScatterChartData([{
                 date: date1,
-                casesNew: 1
+                value: 1
             }, {
                 date: date2,
-                casesNew: 2
+                value: 2
             }, {
                 date: date3,
-                casesNew: 3
+                value: 3
             }] as any[], [{
                 date: date1,
                 value: 4
@@ -72,10 +72,10 @@ describe('ChartScatterComponent', () => {
             const date3 = new Date('2021-01-03');
             const result = component.getScatterChartData([{
                 date: date2,
-                casesNew: 2
+                value: 2
             }, {
                 date: date3,
-                casesNew: 3
+                value: 3
             }] as any[], [{
                 date: date1,
                 value: 4
