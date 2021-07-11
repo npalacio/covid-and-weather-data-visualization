@@ -1,4 +1,4 @@
-import { AggregationService } from "./aggregation.service";
+import { AggregationService } from './aggregation.service';
 
 describe('AggregationService', () => {
   const service = new AggregationService();
@@ -33,9 +33,9 @@ describe('AggregationService', () => {
       it('should return aggregatedValue for every week', () => {
         for (let numberOfWeeks = 2; numberOfWeeks < 12; numberOfWeeks++) {
           let input: any[] = [];
-          let expectedAverages = [];
+          const expectedAverages = [];
           // for each week, build array with predictable average
-          for(let i = 0; i < numberOfWeeks; i++) {
+          for (let i = 0; i < numberOfWeeks; i++) {
             const randomNum = Math.floor(Math.random() * 10000);
             const randomOffset = Math.floor(Math.random() * 10000);
             const dataForWeek = [randomNum - randomOffset, randomNum - randomOffset, randomNum - randomOffset, randomNum, randomNum + randomOffset, randomNum + randomOffset, randomNum + randomOffset].map(value => ({date: null, value}));
@@ -43,7 +43,7 @@ describe('AggregationService', () => {
             expectedAverages.push(randomNum);
           }
           const output = service.getWeeklyAverages(input);
-          for(let i = 0; i < numberOfWeeks; i++) {
+          for (let i = 0; i < numberOfWeeks; i++) {
             expect(output[i].value).toBe(expectedAverages[i]);
           }
         }

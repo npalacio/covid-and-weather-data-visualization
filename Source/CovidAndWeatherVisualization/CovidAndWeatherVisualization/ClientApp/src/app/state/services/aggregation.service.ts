@@ -12,7 +12,7 @@ export class AggregationService {
   getWeeklyAverages(data: SelectedData[], startDate: Date): SelectedData[] {
     startDate = new Date(Date.UTC(startDate.getUTCFullYear(), startDate.getUTCMonth(), startDate.getUTCDay()));
     const weeklyAverages: SelectedData[] = [];
-    const numberOfWeeks = Math.floor(data.length/7);
+    const numberOfWeeks = Math.floor(data.length / 7);
     for (let currentWeek = 0; currentWeek < numberOfWeeks; currentWeek++) {
       const startIndex = currentWeek * 7;
       const endIndex = startIndex + 6;

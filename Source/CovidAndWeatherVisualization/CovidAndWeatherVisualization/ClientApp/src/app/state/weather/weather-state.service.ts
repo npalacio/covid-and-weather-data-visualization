@@ -52,7 +52,7 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
         latitude: this.latitude,
         longitude: this.longitude
       });
-      const selectedWeatherData = this.getSelectedWeatherData(weatherData, this.startDate, this.weatherChart, this.dataPointAggregation)
+      const selectedWeatherData = this.getSelectedWeatherData(weatherData, this.startDate, this.weatherChart, this.dataPointAggregation);
       this.setState({
         isLoading: false,
         weatherData,
