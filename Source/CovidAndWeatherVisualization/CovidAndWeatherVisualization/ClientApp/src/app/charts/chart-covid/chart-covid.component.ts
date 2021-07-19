@@ -16,7 +16,9 @@ export class ChartCovidComponent implements OnInit {
   isLoading = false;
   chartConfig: any;
 
-  constructor(private datePipe: DatePipe, private covidStateService: CovidStateService, private chartSettingsStateService: ChartSettingsStateService) { }
+  constructor(private datePipe: DatePipe
+    ,         private covidStateService: CovidStateService
+    ,         private chartSettingsStateService: ChartSettingsStateService) { }
 
   async ngOnInit(): Promise<void> {
     this.chartConfig = { ...chartConfigs.covid };
@@ -27,7 +29,8 @@ export class ChartCovidComponent implements OnInit {
         this.isLoading = covidState.isLoading;
         if (!this.isLoading) {
           this.chartConfig.data.data = covidState.selectedCovidData.map(_ => _.value);
-          this.labels = covidState.selectedCovidData.map(_ => _.date).map(date => this.datePipe.transform(date, 'MM/dd', 'UTC') ?? 'unknown');
+          this.labels = covidState.selectedCovidData.map(_ => _.date)
+            .map(date => this.datePipe.transform(date, 'MM/dd', 'UTC') ?? 'unknown');
           switch (chartSettingsState.dataPointAggregation) {
             case DataPointAggregationEnum.Daily:
               this.chartConfig.options.title.text = 'Daily COVID Infections';
