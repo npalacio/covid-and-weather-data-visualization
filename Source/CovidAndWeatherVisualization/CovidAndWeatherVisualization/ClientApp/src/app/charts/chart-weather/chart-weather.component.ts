@@ -27,16 +27,28 @@ export class ChartWeatherComponent implements OnInit {
     combineLatest([this.chartSettingsStateService.stateChanged, this.weatherStateService.stateChanged])
       .subscribe(([chartSettingsState, weatherState]) => {
         this.isLoading = weatherState.isLoading;
+        let chartTitleSuffix: string;
         if (!this.isLoading && chartSettingsState.weatherChart) {
           switch (chartSettingsState.weatherChart) {
             case WeatherChartEnum.Temperature:
               this.chartConfig = { ...chartConfigs.temperature };
+              chartTitleSuffix = 'Average Temperature';
               break;
             case WeatherChartEnum.HumidityRelative:
               this.chartConfig = { ...chartConfigs.humidityRelative };
+              chartTitleSuffix = 'Average Relative Humidity';
               break;
             case WeatherChartEnum.HumiditySpecific:
               this.chartConfig = { ...chartConfigs.humiditySpecific };
+              chartTitleSuffix = 'Average Specific Humidity';
+              break;
+          }
+          switch (chartSettingsState.dataPointAggregation) {
+            case DataPointAggregationEnum.Daily:
+              this.chartConfig.options.title.text = 'Daily ' + chartTitleSuffix;
+              break;
+            case DataPointAggregationEnum.WeeklyAverage:
+              this.chartConfig.options.title.text = 'Weekly ' + chartTitleSuffix;
               break;
           }
           this.labels = weatherState.selectedWeatherData.map(data => this.datePipe.transform(data.date, 'MM/dd', 'UTC') ?? 'unknown');
