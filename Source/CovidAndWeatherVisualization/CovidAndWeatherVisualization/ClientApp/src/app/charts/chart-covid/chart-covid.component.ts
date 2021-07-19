@@ -38,6 +38,9 @@ export class ChartCovidComponent implements OnInit {
             case DataPointAggregationEnum.WeeklyAverage:
               this.chartConfig.options.title.text = 'Weekly Average COVID Infections';
               break;
+            case DataPointAggregationEnum.SevenDayRollingAverage:
+              this.chartConfig.options.title.text = '7 Day Rolling Average COVID Infections';
+              break;
           }
         }
       });

@@ -89,6 +89,9 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
       case DataPointAggregationEnum.WeeklyAverage:
         selectedWeatherData = this.aggregationService.getWeeklyAverages(selectedWeatherData);
         break;
+      case DataPointAggregationEnum.SevenDayRollingAverage:
+        selectedWeatherData = this.aggregationService.get7DayRollingAverages(selectedWeatherData);
+        break;
     }
     return selectedWeatherData;
   }

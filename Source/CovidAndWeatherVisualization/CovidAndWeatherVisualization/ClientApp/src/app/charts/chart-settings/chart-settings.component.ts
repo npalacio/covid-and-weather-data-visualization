@@ -30,6 +30,9 @@ export class ChartSettingsComponent implements OnInit {
   }, {
     name: 'Weekly Average',
     value: DataPointAggregationEnum.WeeklyAverage
+  }, {
+    name: '7 Day Rolling Average',
+    value: DataPointAggregationEnum.SevenDayRollingAverage
   }];
   selectedDataPointAggr: DataPointAggregationEnum = DataPointAggregationEnum.Daily;
 

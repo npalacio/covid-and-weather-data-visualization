@@ -56,4 +56,45 @@ describe('AggregationService', () => {
       });
     });
   });
+  describe('get7DayRollingAverages', () => {
+    describe('with no weeks of data', () => {
+      it('should return empty', () => {
+        const input = new Array(6).fill({ date: null, value: null });
+        const output = service.get7DayRollingAverages(input);
+        expect(output.length).toBe(0);
+      });
+    });
+    describe('with 1 week of data', () => {
+      it('should return 1 data point', () => {
+        const input = new Array(7).fill({ date: null, value: null });
+        const output = service.get7DayRollingAverages(input);
+        expect(output.length).toBe(1);
+      });
+      it('should return aggregated value', () => {
+        const input = new Array(7).fill({ date: null, value: 3 });
+        const output = service.get7DayRollingAverages(input);
+        expect(output[0].value).toBe(3);
+      });
+    });
+    describe('with over 1 week of data', () => {
+      it('should return data point for every day after a week', () => {
+        for (let numberOfWeeks = 2; numberOfWeeks < 12; numberOfWeeks++) {
+          const input = new Array(7 * numberOfWeeks).fill({ date: null, value: null });
+          const output = service.get7DayRollingAverages(input);
+          expect(output.length).toBe((numberOfWeeks - 1) * 7 + 1);
+        }
+      });
+      it('should return aggregatedValue for every day after a week', () => {
+        const input = new Array(7).fill({ date: null, value: 1 });
+        input.push({date: null, value: 2});
+        input.push({date: null, value: 3});
+        console.log(input.length);
+        const output = service.get7DayRollingAverages(input);
+        console.log(output.length);
+        expect(output[0].value).toBe(1);
+        expect(output[1].value).toBe(1.1);
+        expect(output[2].value).toBe(1.4);
+      });
+    });
+  });
 });
