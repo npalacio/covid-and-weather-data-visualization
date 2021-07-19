@@ -16,8 +16,8 @@ export class PanelHeaderComponent implements OnInit {
   endDate?: Date;
 
   constructor(private countyStateService: CountyStateService
-    , private chartSettingsStateService: ChartSettingsStateService
-    , private modalService: NgbModal) { }
+    ,         private chartSettingsStateService: ChartSettingsStateService
+    ,         private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.countyStateService.stateChanged.subscribe((countyState: CountyState) => {
