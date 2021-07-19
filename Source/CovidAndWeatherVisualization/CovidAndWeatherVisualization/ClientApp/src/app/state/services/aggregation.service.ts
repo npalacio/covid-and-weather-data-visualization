@@ -25,8 +25,8 @@ export class AggregationService {
   }
 
   get7DayRollingAverages(data: SelectedData[]): SelectedData[] {
-    if(data.length < 7) return [];
-    
+    if (data.length < 7) { return []; }
+
     const sevenDayRollingAverages: SelectedData[] = [];
     for (let i = 6; i < data.length; i++) {
       const valuesToAverage = data.slice(i - 6, i + 1).filter(d => d.value).map(d => d.value);

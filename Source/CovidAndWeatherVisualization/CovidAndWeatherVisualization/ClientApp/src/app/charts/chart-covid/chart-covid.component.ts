@@ -17,8 +17,8 @@ export class ChartCovidComponent implements OnInit {
   chartConfig: any;
 
   constructor(private datePipe: DatePipe
-    , private covidStateService: CovidStateService
-    , private chartSettingsStateService: ChartSettingsStateService) { }
+    ,         private covidStateService: CovidStateService
+    ,         private chartSettingsStateService: ChartSettingsStateService) { }
 
   async ngOnInit(): Promise<void> {
     this.chartConfig = { ...chartConfigs.covid };
