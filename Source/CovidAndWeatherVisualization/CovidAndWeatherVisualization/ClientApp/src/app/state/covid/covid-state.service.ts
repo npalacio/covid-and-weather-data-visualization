@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ObservableStore } from '@codewithdan/observable-store';
+import { DataPointAggregationEnum } from 'src/app/shared/models/data-point-aggregation.enum';
+import { SelectedData } from 'src/app/shared/models/selected-weather-data';
 import { ChartSettingsStateService } from '../chart/chart-settings-state.service';
 import { CountyStateService } from '../county/county-state.service';
-import { CovidDataService } from '../data-services/covid-data.service';
+import { AggregationService } from '../services/aggregation.service';
+import { CovidDataService } from '../services/covid-data.service';
 import { CovidState } from './covid-state.model';
 
 @Injectable({
@@ -12,22 +15,24 @@ export class CovidStateService extends ObservableStore<CovidState> {
   private startDate?: Date;
   private endDate?: Date;
   private fips?: number;
+  private dataPointAggregation?: DataPointAggregationEnum;
 
   constructor(private chartSettingsStateService: ChartSettingsStateService
             , private covidDataService: CovidDataService
-            , private countyStateService: CountyStateService) {
+            , private countyStateService: CountyStateService
+            , private aggregationService: AggregationService) {
     super({});
     const initialState: CovidState = {
       isLoading: false,
       dataByCounty: [],
-      dates: [],
-      casesNew: []
+      selectedCovidData: []
     };
     this.setState(initialState, 'INIT_STATE');
-    this.chartSettingsStateService.dateRangeUpdates$.subscribe(async state => {
+    this.chartSettingsStateService.covidChartSettingsUpdates$.subscribe(async state => {
       this.startDate = state.startDate;
       this.endDate = state.endDate;
-      await this.updateState('DATE_RANGE_UPDATE');
+      this.dataPointAggregation = state.dataPointAggregation;
+      await this.updateState('CHART_SETTINGS_UPDATE');
     });
     this.countyStateService.stateChanged.subscribe(async state => {
       this.fips = state.selectedCounty?.fips;
@@ -43,13 +48,16 @@ export class CovidStateService extends ObservableStore<CovidState> {
         startDate: this.startDate,
         endDate: this.endDate
       });
-      const dates = dataByCounty.map(_ => _.date);
-      const casesNew = dataByCounty.map(_ => _.casesNew);
+      let selectedCovidData: SelectedData[] = dataByCounty.map(_ => ({date: _.date, value: _.casesNew}));
+      switch (this.dataPointAggregation) {
+        case DataPointAggregationEnum.WeeklyAverage:
+          selectedCovidData = this.aggregationService.getWeeklyAverages(selectedCovidData);
+          break;
+      }
       this.setState({
         isLoading: false,
         dataByCounty,
-        dates,
-        casesNew
+        selectedCovidData
       }, `${action}_LOADING_COMPLETE`);
     }
   }

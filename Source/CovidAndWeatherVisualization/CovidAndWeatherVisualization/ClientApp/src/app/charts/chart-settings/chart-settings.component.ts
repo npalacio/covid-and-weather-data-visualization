@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { WeatherChart } from 'src/app/shared/models';
+import { WeatherChartEnum } from 'src/app/shared/models';
+import { DataPointAggregationEnum } from 'src/app/shared/models/data-point-aggregation.enum';
 import { ChartSettingsStateService } from 'src/app/state';
 
 @Component({
@@ -9,17 +10,30 @@ import { ChartSettingsStateService } from 'src/app/state';
   styleUrls: ['./chart-settings.component.scss']
 })
 export class ChartSettingsComponent implements OnInit {
+  // Weather Chart
   weatherChartTypes: any[] = [{
     name: 'Temperature',
-    value: WeatherChart.Temperature
+    value: WeatherChartEnum.Temperature
   }, {
     name: 'Specific Humidity',
-    value: WeatherChart.HumiditySpecific
+    value: WeatherChartEnum.HumiditySpecific
   }, {
     name: 'Relative Humidity',
-    value: WeatherChart.HumidityRelative
+    value: WeatherChartEnum.HumidityRelative
   }];
-  selectedWeatherChart: WeatherChart = WeatherChart.Temperature;
+  selectedWeatherChart: WeatherChartEnum = WeatherChartEnum.Temperature;
+
+  // Data Point Aggregation
+  dataPointAggrTypes: any[] = [{
+    name: 'Daily',
+    value: DataPointAggregationEnum.Daily
+  }, {
+    name: 'Weekly Average',
+    value: DataPointAggregationEnum.WeeklyAverage
+  }];
+  selectedDataPointAggr: DataPointAggregationEnum = DataPointAggregationEnum.Daily;
+
+  // Dates
   startDate: NgbDateStruct = { year: 2020, month: 3, day: 1 };
   endDate: NgbDateStruct = { year: 2021, month: 1, day: 1 };
 
@@ -28,6 +42,7 @@ export class ChartSettingsComponent implements OnInit {
   ngOnInit(): void {
     const currentState = this.chartSettingsStateService.getCurrentState();
     this.selectedWeatherChart = currentState.weatherChart;
+    this.selectedDataPointAggr = currentState.dataPointAggregation;
     if (currentState.startDate && currentState.endDate) {
       this.startDate = {
         year: currentState.startDate.getFullYear(),
@@ -45,6 +60,7 @@ export class ChartSettingsComponent implements OnInit {
   update(): void {
     this.chartSettingsStateService.updateChartSettings({
       weatherChart: this.selectedWeatherChart,
+      dataPointAggregation: this.selectedDataPointAggr,
       startDate: new Date(this.startDate.year, this.startDate.month - 1, this.startDate.day),
       endDate: new Date(this.endDate.year, this.endDate.month - 1, this.endDate.day)
     });

@@ -77,7 +77,7 @@ namespace CovidAndWeatherVisualization.Services
             for (var day = from.Date; day.Date <= thru.Date; day = day.AddDays(1))
             {
                 var covidDataByCounty = _mapper.Map<CovidDataByCounty>(covidDataByCountyEntity);
-                covidDataByCounty.Date = day;
+                covidDataByCounty.Date = day.ToUniversalTime().Date;
                 yield return covidDataByCounty;
             }
         }

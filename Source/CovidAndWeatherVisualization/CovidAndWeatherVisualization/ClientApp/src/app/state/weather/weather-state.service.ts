@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ObservableStore } from '@codewithdan/observable-store';
+import { WeatherChartEnum, WeatherData } from 'src/app/shared/models';
+import { DataPointAggregationEnum } from 'src/app/shared/models/data-point-aggregation.enum';
+import { SelectedData } from 'src/app/shared/models/selected-weather-data';
 import { ChartSettingsStateService, CountyStateService, WeatherDataService } from '..';
+import { AggregationService } from '../services/aggregation.service';
 import { WeatherState } from './weather-state.model';
 
 @Injectable({
@@ -11,23 +15,25 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
   private endDate?: Date;
   private latitude?: number;
   private longitude?: number;
+  private weatherChart?: WeatherChartEnum;
+  private dataPointAggregation?: DataPointAggregationEnum;
 
   constructor(private chartSettingsStateService: ChartSettingsStateService
-            , private weatherDataService: WeatherDataService
-            , private countyStateService: CountyStateService) {
+    ,         private weatherDataService: WeatherDataService
+    ,         private countyStateService: CountyStateService
+    ,         private aggregationService: AggregationService) {
     super({});
     const initialState: WeatherState = {
       weatherData: [],
-      dates: [],
-      temperaturesAverage: [],
-      humiditiesRelativeAverage: [],
-      humiditiesSpecificAverage: [],
+      selectedWeatherData: [],
       isLoading: false
     };
     this.setState(initialState, 'INIT_STATE');
     this.chartSettingsStateService.stateChanged.subscribe(async state => {
       this.startDate = state.startDate;
       this.endDate = state.endDate;
+      this.weatherChart = state.weatherChart;
+      this.dataPointAggregation = state.dataPointAggregation;
       await this.updateState('DATE_RANGE_UPDATE');
     });
     this.countyStateService.stateChanged.subscribe(async state => {
@@ -46,30 +52,44 @@ export class WeatherStateService extends ObservableStore<WeatherState> {
         latitude: this.latitude,
         longitude: this.longitude
       });
-      const dates = weatherData.map(_ => _.date);
-      const temperaturesAverage = weatherData.map(_ => _.temperatureAverage);
-      const humiditiesRelativeAverage = weatherData.map(_ => _.humidityRelativeAverage);
-      const humiditiesSpecificAverage = weatherData.map(_ => _.humiditySpecificAverage);
+      const selectedWeatherData = this.getSelectedWeatherData(weatherData, this.weatherChart, this.dataPointAggregation);
       this.setState({
         isLoading: false,
         weatherData,
-        dates,
-        temperaturesAverage,
-        humiditiesRelativeAverage,
-        humiditiesSpecificAverage
+        selectedWeatherData
       }, `${action}_LOADING_COMPLETE`);
     }
   }
 
-  getTemperaturesAverage(): number[] {
-    return this.getState().temperaturesAverage;
-  }
-
-  getHumiditiesRelativeAverage(): number[] {
-    return this.getState().humiditiesRelativeAverage;
-  }
-
-  getHumiditiesSpecificAverage(): number[] {
-    return this.getState().humiditiesSpecificAverage;
+  private getSelectedWeatherData(weatherData: WeatherData[]
+    ,                            selectedWeatherChart?: WeatherChartEnum
+    ,                            dataPointAggregation?: DataPointAggregationEnum): SelectedData[] {
+    let selectedWeatherData: SelectedData[] = [];
+    switch (selectedWeatherChart) {
+      case WeatherChartEnum.Temperature:
+        selectedWeatherData = weatherData.map(wd => ({
+          date: wd.date,
+          value: wd.temperatureAverage
+        }));
+        break;
+      case WeatherChartEnum.HumidityRelative:
+        selectedWeatherData = weatherData.map(wd => ({
+          date: wd.date,
+          value: wd.humidityRelativeAverage
+        }));
+        break;
+      case WeatherChartEnum.HumiditySpecific:
+        selectedWeatherData = weatherData.map(wd => ({
+          date: wd.date,
+          value: wd.humiditySpecificAverage
+        }));
+        break;
+    }
+    switch (dataPointAggregation) {
+      case DataPointAggregationEnum.WeeklyAverage:
+        selectedWeatherData = this.aggregationService.getWeeklyAverages(selectedWeatherData);
+        break;
+    }
+    return selectedWeatherData;
   }
 }
