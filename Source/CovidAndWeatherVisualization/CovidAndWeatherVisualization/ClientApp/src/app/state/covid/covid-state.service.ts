@@ -53,6 +53,9 @@ export class CovidStateService extends ObservableStore<CovidState> {
         case DataPointAggregationEnum.WeeklyAverage:
           selectedCovidData = this.aggregationService.getWeeklyAverages(selectedCovidData);
           break;
+        case DataPointAggregationEnum.SevenDayRollingAverage:
+          selectedCovidData = this.aggregationService.get7DayRollingAverages(selectedCovidData);
+          break;
       }
       this.setState({
         isLoading: false,

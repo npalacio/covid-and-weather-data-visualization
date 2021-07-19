@@ -17,8 +17,8 @@ export class ChartCovidComponent implements OnInit {
   chartConfig: any;
 
   constructor(private datePipe: DatePipe
-    ,         private covidStateService: CovidStateService
-    ,         private chartSettingsStateService: ChartSettingsStateService) { }
+    , private covidStateService: CovidStateService
+    , private chartSettingsStateService: ChartSettingsStateService) { }
 
   async ngOnInit(): Promise<void> {
     this.chartConfig = { ...chartConfigs.covid };
@@ -37,6 +37,9 @@ export class ChartCovidComponent implements OnInit {
               break;
             case DataPointAggregationEnum.WeeklyAverage:
               this.chartConfig.options.title.text = 'Weekly Average COVID Infections';
+              break;
+            case DataPointAggregationEnum.SevenDayRollingAverage:
+              this.chartConfig.options.title.text = '7 Day Rolling Average COVID Infections';
               break;
           }
         }

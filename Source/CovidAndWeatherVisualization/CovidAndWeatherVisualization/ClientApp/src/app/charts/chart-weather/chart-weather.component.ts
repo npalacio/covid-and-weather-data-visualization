@@ -19,8 +19,8 @@ export class ChartWeatherComponent implements OnInit {
   chartConfig: any;
 
   constructor(private datePipe: DatePipe
-    ,         private weatherStateService: WeatherStateService
-    ,         private chartSettingsStateService: ChartSettingsStateService) { }
+    , private weatherStateService: WeatherStateService
+    , private chartSettingsStateService: ChartSettingsStateService) { }
 
   async ngOnInit(): Promise<void> {
     this.chartConfig = { ...chartConfigs.temperature };
@@ -49,6 +49,9 @@ export class ChartWeatherComponent implements OnInit {
               break;
             case DataPointAggregationEnum.WeeklyAverage:
               this.chartConfig.options.title.text = 'Weekly ' + chartTitleSuffix;
+              break;
+            case DataPointAggregationEnum.SevenDayRollingAverage:
+              this.chartConfig.options.title.text = '7 Day Rolling ' + chartTitleSuffix;
               break;
           }
           this.labels = weatherState.selectedWeatherData.map(data => this.datePipe.transform(data.date, 'MM/dd', 'UTC') ?? 'unknown');
