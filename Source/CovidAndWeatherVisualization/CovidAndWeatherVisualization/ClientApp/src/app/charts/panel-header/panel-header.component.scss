@@ -8,3 +8,11 @@
 .bottom-container {
     flex: 1;
 }
+.share-icon {
+    cursor: pointer;
+    right: 0;
+    bottom: 0;
+    i {
+        font-size: 1.25rem;
+    }
+}

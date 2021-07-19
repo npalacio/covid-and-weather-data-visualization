@@ -16,8 +16,8 @@ export class PanelHeaderComponent implements OnInit {
   endDate?: Date;
 
   constructor(private countyStateService: CountyStateService
-            , private chartSettingsStateService: ChartSettingsStateService
-            , private modalService: NgbModal) { }
+    ,         private chartSettingsStateService: ChartSettingsStateService
+    ,         private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.countyStateService.stateChanged.subscribe((countyState: CountyState) => {
@@ -31,6 +31,14 @@ export class PanelHeaderComponent implements OnInit {
 
   openChartSettings(): void {
     this.modalService.open(ChartSettingsComponent);
+  }
+
+  share(tooltip: any): void {
+    navigator.clipboard.writeText(window.location.href);
+    tooltip.open();
+    setTimeout(() => {
+      tooltip.close();
+    }, 2000);
   }
 
 }
