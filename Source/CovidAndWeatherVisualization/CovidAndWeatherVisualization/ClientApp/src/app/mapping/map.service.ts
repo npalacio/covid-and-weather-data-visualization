@@ -89,17 +89,17 @@ export class MapService {
       });
     });
     this.mapView.when( () => {
-      var legend = new Legend({
+      const legend = new Legend({
         view: this.mapView,
         layerInfos: [
           {
             layer: this.countyLayer,
-            title: "Population Per Square Mile",
+            title: 'Population Per Square Mile',
             hideLayers: []
           }
         ]
       });
-      this.mapView?.ui.add(legend, "bottom-right");
+      this.mapView?.ui.add(legend, 'bottom-right');
     });
 
   }
