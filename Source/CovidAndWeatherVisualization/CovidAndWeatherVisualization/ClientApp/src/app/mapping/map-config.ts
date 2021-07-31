@@ -24,7 +24,7 @@ export const mapConfig: MapConfig = {
         classBreakInfos: [
           {
             minValue: 0,
-            maxValue: 9.99,
+            maxValue: .99,
             symbol: {
               type: "simple-fill",
               color: "#fffcd4",
@@ -34,11 +34,11 @@ export const mapConfig: MapConfig = {
                 color: [255, 255, 255, 0.5]
               }
             },
-            label: "0"
+            label: "0 - .99"
           },
           {
-            minValue: 10,
-            maxValue: 99.99,
+            minValue: 1,
+            maxValue: 49.99,
             symbol: {
               type: "simple-fill", 
               color: "#b1cdc2",
@@ -48,11 +48,11 @@ export const mapConfig: MapConfig = {
                 color: [255, 255, 255, 0.5]
               }
             },
-            label: "1"
+            label: "1 - 49.99"
           },
           {
-            minValue: 100,
-            maxValue: 999.99,
+            minValue: 50,
+            maxValue: 99.99,
             symbol: {
               type: "simple-fill",
               color: "#38627a",
@@ -62,11 +62,25 @@ export const mapConfig: MapConfig = {
                 color: [255, 255, 255, 0.5]
               }
             },
-            label: "2"
+            label: "50 - 99.99"
+          },
+          {
+            minValue: 100,
+            maxValue: 999.99,
+            symbol: {
+              type: "simple-fill",
+              color: "#153E6F",
+              style: "solid",
+              outline: {
+                width: 0.2,
+                color: [255, 255, 255, 0.5]
+              }
+            },
+            label: "100 - 999.99"
           },
           {
             minValue: 1000,
-            maxValue: 999999999999,
+            maxValue: 999999999,
             symbol: {
               type: "simple-fill",
               color: "#0d2644",
@@ -76,7 +90,7 @@ export const mapConfig: MapConfig = {
                 color: [255, 255, 255, 0.5]
               }
             },
-            label: "3"
+            label: "1000+"
           }
         ]
       }
