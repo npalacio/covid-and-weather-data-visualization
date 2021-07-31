@@ -3,6 +3,7 @@ import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import MapView from '@arcgis/core/views/MapView';
 import FeatureLayerView from '@arcgis/core/views/layers/FeatureLayerView';
 import Map from '@arcgis/core/Map';
+import Legend from '@arcgis/core/widgets/Legend';
 import * as watchUtils from '@arcgis/core/core/watchUtils';
 import { mapConfig } from './map-config';
 import { County } from '../shared/models/county.model';
@@ -18,7 +19,7 @@ export class MapService {
   private countyLayerView?: FeatureLayerView;
   private highlightedCounty?: __esri.Handle;
   private countyLayerObjectIdField = 'FID';
-  private countyLayerOutFields = [this.countyLayerObjectIdField, 'FIPS', 'NAME', 'STATE_NAME', 'POPULATION'];
+  private countyLayerOutFields = [this.countyLayerObjectIdField, 'FIPS', 'NAME', 'STATE_NAME', 'POPULATION', 'POP_SQMI'];
 
   constructor(private router: Router, private countyStateService: CountyStateService) {
   }
@@ -50,7 +51,8 @@ export class MapService {
       title: `${countyModel.name} County, ${countyModel.state}`,
       location: countyCenter,
       content: `<div>FIPS: ${countyModel.fips}</div>
-      <div>Population: ${countyModel.population}</div>`
+      <div>Population: ${countyModel.population}</div>
+      <div>Population/Square Mile: ${countyModel.populationPerSquareMile}</div>`
     });
 
   }
@@ -86,6 +88,20 @@ export class MapService {
         }
       });
     });
+    this.mapView.when( () => {
+      const legend = new Legend({
+        view: this.mapView,
+        layerInfos: [
+          {
+            layer: this.countyLayer,
+            title: 'Population Per Square Mile',
+            hideLayers: []
+          }
+        ]
+      });
+      this.mapView?.ui.add(legend, 'bottom-right');
+    });
+
   }
 
   async queryCountiesForSearch(searchTerm: string, recordCount: number): Promise<County[]> {
@@ -121,6 +137,7 @@ export class MapService {
       state: countyGraphic.attributes.STATE_NAME,
       fips: countyGraphic.attributes.FIPS,
       population: countyGraphic.attributes.POPULATION,
+      populationPerSquareMile: countyGraphic.attributes.POP_SQMI,
       center: {
         latitdue: geometry.centroid.latitude,
         longitude: geometry.centroid.longitude

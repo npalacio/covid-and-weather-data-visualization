@@ -4,5 +4,6 @@ export interface County {
   state: string;
   fips: number;
   population: number;
+  populationPerSquareMile: number;
   center?: {latitdue: number, longitude: number};
 }

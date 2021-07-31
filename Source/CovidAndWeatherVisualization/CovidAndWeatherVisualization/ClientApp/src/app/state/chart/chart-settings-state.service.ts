@@ -13,7 +13,7 @@ import { DataPointAggregationEnum } from 'src/app/shared/models/data-point-aggre
 })
 export class ChartSettingsStateService extends ObservableStore<ChartState> {
   private startDateDefault: Date = new Date(2020, 2, 1);
-  private endDateDefault: Date = new Date(2021, 0, 1);
+  private endDateDefault: Date = new Date();
   private weatherChartTypeDefault: WeatherChartEnum = WeatherChartEnum.Temperature;
   private dataPointAggrDefault: DataPointAggregationEnum = DataPointAggregationEnum.Daily;
   private dateFormatUrl = 'MM-dd-yyyy';
