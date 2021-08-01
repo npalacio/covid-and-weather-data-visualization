@@ -30,8 +30,8 @@ export const mapConfig: MapConfig = {
               color: '#fffcd4',
               style: 'solid',
               outline: {
-                width: 0.2,
-                color: [255, 255, 255, 0.5]
+                width: .2,
+                color: [128, 128, 128, 0.5]
               }
             },
             label: '0 - .99'
@@ -45,7 +45,7 @@ export const mapConfig: MapConfig = {
               style: 'solid',
               outline: {
                 width: 0.2,
-                color: [255, 255, 255, 0.5]
+                color: [128, 128, 128, 0.5]
               }
             },
             label: '1 - 49.99'
@@ -59,7 +59,7 @@ export const mapConfig: MapConfig = {
               style: 'solid',
               outline: {
                 width: 0.2,
-                color: [255, 255, 255, 0.5]
+                color: [128, 128, 128, 0.5]
               }
             },
             label: '50 - 99.99'
@@ -73,7 +73,7 @@ export const mapConfig: MapConfig = {
               style: 'solid',
               outline: {
                 width: 0.2,
-                color: [255, 255, 255, 0.5]
+                color: [128, 128, 128, 0.5]
               }
             },
             label: '100 - 999.99'
@@ -87,7 +87,7 @@ export const mapConfig: MapConfig = {
               style: 'solid',
               outline: {
                 width: 0.2,
-                color: [255, 255, 255, 0.5]
+                color: [128, 128, 128, 0.5]
               }
             },
             label: '1000+'
