@@ -1,5 +1,5 @@
 import { MapConfig } from '../shared/models';
-
+const countyOpacity = .5;
 export const mapConfig: MapConfig = {
     basemap: 'arcgis-streets',
     center: [-98.5795, 39.8283],
@@ -13,7 +13,7 @@ export const mapConfig: MapConfig = {
         field: 'POP_SQMI',
         defaultSymbol: {
           type: 'simple-fill',
-          color: 'black',
+          color: [0, 0, 0, countyOpacity],
           style: 'backward-diagonal',
           outline: {
             width: 0.5,
@@ -27,7 +27,7 @@ export const mapConfig: MapConfig = {
             maxValue: .99,
             symbol: {
               type: 'simple-fill',
-              color: '#fffcd4',
+              color: [255, 252, 212, countyOpacity],
               style: 'solid',
               outline: {
                 width: .2,
@@ -41,7 +41,7 @@ export const mapConfig: MapConfig = {
             maxValue: 49.99,
             symbol: {
               type: 'simple-fill',
-              color: '#b1cdc2',
+              color: [177, 205, 194, countyOpacity],
               style: 'solid',
               outline: {
                 width: 0.2,
@@ -55,7 +55,7 @@ export const mapConfig: MapConfig = {
             maxValue: 99.99,
             symbol: {
               type: 'simple-fill',
-              color: '#38627a',
+              color: [56, 98, 122, countyOpacity],
               style: 'solid',
               outline: {
                 width: 0.2,
@@ -69,7 +69,7 @@ export const mapConfig: MapConfig = {
             maxValue: 999.99,
             symbol: {
               type: 'simple-fill',
-              color: '#153E6F',
+              color: [21, 62, 111, countyOpacity],
               style: 'solid',
               outline: {
                 width: 0.2,
@@ -83,7 +83,7 @@ export const mapConfig: MapConfig = {
             maxValue: 999999999,
             symbol: {
               type: 'simple-fill',
-              color: '#0d2644',
+              color: [13, 38, 68, countyOpacity],
               style: 'solid',
               outline: {
                 width: 0.2,
