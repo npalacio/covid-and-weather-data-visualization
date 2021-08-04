@@ -127,6 +127,22 @@ export const mapConfig: MapConfig = {
             width: 0  // points
           }
         }
-      }
+      },
+      labelingInfo: [{
+        // autocasts as new LabelClass()
+        symbol: {
+          type: "text",  // autocasts as new TextSymbol()
+          color: "green",
+          font: {  // autocast as new Font()
+            family: "Playfair Display",
+            size: 12,
+            weight: "bold"
+          }
+        },
+        labelPlacement: "above-center",
+        labelExpressionInfo: {
+          expression: "$feature.NAME"
+        }
+      }]
     }]
   };
