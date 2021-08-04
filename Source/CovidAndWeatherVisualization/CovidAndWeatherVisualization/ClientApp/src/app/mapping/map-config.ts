@@ -117,12 +117,15 @@ export const mapConfig: MapConfig = {
       layerId: 0,
       outFields: [], // These outfields only used for what you need from the click event
       renderer: {
-        type: "simple-marker",  // autocasts as new SimpleMarkerSymbol()
-        style: "square",
-        color: "blue",
-        size: "2px",  // pixels
-        outline: {  // autocasts as new SimpleLineSymbol()
-          width: 0  // points
+        type: 'simple',
+        symbol: {
+          type: "simple-marker",  // autocasts as new SimpleMarkerSymbol()
+          style: "square",
+          color: "blue",
+          size: "2px",  // pixels
+          outline: {  // autocasts as new SimpleLineSymbol()
+            width: 0  // points
+          }
         }
       }
     }]
