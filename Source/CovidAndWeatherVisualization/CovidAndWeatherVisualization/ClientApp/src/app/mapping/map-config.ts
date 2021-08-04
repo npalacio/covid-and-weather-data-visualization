@@ -1,5 +1,5 @@
 import { MapConfig } from '../shared/models';
-const countyOpacity = .5;
+const countyOpacity = 1;
 export const mapConfig: MapConfig = {
     basemap: 'arcgis-streets',
     center: [-98.5795, 39.8283],
@@ -109,6 +109,20 @@ export const mapConfig: MapConfig = {
             color: 'black',
             width: 1
           }
+        }
+      }
+    },
+    {
+      url: 'https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Major_Cities/FeatureServer',
+      layerId: 0,
+      outFields: [], // These outfields only used for what you need from the click event
+      renderer: {
+        type: "simple-marker",  // autocasts as new SimpleMarkerSymbol()
+        style: "square",
+        color: "blue",
+        size: "2px",  // pixels
+        outline: {  // autocasts as new SimpleLineSymbol()
+          width: 0  // points
         }
       }
     }]
