@@ -121,10 +121,11 @@ export const mapConfig: MapConfig = {
         symbol: {
           type: "simple-marker",  // autocasts as new SimpleMarkerSymbol()
           style: "square",
-          color: "blue",
-          size: "2px",  // pixels
+          color: "white",
+          size: "4px",  // pixels
           outline: {  // autocasts as new SimpleLineSymbol()
-            width: 0  // points
+            width: 1,  // points
+            color: 'black'
           }
         }
       },
@@ -132,7 +133,7 @@ export const mapConfig: MapConfig = {
         // autocasts as new LabelClass()
         symbol: {
           type: "text",  // autocasts as new TextSymbol()
-          color: "green",
+          color: "white",
           font: {  // autocast as new Font()
             family: "Playfair Display",
             size: 12,
@@ -143,6 +144,7 @@ export const mapConfig: MapConfig = {
         labelExpressionInfo: {
           expression: "$feature.NAME"
         }
-      }]
+      }],
+      definitionExpression: 'POP_CLASS > 7'
     }]
   };
