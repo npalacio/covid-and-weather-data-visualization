@@ -99,7 +99,7 @@ export class MapService {
           }
         ]
       });
-      this.mapView?.ui.add(legend, 'bottom-right');
+      this.mapView?.ui.add(legend, 'bottom-left');
     });
 
   }
