@@ -2,6 +2,8 @@
 
 ## This project has been decomissioned and the website is no longer running. A quick (~7 minute) demonstration of the site while it was up and running can be found [here](https://fcsamerica.zoom.us/rec/share/NARVfmtDhvVpNSwsQX2WpWL3V9ou88UsW9v7_vlnfn-iUDI0Bn2aMffqedTCXVa_.mCaUCGCUcukCFuW9) (Passcode: 1??hKj)
 
+If the above link is no longer working please see the video file [here](./Documentation/Demonstration.mp4).
+
 This repository was for my (Nick Palacio's) Masters Capstone Project. This project was a data visualization tool whose purpose was be to enable a classroom activity where students are tasked with investigating weather's role in the COVID-19 pandemic. This tool was a web application implemented using Angular, .NET 5 and Azure.
 
 The full project proposal can be found [here](./Documentation/MastersProject.NickPalacio.pdf).
